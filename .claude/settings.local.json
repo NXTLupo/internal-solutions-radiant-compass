@@ -1,0 +1,30 @@
+{
+  "permissions": {
+    "allow": [
+      "WebFetch(domain:fastapi.tiangolo.com)",
+      "WebFetch(domain:create.t3.gg)",
+      "WebFetch(domain:ui.shadcn.com)",
+      "WebFetch(domain:docs.copilotkit.ai)",
+      "WebFetch(domain:vitejs.dev)",
+      "WebFetch(domain:tailwindcss.com)",
+      "WebFetch(domain:python-poetry.org)",
+      "WebFetch(domain:github.com)",
+      "Bash(mkdir:*)",
+      "Bash(poetry init:*)",
+      "Bash(pip3 install:*)",
+      "Bash(poetry add:*)",
+      "Bash(ls:*)",
+      "Bash(touch:*)",
+      "Bash(npm create:*)",
+      "Bash(npm install)",
+      "Bash(npm install:*)",
+      "Bash(npx tailwindcss init:*)",
+      "Bash(npx --yes tailwindcss init -p)",
+      "Bash(./node_modules/.bin/tailwindcss:*)",
+      "Bash(npm init:*)",
+      "Bash(npx tsc:*)",
+      "Bash(git add:*)"
+    ],
+    "deny": []
+  }
+}
