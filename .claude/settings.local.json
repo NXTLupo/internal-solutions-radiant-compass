@@ -23,7 +23,8 @@
       "Bash(./node_modules/.bin/tailwindcss:*)",
       "Bash(npm init:*)",
       "Bash(npx tsc:*)",
-      "Bash(git add:*)"
+      "Bash(git add:*)",
+      "Bash(poetry run alembic:*)"
     ],
     "deny": []
   }
