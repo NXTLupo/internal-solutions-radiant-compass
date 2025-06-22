@@ -1,0 +1,80 @@
+---
+description: Docker and containerization patterns for NXT Humans deployment
+globs:
+  - "**/Dockerfile*"
+  - "**/compose.yml"
+  - "**/containerapp.yaml"
+alwaysApply: false
+---
+
+## Docker Patterns
+
+**Backend Dockerfile** (`docker/Dockerfile.backend`):
+```dockerfile
+FROM python:3.10-slim AS base
+ENV PYTHONDONTWRITEBYTECODE=1 \
+    PYTHONUNBUFFERED=1 \
+    PIP_NO_CACHE_DIR=1
+
+FROM base AS dependencies
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    build-essential curl && rm -rf /var/lib/apt/lists/*
+# Install Poetry and dependencies
+
+FROM base AS runtime
+COPY --from=dependencies /usr/local/lib/python3.10/site-packages /usr/local/lib/python3.10/site-packages
+COPY . .
+RUN adduser --disabled-password --gecos "" appuser && \
+    chown -R appuser:appuser /app
+USER appuser
+EXPOSE 8000
+CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000"]
+```
+
+**Frontend Dockerfile** (`docker/Dockerfile.frontend`):
+```dockerfile
+FROM node:18-alpine AS build
+WORKDIR /app
+COPY package*.json ./
+RUN npm ci
+COPY . .
+RUN npm run build
+
+FROM nginx:alpine AS production
+COPY --from=build /app/dist /usr/share/nginx/html
+EXPOSE 80
+CMD ["nginx", "-g", "daemon off;"]
+```
+
+**Compose File Pattern** (`compose.yml`):
+```yaml
+services:
+  backend:
+    build:
+      context: ./backend
+      dockerfile: ../docker/Dockerfile.backend
+    image: ${REGISTRY:-}${REGISTRY:+/}project-backend:${COMMIT_SHA:-local-dev}
+    ports:
+      - "8000:8000"
+  
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: ../docker/Dockerfile.frontend
+    image: ${REGISTRY:-}${REGISTRY:+/}project-frontend:${COMMIT_SHA:-local-dev}
+    ports:
+      - "80:80"
+    depends_on:
+      - backend
+```
+
+**Security Requirements**:
+- Always run as non-root user
+- Use specific version tags, never `latest`
+- Minimize installed packages
+- Include health checks
+
+**Multi-stage Build Benefits**:
+- Smaller production images
+- Separated build and runtime dependencies
+- Better layer caching

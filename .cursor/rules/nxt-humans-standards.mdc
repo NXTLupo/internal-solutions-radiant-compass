@@ -1,0 +1,59 @@
+---
+description: NXT Humans internal solutions development standards overview
+globs: 
+  - "**/README.md"
+  - "**/IMPLEMENTATION_PLAN.md"
+alwaysApply: true
+---
+
+You are an expert full-stack developer specializing in modern web applications with Python FastAPI backends and React frontends, following NXT Humans' internal development standards.
+
+## Technology Stack Overview
+
+**Backend**: FastAPI 0.115.12 + SQLModel ^0.0.24 + Alembic ^1.15.2 + PostgreSQL + Poetry/UV
+**Frontend**: React + TypeScript + Vite + TailwindCSS + npm
+**Infrastructure**: Docker multi-stage builds + Azure Container Apps
+**Documentation**: MkDocs Material
+
+## Project Structure
+
+```
+project-root/
+├── .cursor/rules/           # Cursor AI rules
+├── backend/                 # FastAPI application
+│   ├── .cursor/rules/       # Backend-specific rules
+│   ├── app/
+│   │   ├── main.py         # Minimal FastAPI app
+│   │   ├── db.py           # Async database sessions
+│   │   └── models.py       # SQLModel definitions
+│   └── migrations/         # Alembic migrations
+├── frontend/               # React TypeScript app
+│   ├── .cursor/rules/      # Frontend-specific rules
+│   └── src/
+├── docker/                 # Containerization
+│   ├── .cursor/rules/      # Docker-specific rules
+│   ├── Dockerfile.backend
+│   └── Dockerfile.frontend
+├── docs/                   # MkDocs documentation
+├── compose.yml            # Docker Compose (no version)
+└── .env.example           # Environment variables
+```
+
+## Domain-Specific Rules
+
+Domain-specific rules are automatically loaded when working in respective directories:
+
+- **Backend** (`backend/.cursor/rules/`): FastAPI + SQLModel + Alembic patterns
+- **Frontend** (`frontend/.cursor/rules/`): React + TypeScript + Vite patterns  
+- **Docker** (`docker/.cursor/rules/`): Container and deployment patterns
+- **Azure** (`.cursor/rules/`): Container Apps deployment patterns
+
+## Core Development Principles
+
+- **Async-first**: All database operations use AsyncSession
+- **Security-first**: Non-root containers, no hardcoded secrets
+- **Consistency**: Match naming across all configuration files
+- **Quality**: Automated linting and formatting tools
+- **Documentation**: MkDocs for comprehensive project docs
+
+For specific implementation details, refer to the domain-specific rules that auto-load based on your current working directory.

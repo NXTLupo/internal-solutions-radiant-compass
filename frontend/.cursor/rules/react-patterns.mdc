@@ -1,0 +1,58 @@
+---
+description: React + TypeScript + Vite patterns for NXT Humans frontend development
+globs:
+  - "**/*.tsx"
+  - "**/*.ts"
+  - "**/*.jsx"
+  - "**/*.js"
+  - "**/package.json"
+  - "**/vite.config.ts"
+alwaysApply: false
+---
+
+## React Frontend Patterns
+
+**Required Stack**: React + TypeScript + Vite + TailwindCSS + npm
+
+**Package Management**: Use `npm ci` for consistent installs
+
+**Component Patterns**:
+- Use functional components with hooks
+- Implement TypeScript interfaces for props
+- Follow existing component structure in `src/components/`
+
+**Example Component Pattern**:
+```tsx
+interface ComponentProps {
+  title: string;
+  isActive?: boolean;
+}
+
+export function Component({ title, isActive = false }: ComponentProps) {
+  return (
+    <div className="p-4">
+      <h1>{title}</h1>
+    </div>
+  );
+}
+```
+
+**State Management**: 
+- Use React Context for global state (see `AppStateProvider.tsx`)
+- useState for local component state
+- useEffect for side effects
+
+**Styling**:
+- Use TailwindCSS utility classes
+- Follow existing design patterns
+- Responsive design with mobile-first approach
+
+**Build Optimization**:
+- Vite handles bundling and optimization
+- Use dynamic imports for code splitting when needed
+- Optimize images and assets
+
+**Environment Configuration**:
+- Use `VITE_` prefix for environment variables
+- Configure in `.env.local` for development
+- Pass via build args in production Docker builds

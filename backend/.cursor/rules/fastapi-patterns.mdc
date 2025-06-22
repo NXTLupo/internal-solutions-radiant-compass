@@ -1,0 +1,82 @@
+---
+description: FastAPI + SQLModel + Alembic patterns for NXT Humans backend development
+globs:
+  - "**/*.py"
+  - "**/alembic.ini"
+  - "**/pyproject.toml"
+alwaysApply: false
+---
+
+## FastAPI Backend Patterns
+
+**Always use async/await**: All database operations must use `AsyncSession` and `AsyncEngine`
+
+**Required Dependencies**:
+```toml
+fastapi = "0.115.12"
+uvicorn = {extras = ["standard"], version = "^0.34.2"}
+sqlmodel = "^0.0.24"
+alembic = "^1.15.2"
+asyncpg = "^0.30.0"
+pydantic = "2.11.3"
+pydantic-settings = "2.9.1"
+```
+
+**Database Models Pattern**:
+```python
+from typing import Optional
+from sqlmodel import SQLModel, Field
+
+class Song(SQLModel, table=True):
+    id: Optional[int] = Field(default=None, primary_key=True)
+    name: str
+    artist: str
+
+class SongCreate(SQLModel):
+    name: str
+    artist: str
+```
+
+**Database Session Pattern** (`app/db.py`):
+```python
+from sqlmodel.ext.asyncio.session import AsyncSession, AsyncEngine
+from sqlalchemy.orm import sessionmaker
+
+async def get_session() -> AsyncSession:
+    async_session = sessionmaker(
+        engine, class_=AsyncSession, expire_on_commit=False
+    )
+    async with async_session() as session:
+        yield session
+```
+
+**Route Pattern** (`app/main.py`):
+```python
+@app.get("/songs", response_model=list[Song])
+async def list_songs(session: AsyncSession = Depends(get_session)):
+    result = await session.execute(select(Song))
+    return result.scalars().all()
+
+@app.post("/songs", response_model=Song)
+async def create_song(
+    song: SongCreate,
+    session: AsyncSession = Depends(get_session)
+):
+    db_song = Song.from_orm(song)
+    session.add(db_song)
+    await session.commit()
+    await session.refresh(db_song)
+    return db_song
+```
+
+**Alembic Migration Commands**:
+```bash
+alembic revision --autogenerate -m "description"
+alembic upgrade head
+```
+
+**Code Quality Requirements**:
+- Use Poetry or UV for package management
+- Run: autoflake, autopep8, ruff, isort, pylint
+- 88-character line length
+- Keep `main.py` minimal - delegate to separate modules
