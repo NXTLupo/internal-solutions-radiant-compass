@@ -24,7 +24,8 @@
       "Bash(npm init:*)",
       "Bash(npx tsc:*)",
       "Bash(git add:*)",
-      "Bash(poetry run alembic:*)"
+      "Bash(poetry run alembic:*)",
+      "Bash(git commit:*)"
     ],
     "deny": []
   }

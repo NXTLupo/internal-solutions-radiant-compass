@@ -42,7 +42,6 @@ services:
       start_period: 40s
     networks:
       - ai-assistant-network
-    restart: unless-stopped
 
   # CoAgent Runtime
   coagent-runtime:
@@ -64,7 +63,6 @@ services:
       start_period: 30s
     networks:
       - ai-assistant-network
-    restart: unless-stopped
 
   # React Frontend
   frontend:
@@ -86,7 +84,6 @@ services:
       start_period: 30s
     networks:
       - ai-assistant-network
-    restart: unless-stopped
 
   # Documentation
   docs:
@@ -103,7 +100,6 @@ services:
       start_period: 30s
     networks:
       - ai-assistant-network
-    restart: unless-stopped
 
 volumes:
   postgres_data:
