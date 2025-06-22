@@ -7,8 +7,9 @@ WORKDIR /app
 # Copy package files
 COPY frontend/package*.json ./
 
-# Install dependencies
-RUN npm ci --only=production
+# Install dependencies (including devDependencies needed for build)
+# Using npm install instead of npm ci to avoid ARM64 musl optional dependency issues
+RUN npm install
 
 # Copy source code
 COPY frontend/ ./
@@ -66,9 +67,13 @@ EOF
 # Copy built application from builder stage
 COPY --from=builder /app/dist /usr/share/nginx/html
 
-# Create non-root user for security
-RUN addgroup -g 1001 -S nginx && \
-    adduser -S -D -H -u 1001 -h /var/cache/nginx -s /sbin/nologin -G nginx -g nginx nginx
+# Create non-root user for security (use existing nginx user or create if needed)
+RUN if ! getent group nginx > /dev/null 2>&1; then \
+        addgroup -g 1001 -S nginx; \
+    fi && \
+    if ! getent passwd nginx > /dev/null 2>&1; then \
+        adduser -S -D -H -u 1001 -h /var/cache/nginx -s /sbin/nologin -G nginx -g nginx nginx; \
+    fi
 
 # Change ownership of nginx directories
 RUN chown -R nginx:nginx /var/cache/nginx && \

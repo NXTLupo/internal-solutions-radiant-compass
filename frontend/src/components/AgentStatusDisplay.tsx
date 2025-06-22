@@ -1,5 +1,3 @@
-import { useCopilotAgent } from "@copilotkit/react-core";
-
 export function AgentStatusDisplay() {
   // Note: This is a placeholder implementation
   // The actual useCopilotAgent hook implementation may vary based on CopilotKit version

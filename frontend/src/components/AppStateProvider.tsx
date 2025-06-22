@@ -1,5 +1,6 @@
 import { useCopilotReadable } from "@copilotkit/react-core";
-import { useState, useEffect, ReactNode } from "react";
+import { useState, useEffect } from "react";
+import type { ReactNode } from "react";
 
 interface AppData {
   currentProject: string;
