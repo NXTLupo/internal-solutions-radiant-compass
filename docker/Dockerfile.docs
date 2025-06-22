@@ -1,5 +1,5 @@
-# Dockerfile for MkDocs documentation
-FROM python:3.10-alpine as builder
+# Dockerfile for MkDocs documentation with Material theme
+FROM python:3.10-alpine
 
 # Set working directory
 WORKDIR /app
@@ -19,74 +19,22 @@ RUN pip install --no-cache-dir -r requirements.txt
 # Copy documentation source
 COPY docs/ ./
 
-# Build the documentation
-RUN mkdocs build
-
-# Production stage with Nginx
-FROM nginx:alpine as production
-
-# Copy custom nginx configuration
-COPY <<EOF /etc/nginx/conf.d/default.conf
-server {
-    listen 80;
-    server_name localhost;
-    root /usr/share/nginx/html;
-    index index.html;
-
-    # Gzip compression
-    gzip on;
-    gzip_vary on;
-    gzip_min_length 1024;
-    gzip_types text/plain text/css text/xml text/javascript application/javascript application/xml+rss application/json;
-
-    # Handle documentation routing
-    location / {
-        try_files \$uri \$uri/ \$uri.html /index.html;
-    }
-
-    # Cache static assets
-    location ~* \.(css|js|png|jpg|jpeg|gif|ico|svg)$ {
-        expires 1y;
-        add_header Cache-Control "public, immutable";
-    }
-
-    # Security headers
-    add_header X-Frame-Options "SAMEORIGIN" always;
-    add_header X-Content-Type-Options "nosniff" always;
-    add_header X-XSS-Protection "1; mode=block" always;
-
-    # Health check endpoint
-    location /health {
-        access_log off;
-        return 200 "healthy\n";
-        add_header Content-Type text/plain;
-    }
-}
-EOF
-
-# Copy built documentation from builder stage
-COPY --from=builder /app/site /usr/share/nginx/html
-
 # Create non-root user for security
-RUN addgroup -g 1001 -S nginx && \
-    adduser -S -D -H -u 1001 -h /var/cache/nginx -s /sbin/nologin -G nginx -g nginx nginx
+RUN addgroup -g 1001 -S mkdocs && \
+    adduser -S -D -H -u 1001 -h /app -s /sbin/nologin -G mkdocs -g mkdocs mkdocs
 
-# Change ownership of nginx directories
-RUN chown -R nginx:nginx /var/cache/nginx && \
-    chown -R nginx:nginx /var/log/nginx && \
-    chown -R nginx:nginx /etc/nginx/conf.d && \
-    touch /var/run/nginx.pid && \
-    chown -R nginx:nginx /var/run/nginx.pid
+# Change ownership of the app directory
+RUN chown -R mkdocs:mkdocs /app
 
 # Switch to non-root user
-USER nginx
+USER mkdocs
 
 # Expose port
-EXPOSE 80
+EXPOSE 8000
 
 # Health check
 HEALTHCHECK --interval=30s --timeout=3s --start-period=5s --retries=3 \
-    CMD curl -f http://localhost/health || exit 1
+    CMD wget --no-verbose --tries=1 --spider http://localhost:8000/ || exit 1
 
-# Start Nginx
-CMD ["nginx", "-g", "daemon off;"]
+# Start MkDocs development server
+CMD ["mkdocs", "serve", "--dev-addr=0.0.0.0:8000"]
