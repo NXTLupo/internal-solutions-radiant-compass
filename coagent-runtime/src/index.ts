@@ -1,57 +1,44 @@
 import express from 'express';
 import cors from 'cors';
-import { CopilotRuntime, LangGraphAgent } from '@copilotkit/runtime';
-import { researchAgent } from './agent';
-import dotenv from 'dotenv';
-
-dotenv.config();
+import { 
+  CopilotRuntime, 
+  OpenAIAdapter, 
+  copilotRuntimeNodeHttpEndpoint 
+} from '@copilotkit/runtime';
+import OpenAI from 'openai';
 
 const app = express();
-const port = process.env.COAGENT_RUNTIME_PORT || 4000;
+const port = process.env.PORT || 4000;
 
-app.use(cors({
-  origin: ['http://localhost:5173', 'http://localhost:3000'],
-  credentials: true
-}));
+// Middleware
+app.use(cors());
 app.use(express.json());
 
-// Initialize CopilotKit Runtime with LangGraph agent
-const copilotKitRuntime = new CopilotRuntime({
-  agents: [
-    new LangGraphAgent({
-      name: "research_agent",
-      description: "AI research assistant with web search capabilities",
-      agent: researchAgent,
-    })
-  ]
+// OpenAI setup
+const openai = new OpenAI({ 
+  apiKey: process.env.OPENAI_API_KEY || 'your-api-key-here' 
 });
 
-// Add CopilotKit endpoint
-app.use('/copilotkit', copilotKitRuntime.handler);
+// CopilotKit runtime setup
+const serviceAdapter = new OpenAIAdapter({ openai: openai as any });
+const runtime = new CopilotRuntime();
 
 // Health check endpoint
 app.get('/health', (req, res) => {
-  res.json({ 
-    status: 'ok', 
-    timestamp: new Date().toISOString(),
-    service: 'coagent-runtime'
-  });
+  res.json({ status: 'ok', service: 'coagent-runtime' });
 });
 
-// Root endpoint
-app.get('/', (req, res) => {
-  res.json({
-    message: 'CopilotKit CoAgent Runtime',
-    version: '1.0.0',
-    endpoints: {
-      copilotkit: '/copilotkit',
-      health: '/health'
-    }
+// CopilotKit endpoint
+app.use('/copilotkit', (req, res, next) => {
+  const handler = copilotRuntimeNodeHttpEndpoint({
+    endpoint: '/copilotkit',
+    runtime,
+    serviceAdapter,
   });
+  return handler({ request: req } as any, res, next);
 });
 
 app.listen(port, () => {
-  console.log(`> CoAgent runtime server running on port ${port}`);
-  console.log(`=á CopilotKit endpoint available at: http://localhost:${port}/copilotkit`);
-  console.log(`=š Health check: http://localhost:${port}/health`);
+  console.log(`ðŸš€ CoAgent Runtime listening at http://localhost:${port}`);
+  console.log(`ðŸ“¡ CopilotKit endpoint: http://localhost:${port}/copilotkit`);
 });
