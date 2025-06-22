@@ -2,7 +2,7 @@ from fastapi import FastAPI, Depends, HTTPException, status
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.security import HTTPBearer
 from sqlmodel import select
-from sqlmodel.ext.asyncio import AsyncSession
+from sqlalchemy.ext.asyncio import AsyncSession
 from typing import List
 import os
 from dotenv import load_dotenv
@@ -199,7 +199,7 @@ async def create_message(
         content=message.content,
         role=message.role,
         conversation_id=message.conversation_id,
-        metadata=message.metadata
+        message_metadata=message.message_metadata
     )
     
     session.add(db_message)
