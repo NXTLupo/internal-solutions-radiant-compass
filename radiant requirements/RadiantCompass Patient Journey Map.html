@@ -1,0 +1,2187 @@
+<!DOCTYPE html>
+<!-- saved from url=(0137)file:///Users/jonathanlupo/Library/Containers/com.microsoft.Outlook/Data/tmp/Outlook%20Temp/RadiantCompass%20Patient%20Journey%20Map.html -->
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Comprehensive journey map for RadiantCompass healthcare patient experience">
+    <title>RadiantCompass Patient Journey Map</title>
+    <style>
+        :root {
+            --primary: #2c5282;
+            --primary-light: #3182ce;
+            --secondary: #38a169;
+            --accent: #d69e2e;
+            --danger: #e53e3e;
+            --warning: #ed8936;
+            --success: #48bb78;
+            --neutral-100: #f7fafc;
+            --neutral-200: #edf2f7;
+            --neutral-300: #e2e8f0;
+            --neutral-400: #cbd5e0;
+            --neutral-500: #a0aec0;
+            --neutral-600: #718096;
+            --neutral-700: #4a5568;
+            --neutral-800: #2d3748;
+            --neutral-900: #1a202c;
+            --text-on-light: #2d3748;
+            --text-on-dark: #f7fafc;
+            --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+            --shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            --radius-sm: 0.125rem;
+            --radius: 0.25rem;
+            --radius-md: 0.375rem;
+            --radius-lg: 0.5rem;
+            --font-sans: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            --font-serif: Georgia, Cambria, "Times New Roman", Times, serif;
+            --font-mono: Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+            --transition: all 0.2s ease-in-out;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: var(--font-sans);
+            line-height: 1.6;
+            color: var(--text-on-light);
+            background-color: var(--neutral-100);
+            padding: 0;
+            margin: 0;
+            overflow-x: hidden;
+        }
+
+        .sr-only {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            white-space: nowrap;
+            border-width: 0;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 100%;
+            margin: 0 auto;
+            padding: 0 1rem;
+        }
+
+        header {
+            background: linear-gradient(135deg, var(--primary), var(--primary-light));
+            color: var(--text-on-dark);
+            padding: 2rem 0;
+            box-shadow: var(--shadow-md);
+        }
+
+        .header-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            line-height: 1.2;
+        }
+
+        h2 {
+            font-size: 1.875rem;
+            font-weight: 600;
+            margin: 2rem 0 1rem;
+            color: var(--primary);
+            border-bottom: 2px solid var(--primary-light);
+            padding-bottom: 0.5rem;
+        }
+
+        h3 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin: 1.5rem 0 0.75rem;
+            color: var(--neutral-800);
+        }
+
+        h4 {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin: 1.25rem 0 0.625rem;
+            color: var(--neutral-700);
+        }
+
+        p {
+            margin-bottom: 1rem;
+        }
+
+        .description {
+            font-size: 1.25rem;
+            max-width: 800px;
+            margin: 0 auto 1.5rem;
+        }
+
+        .key-metrics {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .metric-card {
+            background-color: white;
+            border-radius: var(--radius-md);
+            padding: 1.5rem;
+            box-shadow: var(--shadow);
+            flex: 1 1 250px;
+            max-width: 300px;
+            transition: var(--transition);
+        }
+
+        .metric-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .metric-value {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .metric-label {
+            font-size: 1rem;
+            color: var(--neutral-600);
+        }
+
+        .journey-map-container {
+            margin: 3rem auto;
+            max-width: 100%;
+            overflow-x: auto;
+            padding: 1rem;
+            background-color: white;
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-md);
+        }
+
+        .journey-timeline {
+            display: grid;
+            grid-template-columns: repeat(12, minmax(250px, 1fr));
+            gap: 1.5rem;
+            padding-bottom: 2rem;
+            min-width: 1200px;
+        }
+
+        .journey-stage {
+            position: relative;
+            background-color: var(--neutral-100);
+            border-radius: var(--radius-md);
+            padding: 1.5rem;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+            border-top: 5px solid var(--primary);
+        }
+
+        .journey-stage:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .stage-header {
+            margin-bottom: 1rem;
+            position: relative;
+        }
+
+        .stage-number {
+            position: absolute;
+            top: -2.5rem;
+            left: -0.5rem;
+            width: 2.5rem;
+            height: 2.5rem;
+            background-color: var(--primary);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            box-shadow: var(--shadow);
+        }
+
+        .stage-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+            padding-left: 2rem;
+        }
+
+        .stage-description {
+            font-size: 0.875rem;
+            color: var(--neutral-600);
+            margin-bottom: 1rem;
+        }
+
+        .stage-content {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .activities, .emotions, .pain-points, .opportunities {
+            background-color: var(--neutral-200);
+            border-radius: var(--radius);
+            padding: 1rem;
+        }
+
+        .activities h4, .emotions h4, .pain-points h4, .opportunities h4 {
+            font-size: 1rem;
+            margin-top: 0;
+            margin-bottom: 0.5rem;
+            color: var(--neutral-800);
+        }
+
+        .activities {
+            border-left: 4px solid var(--primary-light);
+        }
+
+        .emotions {
+            border-left: 4px solid var(--accent);
+        }
+
+        .pain-points {
+            border-left: 4px solid var(--danger);
+        }
+
+        .opportunities {
+            border-left: 4px solid var(--success);
+        }
+
+        .activity-list, .emotion-list, .pain-point-list, .opportunity-list {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        .activity-list li, .emotion-list li, .pain-point-list li, .opportunity-list li {
+            margin-bottom: 0.5rem;
+            font-size: 0.875rem;
+            padding-left: 1.5rem;
+            position: relative;
+        }
+
+        .activity-list li:before, .emotion-list li:before, .pain-point-list li:before, .opportunity-list li:before {
+            content: "";
+            position: absolute;
+            left: 0;
+            top: 0.5rem;
+            width: 0.5rem;
+            height: 0.5rem;
+            border-radius: 50%;
+        }
+
+        .activity-list li:before {
+            background-color: var(--primary-light);
+        }
+
+        .emotion-list li:before {
+            background-color: var(--accent);
+        }
+
+        .pain-point-list li:before {
+            background-color: var(--danger);
+        }
+
+        .opportunity-list li:before {
+            background-color: var(--success);
+        }
+
+        .emotion-meter {
+            height: 0.5rem;
+            background-color: var(--neutral-300);
+            border-radius: var(--radius);
+            margin: 0.5rem 0 1rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .emotion-level {
+            height: 100%;
+            border-radius: var(--radius);
+        }
+
+        .emotion-level.very-negative {
+            width: 20%;
+            background-color: #e53e3e;
+        }
+
+        .emotion-level.negative {
+            width: 40%;
+            background-color: #ed8936;
+        }
+
+        .emotion-level.neutral {
+            width: 60%;
+            background-color: #ecc94b;
+        }
+
+        .emotion-level.positive {
+            width: 80%;
+            background-color: #48bb78;
+        }
+
+        .emotion-level.very-positive {
+            width: 100%;
+            background-color: #38a169;
+        }
+
+        .pain-point-severity {
+            display: inline-block;
+            font-size: 0.75rem;
+            padding: 0.125rem 0.375rem;
+            border-radius: var(--radius-sm);
+            margin-left: 0.5rem;
+            font-weight: 600;
+        }
+
+        .severity-high {
+            background-color: rgba(229, 62, 62, 0.2);
+            color: #c53030;
+        }
+
+        .severity-medium {
+            background-color: rgba(237, 137, 54, 0.2);
+            color: #c05621;
+        }
+
+        .severity-low {
+            background-color: rgba(236, 201, 75, 0.2);
+            color: #b7791f;
+        }
+
+        .quote-container {
+            margin: 1.5rem 0;
+            padding: 1rem;
+            background-color: var(--neutral-200);
+            border-radius: var(--radius);
+            border-left: 4px solid var(--accent);
+        }
+
+        blockquote {
+            font-style: italic;
+            color: var(--neutral-700);
+            margin: 0 0 0.5rem 0;
+        }
+
+        .quote-citation {
+            font-size: 0.75rem;
+            color: var(--neutral-600);
+            text-align: right;
+        }
+
+        .insights-section {
+            background-color: white;
+            border-radius: var(--radius-lg);
+            padding: 2rem;
+            margin: 3rem auto;
+            box-shadow: var(--shadow-md);
+            max-width: 1400px;
+        }
+
+        .insights-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .insight-card {
+            background-color: var(--neutral-100);
+            border-radius: var(--radius-md);
+            padding: 1.5rem;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+            border-top: 4px solid var(--primary);
+        }
+
+        .insight-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .insight-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--primary);
+            margin-bottom: 1rem;
+        }
+
+        .insight-content {
+            color: var(--neutral-700);
+        }
+
+        .recommendations-section {
+            background-color: var(--primary);
+            color: var(--text-on-dark);
+            padding: 3rem 0;
+            margin: 3rem 0;
+        }
+
+        .recommendations-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .recommendations-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .recommendation-card {
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: var(--radius-md);
+            padding: 1.5rem;
+            transition: var(--transition);
+            border-left: 4px solid var(--accent);
+        }
+
+        .recommendation-card:hover {
+            background-color: rgba(255, 255, 255, 0.2);
+            transform: translateY(-5px);
+        }
+
+        .recommendation-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: white;
+        }
+
+        .recommendation-content {
+            color: var(--neutral-200);
+        }
+
+        .tabs {
+            display: flex;
+            border-bottom: 2px solid var(--neutral-300);
+            margin-bottom: 2rem;
+        }
+
+        .tab {
+            padding: 1rem 1.5rem;
+            font-weight: 600;
+            color: var(--neutral-600);
+            cursor: pointer;
+            transition: var(--transition);
+            border-bottom: 2px solid transparent;
+            margin-bottom: -2px;
+        }
+
+        .tab.active {
+            color: var(--primary);
+            border-bottom-color: var(--primary);
+        }
+
+        .tab:hover:not(.active) {
+            color: var(--primary-light);
+            border-bottom-color: var(--neutral-400);
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .persona-section {
+            background-color: white;
+            border-radius: var(--radius-lg);
+            padding: 2rem;
+            margin: 3rem auto;
+            box-shadow: var(--shadow-md);
+            max-width: 1400px;
+        }
+
+        .persona-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .persona-card {
+            background-color: var(--neutral-100);
+            border-radius: var(--radius-md);
+            padding: 1.5rem;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+            border-top: 4px solid var(--primary);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .persona-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .persona-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .persona-avatar {
+            width: 3rem;
+            height: 3rem;
+            border-radius: 50%;
+            background-color: var(--primary-light);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 700;
+            font-size: 1.25rem;
+            margin-right: 1rem;
+        }
+
+        .persona-name {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--primary);
+        }
+
+        .persona-role {
+            font-size: 0.875rem;
+            color: var(--neutral-600);
+        }
+
+        .persona-details {
+            margin-top: 1rem;
+        }
+
+        .persona-detail {
+            margin-bottom: 0.75rem;
+        }
+
+        .persona-detail-label {
+            font-weight: 600;
+            color: var(--neutral-700);
+            margin-bottom: 0.25rem;
+        }
+
+        .persona-detail-value {
+            font-size: 0.875rem;
+            color: var(--neutral-600);
+        }
+
+        .persona-needs {
+            margin-top: auto;
+            padding-top: 1rem;
+        }
+
+        .persona-needs-title {
+            font-weight: 600;
+            color: var(--neutral-700);
+            margin-bottom: 0.5rem;
+        }
+
+        .persona-needs-list {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        .persona-needs-list li {
+            margin-bottom: 0.5rem;
+            font-size: 0.875rem;
+            padding-left: 1.5rem;
+            position: relative;
+        }
+
+        .persona-needs-list li:before {
+            content: "";
+            position: absolute;
+            left: 0;
+            top: 0.5rem;
+            width: 0.5rem;
+            height: 0.5rem;
+            border-radius: 50%;
+            background-color: var(--primary-light);
+        }
+
+        footer {
+            background-color: var(--neutral-800);
+            color: var(--text-on-dark);
+            padding: 3rem 0;
+            margin-top: 3rem;
+        }
+
+        .footer-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            text-align: center;
+        }
+
+        .footer-content p {
+            margin-bottom: 0.5rem;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+        }
+
+        .footer-link {
+            color: var(--neutral-400);
+            text-decoration: none;
+            transition: var(--transition);
+        }
+
+        .footer-link:hover {
+            color: white;
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2rem;
+            }
+
+            h2 {
+                font-size: 1.5rem;
+            }
+
+            h3 {
+                font-size: 1.25rem;
+            }
+
+            .description {
+                font-size: 1rem;
+            }
+
+            .journey-timeline {
+                grid-template-columns: 1fr;
+            }
+
+            .insights-grid, .recommendations-grid, .persona-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .metric-card {
+                max-width: 100%;
+            }
+        }
+
+        /* Interactive elements */
+        .collapsible-header {
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.5rem 0;
+        }
+
+        .collapsible-header::after {
+            content: "+";
+            font-size: 1.5rem;
+            font-weight: 700;
+            transition: var(--transition);
+        }
+
+        .collapsible-header.active::after {
+            content: "-";
+        }
+
+        .collapsible-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-out;
+        }
+
+        .collapsible-content.active {
+            max-height: 1000px;
+        }
+
+        .tooltip {
+            position: relative;
+            display: inline-block;
+            border-bottom: 1px dotted var(--neutral-500);
+            cursor: help;
+        }
+
+        .tooltip .tooltip-text {
+            visibility: hidden;
+            width: 200px;
+            background-color: var(--neutral-800);
+            color: white;
+            text-align: center;
+            border-radius: var(--radius);
+            padding: 0.5rem;
+            position: absolute;
+            z-index: 1;
+            bottom: 125%;
+            left: 50%;
+            transform: translateX(-50%);
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .tooltip .tooltip-text::after {
+            content: "";
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            margin-left: -5px;
+            border-width: 5px;
+            border-style: solid;
+            border-color: var(--neutral-800) transparent transparent transparent;
+        }
+
+        .tooltip:hover .tooltip-text {
+            visibility: visible;
+            opacity: 1;
+        }
+
+        /* Accessibility improvements */
+        .skip-link {
+            position: absolute;
+            top: -40px;
+            left: 0;
+            background: var(--primary);
+            color: white;
+            padding: 8px;
+            z-index: 100;
+            transition: top 0.3s;
+        }
+
+        .skip-link:focus {
+            top: 0;
+        }
+
+        button, a {
+            transition: var(--transition);
+        }
+
+        button:focus, a:focus {
+            outline: 2px solid var(--primary);
+            outline-offset: 2px;
+        }
+
+        /* Print styles */
+        @media print {
+            body {
+                background-color: white;
+                color: black;
+            }
+
+            .journey-map-container {
+                overflow: visible;
+            }
+
+            .journey-timeline {
+                display: block;
+            }
+
+            .journey-stage {
+                page-break-inside: avoid;
+                margin-bottom: 2rem;
+            }
+
+            header, footer, .recommendations-section {
+                background-color: white;
+                color: black;
+            }
+
+            .recommendation-card {
+                border: 1px solid #ccc;
+                color: black;
+            }
+
+            .recommendation-title {
+                color: black;
+            }
+
+            .recommendation-content {
+                color: black;
+            }
+        }
+    </style>
+
+<style>
+    .journey-timeline {{
+        min-width: unset !important;
+        overflow-x: visible !important;
+    }}
+    @media print {{
+        .journey-timeline {{
+            transform: none !important;
+            display: flex !important;
+            flex-direction: row !important;
+            justify-content: space-between !important;
+        }}
+    }}
+</style>
+<style id="export-panel-styles">
+          .export-panel {
+              position: fixed;
+              top: 15px;
+              right: 15px;
+              z-index: 1000;
+          }
+          .export-controls {
+              display: flex;
+              flex-direction: column;
+              background-color: white;
+              border-radius: 8px;
+              box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+              padding: 12px;
+              gap: 8px;
+          }
+          .export-btn {
+              background-color: #4264D0;
+              color: white;
+              border: none;
+              border-radius: 4px;
+              padding: 8px 12px;
+              cursor: pointer;
+              font-size: 14px;
+              font-weight: 500;
+              transition: all 0.2s ease;
+              display: flex;
+              align-items: center;
+          }
+          .export-btn:hover {
+              background-color: #3450A0;
+          }
+          .export-btn svg {
+              margin-right: 6px;
+          }
+          .export-btn:disabled {
+              background-color: #a0a0a0;
+              cursor: not-allowed;
+          }
+          .export-feedback {
+              font-size: 12px;
+              color: #666;
+              text-align: center;
+              margin-top: 5px;
+              min-height: 15px;
+          }
+          @media print {
+              .export-panel {
+                  display: none !important;
+              }
+              body {
+                  -webkit-print-color-adjust: exact !important;
+                  print-color-adjust: exact !important;
+              }
+              .journey-map {
+                  page-break-inside: avoid;
+              }
+              .journey-stage {
+                  page-break-inside: avoid;
+              }
+          }
+          .export-loading {
+              display: inline-block;
+              width: 16px;
+              height: 16px;
+              border: 2px solid rgba(255, 255, 255, 0.3);
+              border-radius: 50%;
+              border-top-color: white;
+              animation: spin 1s ease-in-out infinite;
+              margin-left: 8px;
+          }
+          @keyframes spin {
+              to { transform: rotate(360deg); }
+          }
+      </style></head>
+<body>
+<div style="background-color: #f8f9fa; padding: 20px; margin: 20px 0; border-radius: 8px; border-left: 4px solid #4264D0; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+    <h2 style="color: #4264D0; margin-top: 0; font-size: 1.4rem;">Journey Analysis Summary</h2>
+    <div style="white-space: pre-line; font-size: 0.95rem; line-height: 1.6;">A comprehensive visualization of the rare disease patient journey, from initial symptoms to long-term survivorship, with detailed insights on activities, emotions, pain points, and opportunities at each stage.</div>
+</div>
+
+    <a href="https://localhost:8444/journey_maps/journey_map_b381e5e3-9192-4696-960d-4332c8eea796.html#main-content" class="skip-link">Skip to main content</a>
+
+    <header>
+        <div class="header-content">
+            <h1>RadiantCompass™ Patient Journey Map</h1>
+            <p class="description">A comprehensive visualization of the rare disease patient journey, from initial symptoms to long-term survivorship, with detailed insights on activities, emotions, pain points, and opportunities at each stage.</p>
+        </div>
+    </header>
+
+    <main id="main-content">
+        <section class="container">
+            <div class="insights-section">
+                <h2>Executive Summary</h2>
+                <p>RadiantCompass™ aims to transform every rare-disease diagnosis, from the first incomprehensible lab result to lasting remission, into a guided path of clarity, compassion, and choice. This journey map provides a detailed analysis of the patient experience across 12 critical stages, highlighting key activities, emotional states, pain points, and opportunities for intervention.</p>
+                
+                <div class="quote-container">
+                    <blockquote>"The RadiantCompass mission is to transform every rare-disease diagnosis, from the first incomprehensible lab result to lasting remission, into a guided path of clarity, compassion, and choice. While initially focusing on rare cancers, the mission is to expand reach to all 7,000+ rare conditions globally, accelerating today's and tomorrow's cures through the lived wisdom of millions."</blockquote>
+                    <p class="quote-citation">Source: RadiantCompass NotebookLM &amp; Andrew Edits.pdf</p>
+                </div>
+                
+                <div class="key-metrics">
+                    <div class="metric-card">
+                        <div class="metric-value">400K</div>
+                        <div class="metric-label">U.S. patients receive a rare-cancer diagnosis each year</div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-value">10M+</div>
+                        <div class="metric-label">Global patients with rare cancers</div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-value">$12B</div>
+                        <div class="metric-label">Global rare-disease RWE market value</div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-value">18%</div>
+                        <div class="metric-label">CAGR of rare-disease RWE market</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="persona-section">
+                <h2>Core User Personas</h2>
+                <p>RadiantCompass is designed to serve multiple stakeholders throughout the patient journey, each with unique needs and communication preferences.</p>
+                
+                <div class="persona-grid">
+                    <div class="persona-card">
+                        <div class="persona-header">
+                            <div class="persona-avatar">P</div>
+                            <div>
+                                <div class="persona-name">Patient</div>
+                                <div class="persona-role">The individual diagnosed</div>
+                            </div>
+                        </div>
+                        <div class="persona-details">
+                            <div class="persona-detail">
+                                <div class="persona-detail-label">Communication Preference</div>
+                                <div class="persona-detail-value">Varies between "Radical Optimist" and "Clinical Researcher" depending on personality and stage of journey</div>
+                            </div>
+                            <div class="persona-detail">
+                                <div class="persona-detail-label">Example Update Style</div>
+                                <div class="persona-detail-value">"🎉 Great news: today's PET shows no new spots and several areas look a bit smaller. Chemo is doing its job—onward!"</div>
+                            </div>
+                        </div>
+                        <div class="persona-needs">
+                            <div class="persona-needs-title">Key Needs</div>
+                            <ul class="persona-needs-list">
+                                <li>Clear translation of medical jargon</li>
+                                <li>Guidance on selecting the right care team</li>
+                                <li>Support with insurance navigation</li>
+                                <li>Emotional and spiritual support</li>
+                                <li>Ability to contribute data to research</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="persona-card">
+                        <div class="persona-header">
+                            <div class="persona-avatar">C</div>
+                            <div>
+                                <div class="persona-name">Primary Caregiver</div>
+                                <div class="persona-role">Spouse/partner or close family member</div>
+                            </div>
+                        </div>
+                        <div class="persona-details">
+                            <div class="persona-detail">
+                                <div class="persona-detail-label">Communication Preference</div>
+                                <div class="persona-detail-value">Often "Clinical Researcher" or "Balanced Calm" depending on their role and coping style</div>
+                            </div>
+                            <div class="persona-detail">
+                                <div class="persona-detail-label">Example Update Style</div>
+                                <div class="persona-detail-value">"PET (6/30): SUVmax down from 8.2 → 6.9 in omental mass; no new FDG-avid lesions. Plan: continue 2 more cycles, then restage lap."</div>
+                            </div>
+                        </div>
+                        <div class="persona-needs">
+                            <div class="persona-needs-title">Key Needs</div>
+                            <ul class="persona-needs-list">
+                                <li>Detailed medical information</li>
+                                <li>Task management and coordination tools</li>
+                                <li>Calendar integration for appointments</li>
+                                <li>Communication channel with healthcare team</li>
+                                <li>Support for their own mental health</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="persona-card">
+                        <div class="persona-header">
+                            <div class="persona-avatar">S</div>
+                            <div>
+                                <div class="persona-name">Support Circle</div>
+                                <div class="persona-role">Children, siblings, best friends</div>
+                            </div>
+                        </div>
+                        <div class="persona-details">
+                            <div class="persona-detail">
+                                <div class="persona-detail-label">Communication Preference</div>
+                                <div class="persona-detail-value">Typically "Radical Optimist" or "Balanced Calm" depending on age and relationship</div>
+                            </div>
+                            <div class="persona-detail">
+                                <div class="persona-detail-label">Example Update Style</div>
+                                <div class="persona-detail-value">"The latest scan shows the cancer is stable and even a little smaller in spots. The doctors say chemo is working, so we'll keep the same plan."</div>
+                            </div>
+                        </div>
+                        <div class="persona-needs">
+                            <div class="persona-needs-title">Key Needs</div>
+                            <ul class="persona-needs-list">
+                                <li>Regular but lighter updates</li>
+                                <li>Age-appropriate information</li>
+                                <li>Ways to help and contribute</li>
+                                <li>Understanding of what to expect</li>
+                                <li>Emotional support resources</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="persona-card">
+                        <div class="persona-header">
+                            <div class="persona-avatar">O</div>
+                            <div>
+                                <div class="persona-name">Outer Circle</div>
+                                <div class="persona-role">Neighbors, co-workers, extended family</div>
+                            </div>
+                        </div>
+                        <div class="persona-details">
+                            <div class="persona-detail">
+                                <div class="persona-detail-label">Communication Preference</div>
+                                <div class="persona-detail-value">"Just the Headlines" - brief, clear updates without medical details</div>
+                            </div>
+                            <div class="persona-detail">
+                                <div class="persona-detail-label">Example Update Style</div>
+                                <div class="persona-detail-value">"Update: Scan good. Tumor hasn't grown. Chemo continues."</div>
+                            </div>
+                        </div>
+                        <div class="persona-needs">
+                            <div class="persona-needs-title">Key Needs</div>
+                            <ul class="persona-needs-list">
+                                <li>High-level checkpoints only</li>
+                                <li>Clear ways to offer practical support</li>
+                                <li>Understanding boundaries</li>
+                                <li>Simple explanations of complex situations</li>
+                                <li>Guidance on appropriate communication</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="journey-map-container">
+                <h2>Patient Journey Map</h2>
+                <p>Based on Andrew Fegley's experience with Mesothelioma, this journey map outlines the 12 critical stages that rare disease patients typically navigate, from first symptoms to long-term survivorship.</p>
+                
+                <div class="journey-timeline">
+                    <div class="journey-stage">
+                        <div class="stage-header">
+                            <div class="stage-number">1</div>
+                            <h3 class="stage-title">First Hints &amp; Initial Doctor Visit</h3>
+                        </div>
+                        <p class="stage-description">Life feels normal until nagging symptoms appear, leading to a primary care or specialist visit and initial tests.</p>
+                        
+                        <div class="stage-content">
+                            <div class="activities">
+                                <h4>Key Activities</h4>
+                                <ul class="activity-list">
+                                    <li>Noticing persistent, unusual symptoms that don't resolve</li>
+                                    <li>Scheduling appointment with primary care physician</li>
+                                    <li>Undergoing initial basic tests (blood work, imaging)</li>
+                                    <li>Receiving referral to specialist for further evaluation</li>
+                                    <li>Researching symptoms online, often finding conflicting information</li>
+                                </ul>
+                            </div>
+                            
+                            <div class="emotions">
+                                <h4>Emotional State</h4>
+                                <div class="emotion-meter">
+                                    <div class="emotion-level neutral"></div>
+                                </div>
+                                <ul class="emotion-list">
+                                    <li>Initial concern but generally optimistic</li>
+                                    <li>Mild anxiety about what might be causing symptoms</li>
+                                    <li>Frustration if symptoms are dismissed or minimized</li>
+                                    <li>Relief at taking action to address health concerns</li>
+                                </ul>
+                            </div>
+                            
+                            <div class="pain-points">
+                                <h4>Pain Points</h4>
+                                <ul class="pain-point-list">
+                                    <li>Delay in getting appointments <span class="pain-point-severity severity-medium">Medium</span></li>
+                                    <li>Symptoms often attributed to common conditions first <span class="pain-point-severity severity-high">High</span></li>
+                                    <li>Uncertainty about whether concerns are being taken seriously <span class="pain-point-severity severity-medium">Medium</span></li>
+                                    <li>Difficulty articulating symptoms precisely <span class="pain-point-severity severity-low">Low</span></li>
+                                </ul>
+                            </div>
+                            
+                            <div class="opportunities">
+                                <h4>Opportunities</h4>
+                                <ul class="opportunity-list">
+                                    <li>Symptom tracking tool to document progression and patterns</li>
+                                    <li>Pre-appointment questionnaire to help articulate concerns</li>
+                                    <li>Education on when to seek specialist care directly</li>
+                                    <li>Guidance on preparing for initial doctor visits</li>
+                                </ul>
+                            </div>
+                            
+                            <div class="quote-container">
+                                <blockquote>"From the first time a patient has an inclination there is 'something wrong' or rather 'not right' they are forced into an information deficit loop. The patient must place all of their trust in their primary or specialist Dr. until a full diagnosis is known."</blockquote>
+                                <p class="quote-citation">Source: RadiantCompass NotebookLM &amp; Andrew Edits.pdf</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="journey-stage">
+                        <div class="stage-header">
+                            <div class="stage-number">2</div>
+                            <h3 class="stage-title">Specialist Work-up &amp; Diagnosis</h3>
+                        </div>
+                        <p class="stage-description">Advanced imaging, biopsy, and formal diagnosis of the rare disease.</p>
+                        
+                        <div class="stage-content">
+                            <div class="activities">
+                                <h4>Key Activities</h4>
+                                <ul class="activity-list">
+                                    <li>Consulting with specialist physicians</li>
+                                    <li>Undergoing advanced diagnostic imaging (CT, MRI, PET)</li>
+                                    <li>Completing biopsy procedures</li>
+                                    <li>Waiting for pathology and lab results</li>
+                                    <li>Receiving formal diagnosis of rare condition</li>
+                                    <li>Initial discussion of treatment approaches</li>
+                                </ul>
+                            </div>
+                            
+                            <div class="emotions">
+                                <h4>Emotional State</h4>
+                                <div class="emotion-meter">
+                                    <div class="emotion-level very-negative"></div>
+                                </div>
+                                <ul class="emotion-list">
+                                    <li>Shock and disbelief at diagnosis</li>
+                                    <li>Fear and anxiety about prognosis</li>
+                                    <li>Overwhelm from complex medical information</li>
+                                    <li>Grief and sense of loss</li>
+                                    <li>Urgency to take action</li>
+                                </ul>
+                            </div>
+                            
+                            <div class="pain-points">
+                                <h4>Pain Points</h4>
+                                <ul class="pain-point-list">
+                                    <li>Complex medical terminology in pathology reports <span class="pain-point-severity severity-high">High</span></li>
+                                    <li>Long wait times for results causing anxiety <span class="pain-point-severity severity-high">High</span></li>
+                                    <li>Difficulty comprehending implications of diagnosis <span class="pain-point-severity severity-high">High</span></li>
+                                    <li>Limited information about rare condition <span class="pain-point-severity severity-high">High</span></li>
+                                    <li>Uncertainty about next steps <span class="pain-point-severity severity-medium">Medium</span></li>
+                                </ul>
+                            </div>
+                            
+                            <div class="opportunities">
+                                <h4>Opportunities</h4>
+                                <ul class="opportunity-list">
+                                    <li>AI translation of pathology reports into plain language</li>
+                                    <li>Guided questions to ask specialists about diagnosis</li>
+                                    <li>Connection to others with similar diagnosis</li>
+                                    <li>Clear explanation of next steps in treatment journey</li>
+                                    <li>Emotional support resources specifically for diagnosis phase</li>
+                                </ul>
+                            </div>
+                            
+                            <div class="quote-container">
+                                <blockquote>"Clinical jargon ≠ comprehension: Pathology and genomic PDFs arrive in complex '12-grade medicalese'. Nine out of ten rare-disease patients search online to decode reports. Andrew's care mentors urged him to create a '12-question checklist before every consult' to manage this complexity."</blockquote>
+                                <p class="quote-citation">Source: RadiantCompass NotebookLM &amp; Andrew Edits.pdf</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="journey-stage">
+                        <div class="stage-header">
+                            <div class="stage-number">3</div>
+                            <h3 class="stage-title">Research &amp; "Compare-Care" Phase</h3>
+                        </div>
+                        <p class="stage-description">Learning about the disease, joining patient groups, requesting second opinions, checking insurance, and assessing travel logistics to select a care team.</p>
+                        
+                        <div class="stage-content">
+                            <div class="activities">
+                                <h4>Key Activities</h4>
+                                <ul class="activity-list">
+                                    <li>Researching condition through medical websites, forums, and literature</li>
+                                    <li>Joining online patient communities and support groups</li>
+                                    <li>Identifying centers of excellence for rare condition</li>
+                                    <li>Requesting and organizing medical records for second opinions</li>
+                                    <li>Verifying insurance coverage at different treatment centers</li>
+                                    <li>Evaluating travel logistics and accommodations for distant care</li>
+                                    <li>Comparing treatment approaches and physician expertise</li>
+                                </ul>
+                            </div>
+                            
+                            <div class="emotions">
+                                <h4>Emotional State</h4>
+                                <div class="emotion-meter">
+                                    <div class="emotion-level negative"></div>
+                                </div>
+                                <ul class="emotion-list">
+                                    <li>Overwhelm from information overload</li>
+                                    <li>Anxiety about making the "right" choice</li>
+                                    <li>Empowerment through knowledge acquisition</li>
+                                    <li>Frustration with fragmented healthcare system</li>
+                                    <li>Hope when finding promising treatment options</li>
+                                    <li>Isolation despite connecting with others</li>
+                                </ul>
+                            </div>
+                            
+                            <div class="pain-points">
+                                <h4>Pain Points</h4>
+                                <ul class="pain-point-list">
+                                    <li>Managing multiple patient portals and medical records <span class="pain-point-severity severity-high">High</span></li>
+                                    <li>Difficulty comparing treatment centers objectively <span class="pain-point-severity severity-high">High</span></li>
+                                    <li>Conflicting information about treatment approaches <span class="pain-point-severity severity-medium">Medium</span></li>
+                                    <li>Navigating insurance networks and coverage limitations <span class="pain-point-severity severity-high">High</span></li>
+                                    <li>Time pressure to make decisions quickly <span class="pain-point-severity severity-medium">Medium</span></li>
+                                    <li>Financial concerns about travel and out-of-network care <span class="pain-point-severity severity-high">High</span></li>
+                                </ul>
+                            </div>
+                            
+                            <div class="opportunities">
+                                <h4>Opportunities</h4>
+                                <ul class="opportunity-list">
+                                    <li>Compare-My-Care™ tool ranking hospitals by volume, outcomes, insurance status, travel burden, and culture</li>
+                                    <li>Centralized medical record aggregation and sharing</li>
+                                    <li>Insurance coverage analyzer and pre-authorization assistance</li>
+                                    <li>Travel and accommodation planning support</li>
+                                    <li>Curated patient experience reviews of treatment centers</li>
+                                    <li>Decision support framework for evaluating options</li>
+                                </ul>
+                            </div>
+                            
+                            <div class="quote-container">
+                                <blockquote>"Where do I even go?: From the first time a patient has an inclination there is 'something wrong' or rather 'not right' they are forced into an information deficit loop... A patient must 'cold-call multiple 'centers of excellence,' juggling intake portals and CD uploads' to help decide on care teams. Andrew Fegley, the patient co-founder, personally maintained three separate MyChart portals and spoke with coordinators at Penn, MSK, and AHN in the same week."</blockquote>
+                                <p class="quote-citation">Source: RadiantCompass NotebookLM &amp; Andrew Edits.pdf</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="journey-stage">
+                        <div class="stage-header">
+                            <div class="stage-number">4</div>
+                            <h3 class="stage-title">Full Staging &amp; Baseline Testing</h3>
+                        </div>
+                        <p class="stage-description">Comprehensive scans (CT/PET), PCI score, organ function tests, and genetic profiling.</p>
+                        
+                        <div class="stage-content">
+                            <div class="activities">
+                                <h4>Key Activities</h4>
+                                <ul class="activity-list">
+                                    <li>Undergoing comprehensive imaging (CT, PET, specialized scans)</li>
+                                    <li>Completing additional biopsies if needed</li>
+                                    <li>Genetic and molecular testing of tumor samples</li>
+                                    <li>Baseline organ function assessments (heart, lungs, kidneys)</li>
+                                    <li>Specialized disease staging procedures</li>
+                                    <li>Consultations with multiple specialists</li>
+                                    <li>Establishing baseline health metrics</li>
+                                </ul>
+                            </div>
+                            
+                            <div class="emotions">
+                                <h4>Emotional State</h4>
+                                <div class="emotion-meter">
+                                    <div class="emotion-level negative"></div>
+                                </div>
+                                <ul class="emotion-list">
+                                    <li>Anxiety about test results and disease extent</li>
+                                    <li>Physical discomfort from procedures</li>
+                                    <li>Mental fatigue from multiple appointments</li>
+                                    <li>Relief at having a clear plan in motion</li>
+                                    <li>Hope that testing will reveal treatment options</li>
+                                    <li>Impatience with the pace of medical processes</li>
+                                </ul>
+                            </div>
+                            
+                            <div class="pain-points">
+                                <h4>Pain Points</h4>
+                                <ul class="pain-point-list">
+                                    <li>Insurance denials for necessary scans <span class="pain-point-severity severity-high">High</span></li>
+                                    <li>Scheduling complexity across multiple departments <span class="pain-point-severity severity-medium">Medium</span></li>
+                                    <li>Repeated explanations to different providers <span class="pain-point-severity severity-medium">Medium</span></li>
+                                    <li>Long waits for specialized genetic results <span class="pain-point-severity severity-medium">Medium</span></li>
+                                    <li>Difficulty understanding staging terminology <span class="pain-point-severity severity-high">High</span></li>
+                                    <li>Physical and emotional toll of frequent procedures <span class="pain-point-severity severity-high">High</span></li>
+                                </ul>
+                            </div>
+                            
+                            <div class="opportunities">
+                                <h4>Opportunities</h4>
+                                <ul class="opportunity-list">
+                                    <li>Insurance navigation assistance for scan approvals</li>
+                                    <li>Coordinated scheduling across specialties</li>
+                                    <li>Plain-language explanations of staging and test results</li>
+                                    <li>Digital storage and organization of all test results</li>
+                                    <li>Preparation guides for each procedure</li>
+                                    <li>Tracking system for completion of required tests</li>
+                                </ul>
+                            </div>
+                            
+                            <div class="quote-container">
+                                <blockquote>"Insurance &amp; logistics roadblocks: Families grapple with 'time-sensitive scans denied' and manage 'PTO, travel, and germ control through ad-hoc text chains'. Andrew experienced multiple PET-scan denials with two separate insurance providers Cigna and Aetna (both of which were premium PPO coverage plans) that continue to delay imaging, despite his nurse practitioners and doctors efforts."</blockquote>
+                                <p class="quote-citation">Source: RadiantCompass NotebookLM &amp; Andrew Edits.pdf</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="journey-stage">
+                        <div class="stage-header">
+                            <div class="stage-number">5</div>
+                            <h3 class="stage-title">Multidisciplinary Treatment Planning</h3>
+                        </div>
+                        <p class="stage-description">Tumor board meeting to decide on first-line strategy (chemo, surgery, or clinical trial), followed by patient review and scheduling.</p>
+                        
+                        <div class="stage-content">
+                            <div class="activities">
+                                <h4>Key Activities</h4>
+                                <ul class="activity-list">
+                                    <li>Case presentation at multidisciplinary tumor board</li>
+                                    <li>Development of comprehensive treatment plan</li>
+                                    <li>Consultation with multiple specialists (oncology, surgery, radiation)</li>
+                                    <li>Discussion of standard-of-care vs. clinical trial options</li>
+                                    <li>Consideration of treatment sequence (neoadjuvant vs. upfront surgery)</li>
+                                    <li>Review of treatment goals and expectations</li>
+                                    <li>Decision-making about first-line approach</li>
+                                </ul>
+                            </div>
+                            
+                            <div class="emotions">
+                                <h4>Emotional State</h4>
+                                <div class="emotion-meter">
+                                    <div class="emotion-level neutral"></div>
+                                </div>
+                                <ul class="emotion-list">
+                                    <li>Relief at having expert consensus</li>
+                                    <li>Anxiety about treatment efficacy</li>
+                                    <li>Confusion about complex treatment options</li>
+                                    <li>Hope for positive outcomes</li>
+                                    <li>Pressure to make the "right" decision</li>
+                                    <li>Trust in medical expertise balanced with desire for control</li>
+                                </ul>
+                            </div>
+                            
+                            <div class="pain-points">
+                                <h4>Pain Points</h4>
+                                <ul class="pain-point-list">
+                                    <li>Limited patient involvement in tumor board discussions <span class="pain-point-severity severity-high">High</span></li>
+                                    <li>Difficulty understanding rationale for treatment recommendations <span class="pain-point-severity severity-high">High</span></li>
+                                    <li>Conflicting opinions between specialists <span class="pain-point-severity severity-medium">Medium</span></li>
+                                    <li>Uncertainty about clinical trial eligibility and process <span class="pain-point-severity severity-medium">Medium</span></li>
+                                    <li>Balancing quality of life concerns with aggressive treatment <span class="pain-point-severity severity-high">High</span></li>
+                                    <li>Limited time to process information before decisions needed <span class="pain-point-severity severity-high">High</span></li>
+                                </ul>
+                            </div>
+                            
+                            <div class="opportunities">
+                                <h4>Opportunities</h4>
+                                <ul class="opportunity-list">
+                                    <li>Virtual tumor board facilitation with patient representation</li>
+                                    <li>Treatment plan visualization and comparison tools</li>
+                                    <li>Decision support frameworks with pros/cons of each approach</li>
+                                    <li>Plain-language summaries of tumor board recommendations</li>
+                                    <li>Preparation guide for treatment planning consultations</li>
+                                    <li>Clinical trial matching and explanation service</li>
+                                </ul>
+                            </div>
+                            
+                            <div class="quote-container">
+                                <blockquote>"RadiantCompass can translate raw medical data into plain-language insights and 'ask-your-doctor' questions... Use of ChatGPT and Claude demonstrated conversion of Andrew's Penn pathology into 6th-grade prose and create a tailored consult checklist in seconds."</blockquote>
+                                <p class="quote-citation">Source: RadiantCompass NotebookLM &amp; Andrew Edits.pdf</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="journey-stage">
+                        <div class="stage-header">
+                            <div class="stage-number">6</div>
+                            <h3 class="stage-title">Insurance Confirmation &amp; Travel Setup</h3>
+                        </div>
+                        <p class="stage-description">Pre-authorization for treatment costs and booking logistics for treatment away from home.</p>
+                        
+                        <div class="stage-content">
+                            <div class="activities">
+                                <h4>Key Activities</h4>
+                                <ul class="activity-list">
+                                    <li>Submitting pre-authorization requests to insurance</li>
+                                    <li>Navigating appeals process for denials</li>
+                                    <li>Estimating out-of-pocket costs</li>
+                                    <li>Exploring financial assistance programs</li>
+                                    <li>Arranging transportation to treatment center</li>
+                                    <li>Booking accommodations for extended stays</li>
+                                    <li>Coordinating work leave and family care</li>
+                                    <li>Planning for potential complications and extended stays</li>
+                                </ul>
+                            </div>
+                            
+                            <div class="emotions">
+                                <h4>Emotional State</h4>
+                                <div class="emotion-meter">
+                                    <div class="emotion-level negative"></div>
+                                </div>
+                                <ul class="emotion-list">
+                                    <li>Frustration with insurance bureaucracy</li>
+                                    <li>Anxiety about financial impact</li>
+                                    <li>Stress about logistics coordination</li>
+                                    <li>Worry about being away from support network</li>
+                                    <li>Relief when approvals are secured</li>
+                                    <li>Overwhelm from managing multiple arrangements</li>
+                                </ul>
+                            </div>
+                            
+                            <div class="pain-points">
+                                <h4>Pain Points</h4>
+                                <ul class="pain-point-list">
+                                    <li>Unexpected insurance denials <span class="pain-point-severity severity-high">High</span></li>
+                                    <li>Opaque cost estimates and billing practices <span class="pain-point-severity severity-high">High</span></li>
+                                    <li>Complex appeals processes requiring medical expertise <span class="pain-point-severity severity-high">High</span></li>
+                                    <li>Financial toxicity from travel and accommodation costs <span class="pain-point-severity severity-high">High</span></li>
+                                    <li>Difficulty coordinating family responsibilities <span class="pain-point-severity severity-medium">Medium</span></li>
+                                    <li>Uncertainty about length of stay needed <span class="pain-point-severity severity-medium">Medium</span></li>
+                                </ul>
+                            </div>
+                            
+                            <div class="opportunities">
+                                <h4>Opportunities</h4>
+                                <ul class="opportunity-list">
+                                    <li>Insurance navigation and appeals assistance</li>
+                                    <li>Cost estimation and financial planning tools</li>
+                                    <li>Curated accommodation options near treatment centers</li>
+                                    <li>Transportation coordination service</li>
+                                    <li>Family care and support network organization</li>
+                                    <li>Work leave documentation and management</li>
+                                </ul>
+                            </div>
+                            
+                            <div class="quote-container">
+                                <blockquote>"70% of rare-disease families report financial toxicity within 12 months. Understanding the sequence of when scans, biopsies and treatments are required in the care journey, which ones are essential and which ones are not, and how insurance approvals, reviews, arbitration and denials impact the overall care journey (and what to do about it) is essential to ensure a patients overall treatment and health."</blockquote>
+                                <p class="quote-citation">Source: RadiantCompass NotebookLM &amp; Andrew Edits.pdf</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="journey-stage">
+                        <div class="stage-header">
+                            <div class="stage-number">7</div>
+                            <h3 class="stage-title">Up-front (Neoadjuvant) Therapy</h3>
+                        </div>
+                        <p class="stage-description">Completing initial chemotherapy cycles, monitoring side-effects, and potentially T-cell collection.</p>
+                        
+                        <div class="stage-content">
+                            <div class="activities">
+                                <h4>Key Activities</h4>
+                                <ul class="activity-list">
+                                    <li>Undergoing port placement procedure</li>
+                                    <li>Starting chemotherapy or immunotherapy regimen</li>
+                                    <li>Managing treatment schedule and appointments</li>
+                                    <li>Monitoring and reporting side effects</li>
+                                    <li>Completing interim scans to assess response</li>
+                                    <li>Adjusting medications to manage symptoms</li>
+                                    <li>Potential T-cell collection for future therapies</li>
+                                    <li>Maintaining nutrition and physical activity</li>
+                                </ul>
+                            </div>
+                            
+                            <div class="emotions">
+                                <h4>Emotional State</h4>
+                                <div class="emotion-meter">
+                                    <div class="emotion-level negative"></div>
+                                </div>
+                                <ul class="emotion-list">
+                                    <li>Anxiety about treatment side effects</li>
+                                    <li>Physical discomfort and fatigue</li>
+                                    <li>Hope that treatment is working</li>
+                                    <li>Fear of disease progression despite treatment</li>
+                                    <li>Determination to complete therapy</li>
+                                    <li>Gratitude for medical care</li>
+                                    <li>Isolation during treatment periods</li>
+                                </ul>
+                            </div>
+                            
+                            <div class="pain-points">
+                                <h4>Pain Points</h4>
+                                <ul class="pain-point-list">
+                                    <li>Severe treatment side effects <span class="pain-point-severity severity-high">High</span></li>
+                                    <li>Difficulty managing daily activities during treatment <span class="pain-point-severity severity-high">High</span></li>
+                                    <li>Uncertainty about when to report symptoms <span class="pain-point-severity severity-medium">Medium</span></li>
+                                    <li>Anxiety waiting for response assessment <span class="pain-point-severity severity-high">High</span></li>
+                                    <li>Balancing treatment with quality of life <span class="pain-point-severity severity-high">High</span></li>
+                                    <li>Coordinating multiple medications and appointments <span class="pain-point-severity severity-medium">Medium</span></li>
+                                </ul>
+                            </div>
+                            
+                            <div class="opportunities">
+                                <h4>Opportunities</h4>
+                                <ul class="opportunity-list">
+                                    <li>Side effect tracking and management app</li>
+                                    <li>Treatment calendar with reminders and preparation instructions</li>
+                                    <li>Symptom severity assessment tool with guidance on when to contact providers</li>
+                                    <li>Nutrition and hydration support during treatment</li>
+                                    <li>Virtual support groups during treatment phases</li>
+                                    <li>Medication management and interaction checker</li>
+                                </ul>
+                            </div>
+                            
+                            <div class="quote-container">
+                                <blockquote>"RadiantCompass will orchestrate every next step, including appointments, symptom alerts, PTO forms, meal trains, and prayer or mindfulness reminders, inside a single, secure hub shared with caregivers and clinicians."</blockquote>
+                                <p class="quote-citation">Source: RadiantCompass NotebookLM &amp; Andrew Edits.pdf</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="journey-stage">
+                        <div class="stage-header">
+                            <div class="stage-number">8</div>
+                            <h3 class="stage-title">Definitive Surgery or Local Treatment</h3>
+                        </div>
+                        <p class="stage-description">Undergoing major surgery (e.g., cytoreductive surgery with HIPEC), followed by ICU and surgical ward recovery.</p>
+                        
+                        <div class="stage-content">
+                            <div class="activities">
+                                <h4>Key Activities</h4>
+                                <ul class="activity-list">
+                                    <li>Pre-surgical testing and clearance</li>
+                                    <li>Meeting with surgical team to review procedure</li>
+                                    <li>Completing surgical consent process</li>
+                                    <li>Undergoing major surgical procedure</li>
+                                    <li>ICU recovery period</li>
+                                    <li>Transfer to surgical ward</li>
+                                    <li>Physical therapy and rehabilitation</li>
+                                    <li>Discharge planning and home care setup</li>
+                                </ul>
+                            </div>
+                            
+                            <div class="emotions">
+                                <h4>Emotional State</h4>
+                                <div class="emotion-meter">
+                                    <div class="emotion-level very-negative"></div>
+                                </div>
+                                <ul class="emotion-list">
+                                    <li>Intense fear before surgery</li>
+                                    <li>Relief upon successful completion</li>
+                                    <li>Physical pain and discomfort</li>
+                                    <li>Vulnerability during recovery</li>
+                                    <li>Impatience with recovery timeline</li>
+                                    <li>Hope that surgery was curative</li>
+                                    <li>Gratitude toward surgical team</li>
+                                </ul>
+                            </div>
+                            
+                            <div class="pain-points">
+                                <h4>Pain Points</h4>
+                                <ul class="pain-point-list">
+                                    <li>Severe post-surgical pain <span class="pain-point-severity severity-high">High</span></li>
+                                    <li>Complications requiring extended hospitalization <span class="pain-point-severity severity-high">High</span></li>
+                                    <li>Limited understanding of surgical outcomes <span class="pain-point-severity severity-medium">Medium</span></li>
+                                    <li>Difficulty coordinating post-discharge care <span class="pain-point-severity severity-high">High</span></li>
+                                    <li>Emotional impact of physical changes <span class="pain-point-severity severity-high">High</span></li>
+                                    <li>Caregiver strain during recovery period <span class="pain-point-severity severity-high">High</span></li>
+                                </ul>
+                            </div>
+                            
+                            <div class="opportunities">
+                                <h4>Opportunities</h4>
+                                <ul class="opportunity-list">
+                                    <li>Pre-surgical preparation guide and checklist</li>
+                                    <li>Virtual hospital tour and procedure explanation</li>
+                                    <li>Recovery milestone tracker and expectations</li>
+                                    <li>Discharge planning assistant</li>
+                                    <li>Home care coordination platform</li>
+                                    <li>Caregiver support and respite resources</li>
+                                </ul>
+                            </div>
+                            
+                            <div class="quote-container">
+                                <blockquote>"The Care-Circle Workspace + Vitals AI module provides role-based tasks and red-alert triage. Expansion could include wearable-integrated predictive hospitalization risk."</blockquote>
+                                <p class="quote-citation">Source: RadiantCompass NotebookLM &amp; Andrew Edits.pdf</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="journey-stage">
+                        <div class="stage-header">
+                            <div class="stage-number">9</div>
+                            <h3 class="stage-title">Adjuvant or Maintenance Therapy</h3>
+                        </div>
+                        <p class="stage-description">Post-surgical chemotherapy, immunotherapy, or CAR-T infusion to eliminate microscopic disease, with optional metabolic add-ons.</p>
+                        
+                        <div class="stage-content">
+                            <div class="activities">
+                                <h4>Key Activities</h4>
+                                <ul class="activity-list">
+                                    <li>Recovery from surgery before starting adjuvant therapy</li>
+                                    <li>Beginning post-surgical treatment regimen</li>
+                                    <li>Managing treatment schedule while recovering</li>
+                                    <li>Monitoring for cumulative side effects</li>
+                                    <li>Exploring complementary approaches (nutrition, exercise)</li>
+                                    <li>Completing post-treatment scans</li>
+                                    <li>Discussing maintenance therapy options</li>
+                                    <li>Gradual return to normal activities</li>
+                                </ul>
+                            </div>
+                            
+                            <div class="emotions">
+                                <h4>Emotional State</h4>
+                                <div class="emotion-meter">
+                                    <div class="emotion-level neutral"></div>
+                                </div>
+                                <ul class="emotion-list">
+                                    <li>Fatigue from cumulative treatments</li>
+                                    <li>Hope that end of treatment is approaching</li>
+                                    <li>Anxiety about cancer recurrence</li>
+                                    <li>Determination to complete therapy</li>
+                                    <li>Frustration with ongoing side effects</li>
+                                    <li>Anticipation of return to normalcy</li>
+                                    <li>Uncertainty about future health</li>
+                                </ul>
+                            </div>
+                            
+                            <div class="pain-points">
+                                <h4>Pain Points</h4>
+                                <ul class="pain-point-list">
+                                    <li>Cumulative fatigue and side effects <span class="pain-point-severity severity-high">High</span></li>
+                                    <li>Difficulty balancing recovery and treatment <span class="pain-point-severity severity-high">High</span></li>
+                                    <li>Limited guidance on complementary approaches <span class="pain-point-severity severity-medium">Medium</span></li>
+                                    <li>Uncertainty about treatment effectiveness <span class="pain-point-severity severity-high">High</span></li>
+                                    <li>Financial strain from ongoing treatment <span class="pain-point-severity severity-high">High</span></li>
+                                    <li>Emotional toll of prolonged treatment <span class="pain-point-severity severity-high">High</span></li>
+                                </ul>
+                            </div>
+                            
+                            <div class="opportunities">
+                                <h4>Opportunities</h4>
+                                <ul class="opportunity-list">
+                                    <li>Integrated recovery and treatment planning</li>
+                                    <li>Evidence-based complementary therapy guidance</li>
+                                    <li>Treatment completion countdown and milestone celebration</li>
+                                    <li>Long-term side effect monitoring and management</li>
+                                    <li>Transition planning to survivorship</li>
+                                    <li>Financial assistance navigation for ongoing costs</li>
+                                </ul>
+                            </div>
+                            
+                            <div class="quote-container">
+                                <blockquote>"Andrew himself blocks 30 minutes daily for meditation and scripture to stay centered. He also has worked with a dietician and breathing specialist to ensure all avenues for giving him the best possible outcomes are understood and available to him are paramount in his care journey."</blockquote>
+                                <p class="quote-citation">Source: RadiantCompass NotebookLM &amp; Andrew Edits.pdf</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="journey-stage">
+                        <div class="stage-header">
+                            <div class="stage-number">10</div>
+                            <h3 class="stage-title">Early Recovery (First Three Months)</h3>
+                        </div>
+                        <p class="stage-description">Managing incisions, maintaining weight with dietitian support, and physical therapy, followed by a post-operative scan.</p>
+                        
+                        <div class="stage-content">
+                            <div class="activities">
+                                <h4>Key Activities</h4>
+                                <ul class="activity-list">
+                                    <li>Wound and incision care</li>
+                                    <li>Physical therapy and rehabilitation exercises</li>
+                                    <li>Nutritional support and weight management</li>
+                                    <li>Gradual increase in physical activity</li>
+                                    <li>First post-treatment surveillance scan</li>
+                                    <li>Managing lingering treatment side effects</li>
+                                    <li>Psychological adjustment to post-treatment life</li>
+                                    <li>Reintegration into family and social roles</li>
+                                </ul>
+                            </div>
+                            
+                            <div class="emotions">
+                                <h4>Emotional State</h4>
+                                <div class="emotion-meter">
+                                    <div class="emotion-level positive"></div>
+                                </div>
+                                <ul class="emotion-list">
+                                    <li>Relief at completing active treatment</li>
+                                    <li>Anxiety about first surveillance scan</li>
+                                    <li>Impatience with pace of physical recovery</li>
+                                    <li>Joy in resuming normal activities</li>
+                                    <li>Uncertainty about "new normal"</li>
+                                    <li>Gratitude for support during treatment</li>
+                                    <li>Fear of recurrence or complications</li>
+                                </ul>
+                            </div>
+                            
+                            <div class="pain-points">
+                                <h4>Pain Points</h4>
+                                <ul class="pain-point-list">
+                                    <li>Scanxiety (anxiety before scans) <span class="pain-point-severity severity-high">High</span></li>
+                                    <li>Persistent physical limitations <span class="pain-point-severity severity-medium">Medium</span></li>
+                                    <li>Difficulty adjusting expectations to recovery timeline <span class="pain-point-severity severity-medium">Medium</span></li>
+                                    <li>Limited guidance on post-treatment lifestyle <span class="pain-point-severity severity-medium">Medium</span></li>
+                                    <li>Psychological impact of cancer experience <span class="pain-point-severity severity-high">High</span></li>
+                                    <li>Navigating return to work and responsibilities <span class="pain-point-severity severity-medium">Medium</span></li>
+                                </ul>
+                            </div>
+                            
+                            <div class="opportunities">
+                                <h4>Opportunities</h4>
+                                <ul class="opportunity-list">
+                                    <li>Recovery milestone tracker with realistic expectations</li>
+                                    <li>Personalized rehabilitation program</li>
+                                    <li>Nutrition and exercise guidance for recovery</li>
+                                    <li>Scan preparation and anxiety management tools</li>
+                                    <li>Return-to-work planning assistance</li>
+                                    <li>Post-treatment support group connection</li>
+                                </ul>
+                            </div>
+                            
+                            <div class="quote-container">
+                                <blockquote>"Over 60% of rare-cancer patients screen positive for anxiety or depression. Existing solutions for 'Prayer, meditation, or secular CBT live in separate apps, none connect to the medical timeline'."</blockquote>
+                                <p class="quote-citation">Source: RadiantCompass NotebookLM &amp; Andrew Edits.pdf</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="journey-stage">
+                        <div class="stage-header">
+                            <div class="stage-number">11</div>
+                            <h3 class="stage-title">Surveillance &amp; Rehabilitation (Years 1-5)</h3>
+                        </div>
+                        <p class="stage-description">Regular scans and lab work, treatment of late side-effects, lifestyle refinements, and eligibility for new trials.</p>
+                        
+                        <div class="stage-content">
+                            <div class="activities">
+                                <h4>Key Activities</h4>
+                                <ul class="activity-list">
+                                    <li>Regular surveillance imaging (frequency decreases over time)</li>
+                                    <li>Periodic lab work and tumor marker testing</li>
+                                    <li>Managing late treatment effects</li>
+                                    <li>Implementing lifestyle modifications</li>
+                                    <li>Monitoring for recurrence signs</li>
+                                    <li>Exploring clinical trial options for prevention</li>
+                                    <li>Addressing psychological impacts of survivorship</li>
+                                    <li>Rebuilding physical strength and endurance</li>
+                                </ul>
+                            </div>
+                            
+                            <div class="emotions">
+                                <h4>Emotional State</h4>
+                                <div class="emotion-meter">
+                                    <div class="emotion-level positive"></div>
+                                </div>
+                                <ul class="emotion-list">
+                                    <li>Periodic anxiety around scan dates</li>
+                                    <li>Relief with each clear result</li>
+                                    <li>Gradual confidence in recovery</li>
+                                    <li>Adjustment to "new normal"</li>
+                                    <li>Survivor's guilt</li>
+                                    <li>Gratitude for continued health</li>
+                                    <li>Lingering fear of recurrence</li>
+                                </ul>
+                            </div>
+                            
+                            <div class="pain-points">
+                                <h4>Pain Points</h4>
+                                <ul class="pain-point-list">
+                                    <li>Ongoing "scanxiety" cycles <span class="pain-point-severity severity-high">High</span></li>
+                                    <li>Long-term treatment side effects <span class="pain-point-severity severity-medium">Medium</span></li>
+                                    <li>Reduced frequency of medical contact causing anxiety <span class="pain-point-severity severity-medium">Medium</span></li>
+                                    <li>Uncertainty about normal vs. concerning symptoms <span class="pain-point-severity severity-medium">Medium</span></li>
+                                    <li>Insurance changes affecting surveillance plan <span class="pain-point-severity severity-medium">Medium</span></li>
+                                    <li>Psychological impact of living with uncertainty <span class="pain-point-severity severity-high">High</span></li>
+                                </ul>
+                            </div>
+                            
+                            <div class="opportunities">
+                                <h4>Opportunities</h4>
+                                <ul class="opportunity-list">
+                                    <li>Surveillance schedule management and reminders</li>
+                                    <li>Symptom assessment tool for recurrence monitoring</li>
+                                    <li>Long-term side effect tracking and management</li>
+                                    <li>Survivorship care plan creation and updates</li>
+                                    <li>Lifestyle optimization guidance for cancer survivors</li>
+                                    <li>Connection to survivorship community and resources</li>
+                                </ul>
+                            </div>
+                            
+                            <div class="quote-container">
+                                <blockquote>"Real-world evidence (RWE) that could accelerate new drug development 'sits across siloed portals and spreadsheets'. Andrew's personal Google-Drive folders contain valuable scans, labs, and diary notes with no research pathway to ensure his learnings and experiences get incorporated into the corpus of knowledge used to help innovate and treat others."</blockquote>
+                                <p class="quote-citation">Source: RadiantCompass NotebookLM &amp; Andrew Edits.pdf</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="journey-stage">
+                        <div class="stage-header">
+                            <div class="stage-number">12</div>
+                            <h3 class="stage-title">Long-term Living</h3>
+                        </div>
+                        <p class="stage-description">After five years, shifting to annual check-ups focused on quality of life, heart/kidney health, prevention, and ongoing support for thriving in the "new normal".</p>
+                        
+                        <div class="stage-content">
+                            <div class="activities">
+                                <h4>Key Activities</h4>
+                                <ul class="activity-list">
+                                    <li>Annual surveillance visits</li>
+                                    <li>Monitoring for late treatment effects on organs</li>
+                                    <li>Preventive screening for secondary cancers</li>
+                                    <li>Maintaining healthy lifestyle practices</li>
+                                    <li>Mentoring newly diagnosed patients</li>
+                                    <li>Participating in survivorship research</li>
+                                    <li>Managing long-term psychological impact</li>
+                                    <li>Integrating cancer experience into life narrative</li>
+                                </ul>
+                            </div>
+                            
+                            <div class="emotions">
+                                <h4>Emotional State</h4>
+                                <div class="emotion-meter">
+                                    <div class="emotion-level very-positive"></div>
+                                </div>
+                                <ul class="emotion-list">
+                                    <li>Gratitude for long-term survival</li>
+                                    <li>Confidence in health stability</li>
+                                    <li>Occasional recurrence fears</li>
+                                    <li>Sense of purpose in helping others</li>
+                                    <li>Appreciation for life perspective</li>
+                                    <li>Acceptance of "new normal"</li>
+                                    <li>Pride in resilience and survival</li>
+                                </ul>
+                            </div>
+                            
+                            <div class="pain-points">
+                                <h4>Pain Points</h4>
+                                <ul class="pain-point-list">
+                                    <li>Lingering physical limitations <span class="pain-point-severity severity-low">Low</span></li>
+                                    <li>Healthcare system transition to primary care <span class="pain-point-severity severity-medium">Medium</span></li>
+                                    <li>Limited long-term survivorship research <span class="pain-point-severity severity-medium">Medium</span></li>
+                                    <li>Insurance challenges for long-term monitoring <span class="pain-point-severity severity-medium">Medium</span></li>
+                                    <li>Balancing vigilance with moving forward <span class="pain-point-severity severity-medium">Medium</span></li>
+                                    <li>Explaining cancer history to new providers <span class="pain-point-severity severity-low">Low</span></li>
+                                </ul>
+                            </div>
+                            
+                            <div class="opportunities">
+                                <h4>Opportunities</h4>
+                                <ul class="opportunity-list">
+                                    <li>Long-term survivorship care plan</li>
+                                    <li>Mentorship program connecting survivors with new patients</li>
+                                    <li>Lifelong health monitoring dashboard</li>
+                                    <li>Research participation opportunities</li>
+                                    <li>Legacy planning and documentation</li>
+                                    <li>Comprehensive medical history for new providers</li>
+                                </ul>
+                            </div>
+                            
+                            <div class="quote-container">
+                                <blockquote>"Every interaction feeds an ever-growing rare-disease knowledge graph, so each patient's journey sharpens the guidance for the next and provides de-identified, consented real-world evidence to researchers seeking tomorrow's cures."</blockquote>
+                                <p class="quote-citation">Source: RadiantCompass NotebookLM &amp; Andrew Edits.pdf</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="insights-section">
+                <h2>Key Journey Insights</h2>
+                <p>Analysis of the patient journey reveals several critical patterns and opportunities for intervention that can significantly improve the rare disease experience.</p>
+                
+                <div class="insights-grid">
+                    <div class="insight-card">
+                        <h3 class="insight-title">Information Deficit Loop</h3>
+                        <div class="insight-content">
+                            <p>Patients consistently face an "information deficit loop" throughout their journey, where they lack the necessary knowledge to make informed decisions but are still required to navigate complex choices. This begins with the first symptoms and continues through treatment selection, insurance navigation, and into survivorship.</p>
+                            <p>The most acute information deficits occur during diagnosis and the "compare-care" phase, where patients must evaluate treatment centers without objective comparison tools. Andrew Fegley's experience of managing three separate MyChart portals while communicating with multiple cancer centers illustrates this challenge.</p>
+                            <p>This insight suggests that an AI-powered knowledge platform that translates medical information, compares treatment options, and provides decision support would address a fundamental patient need.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="insight-card">
+                        <h3 class="insight-title">Medical Translation Gap</h3>
+                        <div class="insight-content">
+                            <p>The journey map reveals a persistent gap between clinical communication and patient comprehension. Pathology reports, treatment plans, and medical correspondence are typically written in "12th-grade medicalese" that patients struggle to understand.</p>
+                            <p>This translation gap is particularly problematic during critical decision points, such as diagnosis, treatment planning, and when evaluating clinical trial options. Nine out of ten rare disease patients resort to online searches to decode their medical reports, often finding conflicting or inaccurate information.</p>
+                            <p>RadiantCompass's AI translation capability, which can convert complex pathology reports into 6th-grade prose and generate tailored consultation checklists, directly addresses this critical need and could significantly reduce patient anxiety and improve decision-making.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="insight-card">
+                        <h3 class="insight-title">Logistical Burden</h3>
+                        <div class="insight-content">
+                            <p>The journey map highlights the overwhelming logistical burden placed on patients and caregivers. This includes coordinating appointments across multiple specialists, managing insurance approvals and denials, arranging travel and accommodations for treatment, and organizing family care and work leave.</p>
+                            <p>This burden is particularly heavy during the insurance confirmation and travel setup stage, as well as during active treatment phases. Andrew's experience with multiple PET scan denials from two separate insurance providers (Cigna and Aetna) despite having premium PPO coverage illustrates how these logistical challenges can directly impact care quality and timing.</p>
+                            <p>A comprehensive care orchestration platform that manages appointments, insurance navigation, and logistics coordination would address this significant pain point and allow patients to focus on their health rather than administrative tasks.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="insight-card">
+                        <h3 class="insight-title">Emotional &amp; Spiritual Support Deficit</h3>
+                        <div class="insight-content">
+                            <p>The journey map reveals significant emotional fluctuations throughout the patient experience, with particularly negative emotional states during diagnosis, active treatment, and before surveillance scans. Over 60% of rare cancer patients screen positive for anxiety or depression, yet emotional and spiritual support is often disconnected from medical care.</p>
+                            <p>Andrew's personal practice of blocking 30 minutes daily for meditation and scripture, along with working with breathing specialists and nutritionists, demonstrates the importance of holistic approaches to maintaining mental well-being during treatment.</p>
+                            <p>This insight suggests that integrating spiritual, meditation, and psychological support directly into the care platform—connected to the medical timeline—would address a critical gap in current care models and potentially improve both quality of life and treatment outcomes.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="insight-card">
+                        <h3 class="insight-title">Data Fragmentation &amp; Research Opportunity</h3>
+                        <div class="insight-content">
+                            <p>The journey map highlights how valuable patient data becomes fragmented across multiple systems, portals, and personal storage solutions. Andrew's experience of maintaining personal Google Drive folders with scans, labs, and diary notes—with no pathway to incorporate these into research—exemplifies this problem.</p>
+                            <p>This fragmentation not only complicates patient care but also represents a missed opportunity to accelerate rare disease research through real-world evidence (RWE). The global rare-disease RWE market is valued at $12 billion with an 18% CAGR, indicating significant demand for this data.</p>
+                            <p>RadiantCompass's vision of an ever-growing rare-disease knowledge graph that learns from each patient journey and provides de-identified, consented data to researchers addresses both the patient need for integrated records and the research community's need for comprehensive RWE.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="insight-card">
+                        <h3 class="insight-title">Personalized Communication Needs</h3>
+                        <div class="insight-content">
+                            <p>The journey map and persona analysis reveal that different stakeholders require distinctly different communication styles throughout the patient journey. The four identified personas—Patient, Primary Caregiver, Support Circle, and Outer Circle—each have unique information needs and preferred communication tones.</p>
+                            <p>Current solutions typically offer a one-size-fits-all approach to health communication, failing to address these varied needs. RadiantCompass's proposed tone and voice choices—Radical Optimist, Clinical Researcher, Just the Headlines, and Balanced Calm—represent an innovative approach to personalized health communication.</p>
+                            <p>This insight suggests that allowing users to toggle between different communication styles for different audiences would significantly improve information sharing and reduce both information overload and anxiety among the patient's support network.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="recommendations-section">
+                <div class="recommendations-container">
+                    <h2>Strategic Recommendations</h2>
+                    <p>Based on the journey map analysis, we recommend the following strategic priorities for RadiantCompass platform development:</p>
+                    
+                    <div class="recommendations-grid">
+                        <div class="recommendation-card">
+                            <h3 class="recommendation-title">Develop the Compare-My-Care™ Module First</h3>
+                            <div class="recommendation-content">
+                                <p>The journey map clearly shows that the "Research &amp; Compare-Care Phase" represents a critical decision point with significant pain points. Patients like Andrew struggle to objectively compare treatment centers while managing multiple patient portals and insurance considerations.</p>
+                                <p>Prioritize development of the Compare-My-Care™ tool that ranks hospitals by procedure volume, trial access, insurance fit, travel burden, and bedside culture. This addresses the immediate "Where do I even go?" question that patients face and provides clear differentiation from competitors.</p>
+                            </div>
+                        </div>
+                        
+                        <div class="recommendation-card">
+                            <h3 class="recommendation-title">Integrate Medical Translation AI</h3>
+                            <div class="recommendation-content">
+                                <p>The journey map highlights persistent challenges with medical jargon comprehension across multiple stages. Leverage the demonstrated success of using AI to convert complex pathology reports into plain language and develop this into a core platform feature.</p>
+                                <p>This translation capability should include pathology reports, treatment plans, clinical trial descriptions, and insurance documents. Each translation should be accompanied by a tailored consultation checklist to help patients get the most from provider interactions.</p>
+                            </div>
+                        </div>
+                        
+                        <div class="recommendation-card">
+                            <h3 class="recommendation-title">Build the Care-Circle Workspace</h3>
+                            <div class="recommendation-content">
+                                <p>The journey map reveals significant logistical burdens throughout the patient experience, particularly during insurance confirmation, treatment, and recovery phases. Develop the Care-Circle Workspace to orchestrate appointments, symptom alerts, insurance navigation, and support coordination.</p>
+                                <p>This workspace should support role-based access for different personas and include the personalized communication tone options identified in the journey analysis. Prioritize features that address insurance navigation, as this represents a high-severity pain point across multiple journey stages.</p>
+                            </div>
+                        </div>
+                        
+                        <div class="recommendation-card">
+                            <h3 class="recommendation-title">Integrate Faith &amp; Mind Studio</h3>
+                            <div class="recommendation-content">
+                                <p>The emotional journey map shows significant negative emotional states during diagnosis, treatment, and surveillance phases. Over 60% of rare cancer patients experience anxiety or depression, yet spiritual and emotional support is typically disconnected from medical care.</p>
+                                <p>Develop the Faith &amp; Mind Studio as a cross-cutting module that provides scripture, interfaith, or secular CBT support connected to the medical timeline. Include features for journaling, meditation guidance, and emotional tracking to address the "soul &amp; mind care left behind" problem identified in the journey.</p>
+                            </div>
+                        </div>
+                        
+                        <div class="recommendation-card">
+                            <h3 class="recommendation-title">Establish the Knowledge Graph Foundation</h3>
+                            <div class="recommendation-content">
+                                <p>The journey map highlights how valuable patient data becomes fragmented across systems and how this represents both a care coordination challenge and a missed research opportunity. Begin building the rare-disease knowledge graph that will learn from each patient journey and provide the foundation for the RWE Marketplace.</p>
+                                <p>Design this system with patient consent and data sharing controls from the beginning, and include the proposed 10% revenue-share model for patients who opt to share de-identified data with researchers. This addresses both immediate patient needs for data integration and long-term business model sustainability.</p>
+                            </div>
+                        </div>
+                        
+                        <div class="recommendation-card">
+                            <h3 class="recommendation-title">Implement Personalized Communication Styles</h3>
+                            <div class="recommendation-content">
+                                <p>The persona analysis reveals distinct communication needs across different stakeholders in the patient journey. Implement the proposed tone and voice choices (Radical Optimist, Clinical Researcher, Just the Headlines, Balanced Calm) as a core platform feature.</p>
+                                <p>This unique approach to personalized health communication addresses the varying information needs of different audience segments and represents a distinctive feature not offered by competitors. It also aligns with the emotional support needs identified throughout the journey map.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="footer-content">
+            <p>RadiantCompass™ Patient Journey Map</p>
+            <p>A comprehensive analysis of the rare disease patient experience</p>
+            <div class="footer-links">
+                <a href="https://localhost:8444/journey_maps/journey_map_b381e5e3-9192-4696-960d-4332c8eea796.html#" class="footer-link">Privacy Policy</a>
+                <a href="https://localhost:8444/journey_maps/journey_map_b381e5e3-9192-4696-960d-4332c8eea796.html#" class="footer-link">Terms of Service</a>
+                <a href="https://localhost:8444/journey_maps/journey_map_b381e5e3-9192-4696-960d-4332c8eea796.html#" class="footer-link">Contact</a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Collapsible sections
+        document.addEventListener('DOMContentLoaded', function() {
+            const collapsibleHeaders = document.querySelectorAll('.collapsible-header');
+            
+            collapsibleHeaders.forEach(header => {
+                header.addEventListener('click', function() {
+                    this.classList.toggle('active');
+                    const content = this.nextElementSibling;
+                    if (content.classList.contains('active')) {
+                        content.classList.remove('active');
+                        content.style.maxHeight = null;
+                    } else {
+                        content.classList.add('active');
+                        content.style.maxHeight = content.scrollHeight + 'px';
+                    }
+                });
+            });
+            
+            // Tabs functionality
+            const tabs = document.querySelectorAll('.tab');
+            const tabContents = document.querySelectorAll('.tab-content');
+            
+            tabs.forEach(tab => {
+                tab.addEventListener('click', function() {
+                    // Remove active class from all tabs
+                    tabs.forEach(t => t.classList.remove('active'));
+                    
+                    // Add active class to clicked tab
+                    this.classList.add('active');
+                    
+                    // Hide all tab contents
+                    tabContents.forEach(content => content.classList.remove('active'));
+                    
+                    // Show the corresponding tab content
+                    const tabId = this.getAttribute('data-tab');
+                    document.getElementById(tabId).classList.add('active');
+                });
+            });
+            
+            // Tooltips
+            const tooltips = document.querySelectorAll('.tooltip');
+            
+            tooltips.forEach(tooltip => {
+                tooltip.addEventListener('mouseenter', function() {
+                    const tooltipText = this.querySelector('.tooltip-text');
+                    tooltipText.style.visibility = 'visible';
+                    tooltipText.style.opacity = '1';
+                });
+                
+                tooltip.addEventListener('mouseleave', function() {
+                    const tooltipText = this.querySelector('.tooltip-text');
+                    tooltipText.style.visibility = 'hidden';
+                    tooltipText.style.opacity = '0';
+                });
+            });
+            
+            // Accessibility: Make sure all interactive elements are keyboard accessible
+            const interactiveElements = document.querySelectorAll('button, a, .tab, .collapsible-header');
+            
+            interactiveElements.forEach(element => {
+                if (!element.getAttribute('tabindex') && element.tagName !== 'A' && element.tagName !== 'BUTTON') {
+                    element.setAttribute('tabindex', '0');
+                }
+                
+                if (element.tagName !== 'A' && element.tagName !== 'BUTTON') {
+                    element.addEventListener('keydown', function(e) {
+                        if (e.key === 'Enter' || e.key === ' ') {
+                            e.preventDefault();
+                            this.click();
+                        }
+                    });
+                }
+            });
+        });
+    </script>
+
+<div style="text-align: center; margin-top: 20px; padding: 10px; font-size: 0.8em; color: #666;">
+  Generated with <strong>claude-3-7-sonnet-20250219</strong> on 2025-07-21
+</div>
+
+<script src="file:///Users/jonathanlupo/Library/Containers/com.microsoft.Outlook/Data/tmp/Outlook%20Temp/RadiantCompass%20Patient%20Journey%20Map_files/journey_export.js"></script>
+<script>
+// Journey Map Editing Functionality
+window.journeyMapId = '8261cbd2-d01a-4b6c-bc34-741722300c16';
+</script>
+<script src="file:///Users/jonathanlupo/Library/Containers/com.microsoft.Outlook/Data/tmp/Outlook%20Temp/RadiantCompass%20Patient%20Journey%20Map_files/journey_editor.js"></script>
+
+<div style="text-align: center; margin-top: 20px; padding: 10px; font-size: 0.8em; color: #666;">
+  Generated with <strong>claude-3-7-sonnet-20250219</strong> on 2025-07-21
+</div>
+
+<script src="file:///Users/jonathanlupo/Library/Containers/com.microsoft.Outlook/Data/tmp/Outlook%20Temp/RadiantCompass%20Patient%20Journey%20Map_files/journey_export.js"></script>
+<script>
+// Journey Map Editing Functionality
+window.journeyMapId = 'b381e5e3-9192-4696-960d-4332c8eea796';
+</script>
+<script src="file:///Users/jonathanlupo/Library/Containers/com.microsoft.Outlook/Data/tmp/Outlook%20Temp/RadiantCompass%20Patient%20Journey%20Map_files/journey_editor.js"></script>
+
+<div class="export-panel">
+      <div class="export-controls">
+          <button id="export-pdf" class="export-btn">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                  <polyline points="14 2 14 8 20 8"></polyline>
+                  <line x1="16" y1="13" x2="8" y2="13"></line>
+                  <line x1="16" y1="17" x2="8" y2="17"></line>
+                  <polyline points="10 9 9 9 8 9"></polyline>
+              </svg>
+              Export as PDF
+          </button>
+          <button id="export-print" class="export-btn">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <polyline points="6 9 6 2 18 2 18 9"></polyline>
+                  <path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path>
+                  <rect x="6" y="14" width="12" height="8"></rect>
+              </svg>
+              Print Journey Map
+          </button>
+          <button id="export-png" class="export-btn">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                  <circle cx="8.5" cy="8.5" r="1.5"></circle>
+                  <polyline points="21 15 16 10 5 21"></polyline>
+              </svg>
+              Save as Image
+          </button>
+          <div id="export-feedback" class="export-feedback"></div>
+      </div>
+  </div><button id="edit-mode-toggle" style="position: fixed; top: 20px; right: 20px; z-index: 1000; background: rgb(0, 123, 255); color: white; border: none; padding: 10px 15px; border-radius: 5px; cursor: pointer; font-size: 14px; box-shadow: rgba(0, 0, 0, 0.2) 0px 2px 5px; transition: 0.3s;">✏️ Edit Mode</button><div id="edit-control-panel" style="position: fixed; top: 70px; right: 20px; z-index: 1000; background: white; border: 1px solid rgb(204, 204, 204); border-radius: 5px; padding: 15px; box-shadow: rgba(0, 0, 0, 0.1) 0px 2px 10px; display: none; max-width: 250px;">
+            <div style="margin-bottom: 10px;">
+                <strong>Edit Mode Active</strong>
+                <button id="exit-edit-mode" style="float: right; background: #dc3545; color: white; border: none; padding: 5px 10px; border-radius: 3px; cursor: pointer;">
+                    Exit Edit Mode
+                </button>
+            </div>
+            <div id="edit-instructions" style="font-size: 12px; color: #666; margin-bottom: 10px;">
+                Click on text elements to edit them. Navigation and interactive elements remain functional.
+            </div>
+            <div id="selected-element-info" style="font-size: 12px; color: #333; margin-bottom: 10px;">
+                No element selected
+            </div>
+            <div id="edit-actions" style="display: none;">
+                <button id="delete-element" style="background: #dc3545; color: white; border: none; padding: 5px 10px; border-radius: 3px; cursor: pointer; margin-right: 5px;">
+                    Delete
+                </button>
+                <button id="duplicate-element" style="background: #28a745; color: white; border: none; padding: 5px 10px; border-radius: 3px; cursor: pointer;">
+                    Duplicate
+                </button>
+            </div>
+        </div></body></html>

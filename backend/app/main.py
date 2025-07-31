@@ -17,12 +17,13 @@ from app.models import (
     Message, MessageCreate, MessageRead,
     AgentSession, AgentSessionCreate, AgentSessionRead, AgentSessionUpdate
 )
+from app.routes import awareness
 
 # Create FastAPI app
 app = FastAPI(
-    title="AI Assistant Backend",
-    description="Backend API for AI Assistant Template with CopilotKit integration",
-    version="0.1.0",
+    title="RadiantCompass Patient Journey API",
+    description="Backend API for RadiantCompass Patient Journey Platform with AI-powered guidance",
+    version="1.0.0",
     docs_url="/docs",
     redoc_url="/redoc"
 )
@@ -39,6 +40,9 @@ app.add_middleware(
 # Security
 security = HTTPBearer()
 
+# Include routers
+app.include_router(awareness.router)
+
 @app.on_event("startup")
 async def on_startup():
     """Initialize database on startup"""
@@ -53,15 +57,15 @@ async def on_shutdown():
 @app.get("/health")
 async def health_check():
     """Health check endpoint"""
-    return {"status": "healthy", "service": "ai-assistant-backend"}
+    return {"status": "healthy", "service": "radiantcompass-patient-journey-api"}
 
 # Root endpoint
 @app.get("/")
 async def root():
     """Root endpoint with API information"""
     return {
-        "message": "AI Assistant Backend API",
-        "version": "0.1.0",
+        "message": "RadiantCompass Patient Journey API",
+        "version": "1.0.0",
         "docs": "/docs",
         "health": "/health"
     }

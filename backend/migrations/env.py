@@ -11,7 +11,14 @@ from alembic import context
 sys.path.insert(0, os.path.dirname(os.path.dirname(__file__)))
 
 # Import models for autogenerate support
-from app.models import User, Conversation, Message, AgentSession
+from app.models import (
+    User, Conversation, Message, AgentSession,
+    # RadiantCompass models
+    PatientProfile, MedicalCondition, CareTeam, CareTeamMember,
+    JourneyProgress, Treatment, SymptomEntry, Appointment,
+    CarePlan, PeerStory, ResourceLibrary, InsuranceInfo,
+    MentalHealthCheckIn, AIGeneratedContent
+)
 from sqlmodel import SQLModel
 
 # this is the Alembic Config object, which provides

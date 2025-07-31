@@ -1,0 +1,407 @@
+/* RadiantCompass Design System - Clean, Sunny, Radiant */
+
+/* Import modern fonts */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Roboto:wght@300;400;500;700&display=swap');
+
+:root {
+  /* RadiantCompass Brand Colors - Sunny & Warm */
+  --radiant-primary: #f59e0b;      /* Golden Sun */
+  --radiant-primary-light: #fbbf24; /* Light Golden */
+  --radiant-primary-dark: #d97706;  /* Deep Golden */
+  --radiant-secondary: #fb923c;     /* Warm Orange */
+  --radiant-accent: #fef3c7;        /* Soft Cream */
+  
+  /* Supporting Colors - Clean & Fresh */
+  --radiant-success: #10b981;       /* Fresh Green */
+  --radiant-info: #3b82f6;          /* Clear Blue */
+  --radiant-warning: #f59e0b;       /* Golden Warning */
+  --radiant-danger: #ef4444;        /* Soft Red */
+  
+  /* Neutral Palette - Clean & Airy */
+  --radiant-white: #ffffff;
+  --radiant-gray-50: #f9fafb;
+  --radiant-gray-100: #f3f4f6;
+  --radiant-gray-200: #e5e7eb;
+  --radiant-gray-300: #d1d5db;
+  --radiant-gray-400: #9ca3af;
+  --radiant-gray-500: #6b7280;
+  --radiant-gray-600: #4b5563;
+  --radiant-gray-700: #374151;
+  --radiant-gray-800: #1f2937;
+  --radiant-gray-900: #111827;
+  
+  /* Gradients - Radiant & Sunny */
+  --radiant-gradient-primary: linear-gradient(135deg, #f59e0b 0%, #fb923c 100%);
+  --radiant-gradient-light: linear-gradient(135deg, #fef3c7 0%, #fed7aa 100%);
+  --radiant-gradient-warm: linear-gradient(135deg, #fff7ed 0%, #fed7aa 50%, #fb923c 100%);
+  --radiant-gradient-hero: linear-gradient(135deg, #fbbf24 0%, #f59e0b 50%, #fb923c 100%);
+  
+  /* Typography - Clean & Modern */
+  --radiant-font-primary: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --radiant-font-secondary: 'Roboto', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  
+  /* Font Sizes - Harmonious Scale */
+  --radiant-text-xs: 0.75rem;     /* 12px */
+  --radiant-text-sm: 0.875rem;    /* 14px */
+  --radiant-text-base: 1rem;      /* 16px */
+  --radiant-text-lg: 1.125rem;    /* 18px */
+  --radiant-text-xl: 1.25rem;     /* 20px */
+  --radiant-text-2xl: 1.5rem;     /* 24px */
+  --radiant-text-3xl: 1.875rem;   /* 30px */
+  --radiant-text-4xl: 2.25rem;    /* 36px */
+  --radiant-text-5xl: 3rem;       /* 48px */
+  
+  /* Shadows - Soft & Elegant */
+  --radiant-shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  --radiant-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+  --radiant-shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  --radiant-shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  --radiant-shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  --radiant-shadow-glow: 0 0 20px rgba(245, 158, 11, 0.3);
+  
+  /* Border Radius - Friendly & Modern */
+  --radiant-radius-sm: 0.25rem;    /* 4px */
+  --radiant-radius: 0.375rem;      /* 6px */
+  --radiant-radius-md: 0.5rem;     /* 8px */
+  --radiant-radius-lg: 0.75rem;    /* 12px */
+  --radiant-radius-xl: 1rem;       /* 16px */
+  --radiant-radius-full: 9999px;   /* Full circle */
+  
+  /* Transitions - Smooth & Natural */
+  --radiant-transition: all 0.2s ease-in-out;
+  --radiant-transition-slow: all 0.3s ease-in-out;
+  
+  /* Spacing Scale - Harmonious */
+  --radiant-space-1: 0.25rem;   /* 4px */
+  --radiant-space-2: 0.5rem;    /* 8px */
+  --radiant-space-3: 0.75rem;   /* 12px */
+  --radiant-space-4: 1rem;      /* 16px */
+  --radiant-space-5: 1.25rem;   /* 20px */
+  --radiant-space-6: 1.5rem;    /* 24px */
+  --radiant-space-8: 2rem;      /* 32px */
+  --radiant-space-10: 2.5rem;   /* 40px */
+  --radiant-space-12: 3rem;     /* 48px */
+  --radiant-space-16: 4rem;     /* 64px */
+  --radiant-space-20: 5rem;     /* 80px */
+}
+
+/* Base Styles */
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: var(--radiant-font-primary);
+  line-height: 1.6;
+  color: var(--radiant-gray-800);
+  background-color: var(--radiant-white);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* RadiantCompass Logo Component */
+.radiant-logo {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--radiant-space-3);
+  font-weight: 700;
+  font-size: var(--radiant-text-xl);
+  color: var(--radiant-gray-800);
+  text-decoration: none;
+  transition: var(--radiant-transition);
+}
+
+.radiant-logo:hover {
+  transform: translateY(-1px);
+  color: var(--radiant-primary);
+}
+
+.radiant-logo-icon {
+  width: 32px;
+  height: 32px;
+  background: var(--radiant-gradient-primary);
+  border-radius: var(--radiant-radius-full);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  box-shadow: var(--radiant-shadow-sm);
+}
+
+.radiant-logo-icon::before {
+  content: '';
+  position: absolute;
+  width: 16px;
+  height: 16px;
+  background: var(--radiant-white);
+  border-radius: var(--radiant-radius-full);
+  border: 2px solid var(--radiant-primary-dark);
+}
+
+.radiant-logo-icon::after {
+  content: '';
+  position: absolute;
+  width: 24px;
+  height: 24px;
+  background: conic-gradient(from 0deg, transparent 0deg, var(--radiant-primary-light) 45deg, transparent 90deg);
+  border-radius: var(--radiant-radius-full);
+  animation: spin 20s linear infinite;
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+/* Button Components */
+.radiant-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--radiant-space-2);
+  padding: var(--radiant-space-3) var(--radiant-space-6);
+  font-family: var(--radiant-font-primary);
+  font-weight: 500;
+  font-size: var(--radiant-text-base);
+  line-height: 1.5;
+  border: none;
+  border-radius: var(--radiant-radius-md);
+  cursor: pointer;
+  transition: var(--radiant-transition);
+  text-decoration: none;
+  outline: none;
+  position: relative;
+  overflow: hidden;
+}
+
+.radiant-btn:focus {
+  box-shadow: 0 0 0 3px rgba(245, 158, 11, 0.3);
+}
+
+.radiant-btn-primary {
+  background: var(--radiant-gradient-primary);
+  color: var(--radiant-white);
+  box-shadow: var(--radiant-shadow);
+}
+
+.radiant-btn-primary:hover {
+  transform: translateY(-1px);
+  box-shadow: var(--radiant-shadow-lg), var(--radiant-shadow-glow);
+}
+
+.radiant-btn-secondary {
+  background: var(--radiant-white);
+  color: var(--radiant-gray-700);
+  border: 1px solid var(--radiant-gray-300);
+  box-shadow: var(--radiant-shadow-sm);
+}
+
+.radiant-btn-secondary:hover {
+  background: var(--radiant-gray-50);
+  border-color: var(--radiant-primary);
+  color: var(--radiant-primary);
+}
+
+.radiant-btn-ghost {
+  background: transparent;
+  color: var(--radiant-gray-600);
+  border: 1px solid transparent;
+}
+
+.radiant-btn-ghost:hover {
+  background: var(--radiant-gray-50);
+  color: var(--radiant-primary);
+}
+
+/* Card Components */
+.radiant-card {
+  background: var(--radiant-white);
+  border-radius: var(--radiant-radius-lg);
+  box-shadow: var(--radiant-shadow);
+  border: 1px solid var(--radiant-gray-200);
+  overflow: hidden;
+  transition: var(--radiant-transition);
+}
+
+.radiant-card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--radiant-shadow-lg);
+  border-color: var(--radiant-primary-light);
+}
+
+.radiant-card-header {
+  padding: var(--radiant-space-6);
+  border-bottom: 1px solid var(--radiant-gray-200);
+  background: var(--radiant-gradient-light);
+}
+
+.radiant-card-body {
+  padding: var(--radiant-space-6);
+}
+
+.radiant-card-footer {
+  padding: var(--radiant-space-4) var(--radiant-space-6);
+  border-top: 1px solid var(--radiant-gray-200);
+  background: var(--radiant-gray-50);
+}
+
+/* Journey Stage Pills */
+.radiant-stage-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--radiant-space-2);
+  padding: var(--radiant-space-2) var(--radiant-space-4);
+  background: var(--radiant-gradient-light);
+  border: 1px solid var(--radiant-primary-light);
+  border-radius: var(--radiant-radius-full);
+  font-size: var(--radiant-text-sm);
+  font-weight: 500;
+  color: var(--radiant-primary-dark);
+  box-shadow: var(--radiant-shadow-sm);
+}
+
+.radiant-stage-pill::before {
+  content: '';
+  width: 8px;
+  height: 8px;
+  background: var(--radiant-primary);
+  border-radius: var(--radiant-radius-full);
+  box-shadow: 0 0 8px rgba(245, 158, 11, 0.5);
+}
+
+/* Progress Bar */
+.radiant-progress {
+  width: 100%;
+  height: 8px;
+  background: var(--radiant-gray-200);
+  border-radius: var(--radiant-radius-full);
+  overflow: hidden;
+  position: relative;
+}
+
+.radiant-progress-bar {
+  height: 100%;
+  background: var(--radiant-gradient-primary);
+  border-radius: var(--radiant-radius-full);
+  transition: width 0.5s ease-in-out;
+  position: relative;
+}
+
+.radiant-progress-bar::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+  animation: shimmer 2s infinite;
+}
+
+@keyframes shimmer {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
+}
+
+/* Status Indicators */
+.radiant-status {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--radiant-space-2);
+  padding: var(--radiant-space-1) var(--radiant-space-3);
+  border-radius: var(--radiant-radius-full);
+  font-size: var(--radiant-text-sm);
+  font-weight: 500;
+}
+
+.radiant-status-success {
+  background: rgba(16, 185, 129, 0.1);
+  color: var(--radiant-success);
+  border: 1px solid rgba(16, 185, 129, 0.2);
+}
+
+.radiant-status-warning {
+  background: rgba(245, 158, 11, 0.1);
+  color: var(--radiant-warning);
+  border: 1px solid rgba(245, 158, 11, 0.2);
+}
+
+.radiant-status-info {
+  background: rgba(59, 130, 246, 0.1);
+  color: var(--radiant-info);
+  border: 1px solid rgba(59, 130, 246, 0.2);
+}
+
+/* Typography */
+.radiant-heading-1 {
+  font-size: var(--radiant-text-4xl);
+  font-weight: 800;
+  line-height: 1.2;
+  color: var(--radiant-gray-900);
+  margin-bottom: var(--radiant-space-6);
+}
+
+.radiant-heading-2 {
+  font-size: var(--radiant-text-3xl);
+  font-weight: 700;
+  line-height: 1.3;
+  color: var(--radiant-gray-800);
+  margin-bottom: var(--radiant-space-4);
+}
+
+.radiant-heading-3 {
+  font-size: var(--radiant-text-2xl);
+  font-weight: 600;
+  line-height: 1.4;
+  color: var(--radiant-gray-800);
+  margin-bottom: var(--radiant-space-3);
+}
+
+.radiant-text-gradient {
+  background: var(--radiant-gradient-primary);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Layout Components */
+.radiant-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 var(--radiant-space-4);
+}
+
+.radiant-section {
+  padding: var(--radiant-space-16) 0;
+}
+
+.radiant-grid {
+  display: grid;
+  gap: var(--radiant-space-6);
+}
+
+.radiant-grid-2 {
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+}
+
+.radiant-grid-3 {
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+}
+
+/* Responsive Utilities */
+@media (max-width: 768px) {
+  .radiant-heading-1 {
+    font-size: var(--radiant-text-3xl);
+  }
+  
+  .radiant-heading-2 {
+    font-size: var(--radiant-text-2xl);
+  }
+  
+  .radiant-section {
+    padding: var(--radiant-space-12) 0;
+  }
+  
+  .radiant-container {
+    padding: 0 var(--radiant-space-4);
+  }
+}

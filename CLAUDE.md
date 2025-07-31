@@ -1,12 +1,14 @@
-# Claude Memory - NXT Humans Internal Solutions Template
+# CLAUDE.md
 
-This repository is a production-ready template for building AI-powered applications using modern best practices. It provides developers with a comprehensive foundation for FastAPI + React + AI agents using CopilotKit CoAgents with LangGraph.
+This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
-## Quick Context
+## Project Overview
 
-**Project Type**: Internal Solutions Template for NXT Humans
+**Project Name**: Radiant Compass - AI-Powered Patient Journey Mapping
 **Stack**: FastAPI (backend) + React (frontend) + CopilotKit CoAgents (AI runtime) + PostgreSQL + Docker
-**Purpose**: Accelerate development of AI-powered internal tools and applications
+**Purpose**: AI assistant for healthcare patient journey mapping and analysis, built using NXT Humans' production template
+
+This repository implements an AI-powered solution for RadiantCompass patient journey mapping, leveraging the NXT Humans internal solutions template architecture.
 
 ## Essential Documentation References
 
@@ -124,58 +126,102 @@ make docs-restart        # Restart documentation service
 
 ## Development Workflow
 
-1. **Start services**: `make up` or `docker compose up -d`
-2. **Run migrations**: `make backend-migrate`
-3. **Access applications**:
+1. **Environment setup**: `cp .env.example .env` and configure API keys
+2. **Start services**: `make up` or `docker compose up -d`  
+3. **Run migrations**: `make backend-migrate`
+4. **Access applications**:
    - Frontend: http://localhost:3000
    - Backend API: http://localhost:8000/docs
    - CoAgent Runtime: http://localhost:4000/health
    - Documentation: http://localhost:8090
 
+### Current Implementation Status
+- ✅ **Backend**: FastAPI with SQLModel, complete CRUD operations for Users, Conversations, Messages, and AgentSessions
+- ✅ **Database**: PostgreSQL with Alembic migrations configured
+- ✅ **Frontend**: React 19 + Vite 6 + TypeScript + TailwindCSS with CopilotKit integration
+- ✅ **CoAgent Runtime**: Express server with OpenAI adapter for CopilotKit
+- ✅ **Docker**: Multi-stage builds for all services with health checks
+- ✅ **Documentation**: MkDocs with comprehensive guides
+
 ## Key Implementation Details
 
 ### Database Models Pattern
+The backend implements comprehensive models for AI conversation management:
 ```python
-from typing import Optional
-from sqlmodel import SQLModel, Field
-
+# Key models: User, Conversation, Message, AgentSession
 class User(SQLModel, table=True):
     id: Optional[int] = Field(default=None, primary_key=True)
     email: str = Field(unique=True, index=True)
-    name: str
+    username: str = Field(unique=True, index=True)
+    full_name: Optional[str] = None
+    is_active: bool = True
+    hashed_password: str
 
-class UserCreate(SQLModel):
-    email: str
-    name: str
+class Conversation(SQLModel, table=True):
+    id: Optional[int] = Field(default=None, primary_key=True)
+    title: str
+    status: str = "active"
+    user_id: int = Field(foreign_key="user.id")
+    created_at: datetime = Field(default_factory=datetime.utcnow)
+
+class AgentSession(SQLModel, table=True):
+    id: Optional[int] = Field(default=None, primary_key=True)
+    agent_name: str
+    status: str = "idle"  # idle, running, completed, error
+    current_step: Optional[str] = None
+    state_data: Optional[Dict] = Field(default=None, sa_column=Column(JSON))
+    result_data: Optional[Dict] = Field(default=None, sa_column=Column(JSON))
 ```
 
-### Agent Integration Pattern
+### CoAgent Runtime Implementation
+Currently implements a minimal OpenAI adapter setup:
 ```typescript
-// CoAgent runtime with LangGraph
-const copilotKitRuntime = new CopilotRuntime({
-  agents: [
-    new LangGraphAgent({
-      name: "research_agent",
-      description: "AI research assistant with web search",
-      agent: researchAgent,
-    })
-  ]
+// src/index.ts - Basic OpenAI integration
+const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
+const serviceAdapter = new OpenAIAdapter({ openai: openai as any });
+const runtime = new CopilotRuntime();
+
+app.use('/copilotkit', (req, res, next) => {
+  const handler = copilotRuntimeNodeHttpEndpoint({
+    endpoint: '/copilotkit',
+    runtime,
+    serviceAdapter,
+  });
+  return handler({ request: req } as any, res, next);
 });
 ```
 
-### React Integration Pattern
+**Note**: LangGraph agent implementation is planned but not yet implemented. Current setup provides basic ChatGPT integration through CopilotKit.
+
+### React Frontend Architecture
+Built with React 19, TypeScript, and CopilotKit integration:
 ```tsx
-<CopilotKit runtimeUrl="http://localhost:4000/copilotkit">
-  <CopilotSidebar
-    labels={{
-      title: "AI Research Assistant",
-      initial: "Hi! I can help you research any topic.",
-    }}
-  >
-    <YourMainApp />
-  </CopilotSidebar>
-</CopilotKit>
+// App.tsx - Main application with AI sidebar
+function App() {
+  const runtimeUrl = import.meta.env.VITE_COPILOT_RUNTIME_URL || "http://localhost:4000/copilotkit";
+
+  return (
+    <CopilotKit runtimeUrl={runtimeUrl}>
+      <AppStateProvider>
+        <CopilotSidebar
+          labels={{
+            title: "AI Research Assistant",
+            initial: "Hi! I can help you research any topic...",
+          }}
+          defaultOpen={true}
+          className="h-screen"
+        >
+          <main className="flex-1 p-6 h-full bg-gradient-to-br from-blue-50 to-indigo-100">
+            {/* Main application content */}
+          </main>
+        </CopilotSidebar>
+      </AppStateProvider>
+    </CopilotKit>
+  );
+}
 ```
+
+**Key Features**: AgentStatusDisplay component, AppStateProvider for shared state, responsive design with TailwindCSS.
 
 ## Deployment
 
@@ -184,11 +230,36 @@ const copilotKitRuntime = new CopilotRuntime({
 - **Environment variables**: All secrets managed via GitHub organization secrets
 - **Multi-container**: Backend, frontend, coagent-runtime, and docs services
 
+## Important Development Notes
+
+### Package Management
+- **Backend**: Uses `pyproject.toml` instead of Poetry lock file (mixed Poetry/pip approach)
+- **Frontend**: React 19 with Vite 6 and modern TypeScript config
+- **CoAgent Runtime**: Basic Node.js setup with CopilotKit runtime
+
+### Testing Setup
+- **Backend**: pytest available via dev dependencies
+- **Frontend**: No testing framework configured yet
+- **Integration**: Manual testing via health check endpoints
+
+### Key Files to Understand
+- `backend/app/main.py`: Complete FastAPI application with all CRUD endpoints (lines 70-291)
+- `frontend/src/App.tsx`: React application with CopilotKit sidebar integration
+- `coagent-runtime/src/index.ts`: Express server with OpenAI adapter
+- `compose.yml`: Multi-service Docker configuration with health checks
+- `Makefile`: Comprehensive development commands for all services
+
+### RadiantCompass Context
+The `radiant requirements/` folder contains project-specific documentation:
+- Patient journey mapping HTML/PDF files
+- Requirements documentation for healthcare AI assistant
+- Suggests focus on patient experience analysis and journey visualization
+
 ## Code Quality Standards
 
-- **Python**: autoflake, autopep8, ruff, isort, pylint with 88-char line length
-- **TypeScript**: ESLint with React hooks and accessibility rules
-- **Security**: Non-root containers, no hardcoded secrets, proper CORS
-- **Testing**: pytest for backend, containerized test execution
+- **Python**: autoflake, autopep8, ruff, isort, pylint with 88-char line length (configured in pyproject.toml)
+- **Frontend**: ESLint with React 19 + TypeScript rules
+- **Security**: Non-root containers, environment-based secrets, CORS configured
+- **Database**: Async SQLModel with proper foreign key relationships
 
-This template accelerates development of AI-powered internal tools while following NXT Humans' established best practices for security, scalability, and maintainability.
+This implementation provides a solid foundation for RadiantCompass patient journey mapping with modern AI integration capabilities.

@@ -22,8 +22,9 @@ WORKDIR /app
 # Copy Poetry configuration
 COPY backend/pyproject.toml backend/poetry.lock ./
 
-# Configure Poetry: Don't create virtual environment, install dependencies
+# Configure Poetry: Don't create virtual environment, regenerate lock, install dependencies
 RUN poetry config virtualenvs.create false \
+    && poetry lock \
     && poetry install --only=main --no-root --no-interaction --no-ansi
 
 # Production stage
@@ -52,9 +53,7 @@ COPY --from=builder /usr/local/bin /usr/local/bin
 # Copy application code
 COPY backend/app ./app
 COPY backend/alembic.ini ./
-
-# Create migrations directory if it doesn't exist
-RUN mkdir -p migrations
+COPY backend/migrations ./migrations
 
 # Change ownership to appuser
 RUN chown -R appuser:appuser /app
