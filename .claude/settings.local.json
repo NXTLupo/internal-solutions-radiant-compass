@@ -1,4 +1,5 @@
 {
+  "$schema": "https://json.schemastore.org/claude-code-settings.json",
   "permissions": {
     "allow": [
       "WebFetch(domain:fastapi.tiangolo.com)",
@@ -33,9 +34,10 @@
       "Bash(npm run lint)",
       "Bash(npm ls:*)",
       "WebFetch(domain:docs.cursor.com)",
-      "Bash(make:*)"
+      "Bash(make:*)",
+      "Bash(git push:*)",
+      "Bash(git remote set-url:*)"
     ],
     "deny": []
-  },
-  "$schema": "https://json.schemastore.org/claude-code-settings.json"
+  }
 }

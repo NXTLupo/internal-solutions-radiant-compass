@@ -1,6 +1,12 @@
 import React, { useState } from 'react';
 import { RadiantLogo } from './RadiantLogo';
 import { AwarenessOrientation } from './stages/AwarenessOrientation';
+import { OrganizePlan } from './stages/OrganizePlan';
+import { ExploreDecide } from './stages/ExploreDecide';
+import { CoordinateCommit } from './stages/CoordinateCommit';
+import { UndergoTreatment } from './stages/UndergoTreatment';
+import { EarlyRecovery } from './stages/EarlyRecovery';
+import { LongTermLiving } from './stages/LongTermLiving';
 
 interface JourneyStage {
   id: string;
@@ -138,6 +144,24 @@ export const RadiantDashboard: React.FC = () => {
   if (showStageDetail === 'awareness') {
     return <AwarenessOrientation onBackToDashboard={() => setShowStageDetail(null)} />;
   }
+  if (showStageDetail === 'organize') {
+    return <OrganizePlan onBackToDashboard={() => setShowStageDetail(null)} />;
+  }
+  if (showStageDetail === 'explore') {
+    return <ExploreDecide onBackToDashboard={() => setShowStageDetail(null)} />;
+  }
+  if (showStageDetail === 'coordinate') {
+    return <CoordinateCommit onBackToDashboard={() => setShowStageDetail(null)} />;
+  }
+  if (showStageDetail === 'treatment') {
+    return <UndergoTreatment onBackToDashboard={() => setShowStageDetail(null)} />;
+  }
+  if (showStageDetail === 'recovery') {
+    return <EarlyRecovery onBackToDashboard={() => setShowStageDetail(null)} />;
+  }
+  if (showStageDetail === 'longterm') {
+    return <LongTermLiving onBackToDashboard={() => setShowStageDetail(null)} />;
+  }
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-orange-50 via-amber-50 to-yellow-50">
@@ -221,9 +245,7 @@ export const RadiantDashboard: React.FC = () => {
                    'bg-white'}`}
                 onClick={() => {
                   setActiveStage(stage.id);
-                  if (stage.id === 'awareness') {
-                    setShowStageDetail('awareness');
-                  }
+                  setShowStageDetail(stage.id);
                 }}
               >
                 {/* Progress indicator */}
@@ -270,9 +292,7 @@ export const RadiantDashboard: React.FC = () => {
                     <button 
                       onClick={(e) => {
                         e.stopPropagation();
-                        if (stage.id === 'awareness') {
-                          setShowStageDetail('awareness');
-                        }
+                        setShowStageDetail(stage.id);
                       }}
                       className="w-full border border-gray-300 text-gray-700 py-2 px-4 rounded-md text-sm font-medium hover:border-orange-300 hover:text-orange-600 transition-all duration-200"
                     >
@@ -284,9 +304,7 @@ export const RadiantDashboard: React.FC = () => {
                     <button 
                       onClick={(e) => {
                         e.stopPropagation();
-                        if (stage.id === 'awareness') {
-                          setShowStageDetail('awareness');
-                        }
+                        setShowStageDetail(stage.id);
                       }}
                       className="w-full flex items-center justify-center text-green-600 text-sm font-medium hover:text-green-700 transition-all duration-200"
                     >

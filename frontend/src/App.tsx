@@ -1,8 +1,7 @@
 import { CopilotKit } from "@copilotkit/react-core";
 import { CopilotSidebar } from "@copilotkit/react-ui";
-import { AgentStatusDisplay } from "./components/AgentStatusDisplay";
 import { AppStateProvider } from "./components/AppStateProvider";
-import { RadiantDashboard } from "./components/RadiantDashboard";
+import { PatientDashboard } from "./components/PatientDashboard";
 import "@copilotkit/react-ui/styles.css";
 import "./styles/radiant-design-system.css";
 import "./App.css";
@@ -15,14 +14,14 @@ function App() {
       <AppStateProvider>
         <CopilotSidebar
           labels={{
-            title: "RadiantCompass AI Assistant",
-            initial: "Hi! I'm your RadiantCompass AI assistant. I'm here to support you through every stage of your healthcare journey. I can help you understand your condition, connect with resources, track symptoms, and provide personalized guidance. What would you like to know?",
+            title: "Your Health Assistant",
+            initial: "Hi! I'm here to help you understand your condition and guide you through your health journey. You can ask me anything - I'll explain things in simple terms. What would you like to know?",
           }}
           defaultOpen={false}
           className="h-screen"
           clickOutsideToClose={true}
         >
-          <RadiantDashboard />
+          <PatientDashboard />
         </CopilotSidebar>
       </AppStateProvider>
     </CopilotKit>
