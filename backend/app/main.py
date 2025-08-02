@@ -17,7 +17,7 @@ from app.models import (
     Message, MessageCreate, MessageRead,
     AgentSession, AgentSessionCreate, AgentSessionRead, AgentSessionUpdate
 )
-from app.routes import awareness
+from app.routes import awareness, ai_chat, ultra_low_latency, videosdk, tts_comparison
 
 # Create FastAPI app
 app = FastAPI(
@@ -31,7 +31,7 @@ app = FastAPI(
 # Configure CORS
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:5173", "http://localhost:3000"],  # Frontend URLs
+    allow_origins=["http://localhost:5173", "http://localhost:3000", "http://localhost:9502"],  # Frontend URLs
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -42,6 +42,10 @@ security = HTTPBearer()
 
 # Include routers
 app.include_router(awareness.router)
+app.include_router(ai_chat.router)
+app.include_router(ultra_low_latency.router)
+app.include_router(tts_comparison.router)
+app.include_router(videosdk.router)
 
 @app.on_event("startup")
 async def on_startup():

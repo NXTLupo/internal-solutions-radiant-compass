@@ -2,13 +2,18 @@ import React, { useState } from 'react';
 import { RadiantLogo } from './RadiantLogo';
 import { LearnCondition } from './patient/LearnCondition';
 import { QuickCheckin } from './patient/QuickCheckin';
+import { UltraFastVoiceChat } from './UltraFastVoiceChat';
 
 interface PatientDashboardProps {}
 
 export const PatientDashboard: React.FC<PatientDashboardProps> = () => {
-  const [currentView, setCurrentView] = useState<'dashboard' | 'learn' | 'checkin'>('dashboard');
+  const [currentView, setCurrentView] = useState<'dashboard' | 'learn' | 'checkin' | 'maya'>('maya');
 
   // Show specific patient views
+  if (currentView === 'maya') {
+    return <UltraFastVoiceChat onNavigateHome={() => setCurrentView('dashboard')} />;
+  }
+  
   if (currentView === 'learn') {
     return <LearnCondition onBack={() => setCurrentView('dashboard')} />;
   }
@@ -111,11 +116,14 @@ export const PatientDashboard: React.FC<PatientDashboardProps> = () => {
             </div>
 
             <div className="bg-white rounded-2xl p-6 shadow-sm border border-orange-100 hover:shadow-md transition-all duration-200">
-              <div className="text-4xl mb-4">❓</div>
-              <h3 className="text-lg font-semibold text-gray-900 mb-2">Ask Questions</h3>
-              <p className="text-gray-600 mb-4">Get answers to your questions in simple, easy-to-understand language.</p>
-              <button className="text-orange-600 font-medium hover:text-orange-700">
-                Ask AI Assistant →
+              <div className="text-4xl mb-4">👩‍⚕️</div>
+              <h3 className="text-lg font-semibold text-gray-900 mb-2">Talk to Dr. Maya</h3>
+              <p className="text-gray-600 mb-4">Voice chat with your AI healthcare companion for personalized guidance.</p>
+              <button 
+                onClick={() => setCurrentView('maya')}
+                className="text-orange-600 font-medium hover:text-orange-700"
+              >
+                Start Voice Chat →
               </button>
             </div>
 

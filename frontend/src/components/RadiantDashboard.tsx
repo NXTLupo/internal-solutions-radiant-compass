@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { RadiantLogo } from './RadiantLogo';
+import { UltraFastVoiceChat } from './UltraFastVoiceChat';
 import { AwarenessOrientation } from './stages/AwarenessOrientation';
 import { OrganizePlan } from './stages/OrganizePlan';
 import { ExploreDecide } from './stages/ExploreDecide';
@@ -113,9 +114,9 @@ const quickActions: QuickAction[] = [
     action: 'connect-peers'
   },
   {
-    title: 'Ask Your AI Assistant',
-    description: 'Get personalized guidance and support',
-    icon: '🤖',
+    title: 'Talk with Dr. Maya',
+    description: 'Voice chat with your AI healthcare companion',
+    icon: '🎤',
     action: 'ai-assistant'
   }
 ];
@@ -123,6 +124,29 @@ const quickActions: QuickAction[] = [
 export const RadiantDashboard: React.FC = () => {
   const [activeStage, setActiveStage] = useState<string>('organize');
   const [showStageDetail, setShowStageDetail] = useState<string | null>(null);
+  const [showDrMayaChat, setShowDrMayaChat] = useState<boolean>(false);
+
+  const handleQuickAction = (actionType: string) => {
+    switch (actionType) {
+      case 'ai-assistant':
+        setShowDrMayaChat(true);
+        break;
+      case 'log-symptoms':
+        // Handle symptom logging
+        console.log('Opening symptom tracker...');
+        break;
+      case 'schedule-appointment':
+        // Handle appointment scheduling
+        console.log('Opening appointment scheduler...');
+        break;
+      case 'connect-peers':
+        // Handle peer connection
+        console.log('Opening peer community...');
+        break;
+      default:
+        console.log('Unhandled action:', actionType);
+    }
+  };
 
   const getStatusColor = (status: string) => {
     switch (status) {
@@ -139,6 +163,11 @@ export const RadiantDashboard: React.FC = () => {
       default: return 'Not Started';
     }
   };
+
+  // Show Dr. Maya ultra-fast voice chat if selected
+  if (showDrMayaChat) {
+    return <UltraFastVoiceChat onNavigateHome={() => setShowDrMayaChat(false)} />;
+  }
 
   // Show stage detail view if selected
   if (showStageDetail === 'awareness') {
@@ -202,6 +231,7 @@ export const RadiantDashboard: React.FC = () => {
             {quickActions.map((action, index) => (
               <div
                 key={index}
+                onClick={() => handleQuickAction(action.action)}
                 className={`p-4 rounded-lg border cursor-pointer transition-all duration-200 hover:shadow-md hover:-translate-y-1 ${
                   action.urgent 
                     ? 'bg-gradient-to-r from-amber-100 to-orange-100 border-orange-300 ring-2 ring-orange-200' 
