@@ -6,7 +6,7 @@ import {
   copilotRuntimeNodeHttpEndpoint 
 } from '@copilotkit/runtime';
 import OpenAI from 'openai';
-import { awarenessTools } from './tools/awarenessTools';
+import { awarenessTools } from './tools/awarenessTools.js';
 
 const app = express();
 const port = process.env.PORT || 4000;
@@ -37,14 +37,11 @@ app.get('/health', (req, res) => {
 });
 
 // CopilotKit endpoint
-app.use('/copilotkit', (req, res, next) => {
-  const handler = copilotRuntimeNodeHttpEndpoint({
-    endpoint: '/copilotkit',
-    runtime,
-    serviceAdapter,
-  });
-  return handler({ request: req } as any, res, next);
-});
+app.use('/copilotkit', copilotRuntimeNodeHttpEndpoint({
+  endpoint: '/copilotkit',
+  runtime,
+  serviceAdapter,
+}));
 
 app.listen(port, () => {
   console.log(`🌅 RadiantCompass CoAgent Runtime listening at http://localhost:${port}`);

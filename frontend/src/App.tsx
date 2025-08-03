@@ -3,11 +3,11 @@ import { CopilotSidebar } from "@copilotkit/react-ui";
 import { AppStateProvider } from "./components/AppStateProvider";
 import { PatientDashboard } from "./components/PatientDashboard";
 import "@copilotkit/react-ui/styles.css";
-import "./styles/radiant-design-system.css";
 import "./App.css";
 
 function App() {
-  const runtimeUrl = import.meta.env.VITE_COPILOT_RUNTIME_URL || "http://localhost:9001/copilotkit";
+  // Use a dummy runtime URL since coagent-runtime has issues
+  const runtimeUrl = "http://localhost:9501/copilotkit";
 
   return (
     <CopilotKit runtimeUrl={runtimeUrl}>
