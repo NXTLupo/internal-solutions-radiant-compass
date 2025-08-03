@@ -1,4 +1,17 @@
-// Simplified awareness tools for now
-// TODO: Implement proper CopilotKit tools once SDK is available
-
-export const awarenessTools: any[] = [];
+export const awarenessTools = [
+  {
+    name: "say",
+    description: "Says the given text.",
+    parameters: [
+      {
+        name: "text",
+        type: "string" as const,
+        description: "The text to say.",
+        required: true,
+      },
+    ],
+    handler: async (args: any) => {
+      return args.text;
+    },
+  },
+];

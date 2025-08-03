@@ -20,7 +20,7 @@ class TTSRequest(BaseModel):
     text: str
     voice: Optional[str] = "nova"  # Default to OpenAI Nova
     provider: Optional[Literal["openai", "elevenlabs", "heygen", "fastest"]] = "fastest"
-    speed: Optional[float] = 0.9
+    speed: Optional[float] = 0.6  # FIXED: Much slower default for natural healthcare conversation
 
 class TTSBenchmarkResult(BaseModel):
     provider: str

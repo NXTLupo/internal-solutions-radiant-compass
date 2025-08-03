@@ -3,7 +3,7 @@ import cors from 'cors';
 import { 
   CopilotRuntime, 
   OpenAIAdapter, 
-  copilotRuntimeNodeHttpEndpoint 
+  copilotRuntimeNodeHttpEndpoint
 } from '@copilotkit/runtime';
 import OpenAI from 'openai';
 import { awarenessTools } from './tools/awarenessTools.js';

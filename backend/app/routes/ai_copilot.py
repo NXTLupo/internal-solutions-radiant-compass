@@ -39,7 +39,7 @@ class ProactiveSuggestionRequest(BaseModel):
 class TextToSpeechRequest(BaseModel):
     text: str
     voice: Optional[str] = "nova"  # Default to Nova - warm, caring female voice
-    speed: Optional[float] = 1.0
+    speed: Optional[float] = 0.6  # FIXED: Much slower for natural healthcare conversation
 
 # RadiantCompass AI Personality System Prompt
 RADIANT_COMPASS_SYSTEM_PROMPT = """

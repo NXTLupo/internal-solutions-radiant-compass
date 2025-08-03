@@ -1156,7 +1156,7 @@ async def ultra_low_latency_text_to_speech(request: TTSRequest):
             model="tts-1",  # Fast model for real-time
             voice="nova",   # Natural female voice - warm and engaging
             input=text,
-            speed=0.9,      # Slightly slower for healthcare context
+            speed=0.6,      # FIXED: Much slower for natural healthcare conversation
             response_format="mp3"
         )
         
@@ -1406,7 +1406,7 @@ async def process_voice_input(
                 model="tts-1",  # Fast model
                 voice="nova",   # Dr. Maya's voice
                 input=ai_response,
-                speed=0.75,     # FIXED: Slower speed to match Cartesia slow setting
+                speed=0.6,      # FIXED: Much slower speed for natural healthcare conversation
                 response_format="mp3"
             )
             tts_audio_content = tts_response.content

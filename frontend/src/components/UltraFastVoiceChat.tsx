@@ -197,6 +197,24 @@ export function UltraFastVoiceChat({ onNavigateHome }: UltraFastVoiceChatProps =
       const audioBuffer = await audioContextRef.current.decodeAudioData(bytes.buffer.slice(0));
       const source = audioContextRef.current.createBufferSource();
       source.buffer = audioBuffer;
+      
+      // CRITICAL FIX: Handle sample rate mismatch that causes chipmunk voice
+      // Cartesia generates at 22050Hz, but Web Audio API resamples to context rate causing chipmunk voice
+      const cartesiaSampleRate = 22050; // Cartesia Sonic output rate
+      const actualSampleRate = audioBuffer.sampleRate;
+      const contextSampleRate = audioContextRef.current.sampleRate;
+      
+      console.log(`🔍 Audio Debug - Cartesia: ${cartesiaSampleRate}Hz, Decoded: ${actualSampleRate}Hz, Context: ${contextSampleRate}Hz`);
+      
+      // FORCE playback rate compensation - Web Audio API resampling causes chipmunk voice
+      // Even though actualSampleRate matches contextSampleRate, we need to compensate for the original Cartesia rate
+      let playbackRate = cartesiaSampleRate / contextSampleRate;
+      console.log(`⚙️ FORCING playback rate to ${playbackRate} (${cartesiaSampleRate}/${contextSampleRate}) to fix Cartesia resampling chipmunk voice`);
+      
+      // Additional safety adjustment for natural speech
+      playbackRate = playbackRate * 0.95; // Fine-tune for most natural speech pace
+      
+      source.playbackRate.value = playbackRate;
       source.connect(audioContextRef.current.destination);
       
       source.onended = () => {

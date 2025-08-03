@@ -4,11 +4,15 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-**Project Name**: Radiant Compass - AI-Powered Patient Journey Mapping
-**Stack**: FastAPI (backend) + React (frontend) + CopilotKit CoAgents (AI runtime) + PostgreSQL + Docker
-**Purpose**: AI assistant for healthcare patient journey mapping and analysis, built using NXT Humans' production template
+**RadiantCompass** is a comprehensive AI-powered healthcare platform designed to guide rare disease patients through a transformative 12-stage journey from first symptoms to long-term survivorship. Built using NXT Humans' production template architecture, it addresses the complex needs of 400K+ U.S. patients receiving rare-disease diagnoses annually.
 
-This repository implements an AI-powered solution for RadiantCompass patient journey mapping, leveraging the NXT Humans internal solutions template architecture.
+**Technology Stack**: 
+- **Backend**: FastAPI 0.115.12 + SQLModel + Alembic + PostgreSQL + AsyncSession
+- **Frontend**: React 19 + Vite 6 + TypeScript 5.8 + TailwindCSS 4.1 + CopilotKit 1.9
+- **AI Runtime**: Express + CopilotKit CoAgents + OpenAI integration  
+- **Infrastructure**: Docker multi-stage builds + Azure Container Apps + GitHub Actions
+
+**Mission**: Transform every rare-disease diagnosis, from the first incomprehensible lab result to lasting remission, into a guided path of clarity, compassion, and choice.
 
 ## Essential Documentation References
 
@@ -88,60 +92,164 @@ Domain-specific rules are organized in `.cursor/rules/` for automatic context lo
 
 ## Essential Commands
 
+### Primary Development Commands
 Use the **@Makefile** for all service management:
 
 ```bash
-# Development
-make up                    # Start all services
-make dev-setup            # Initialize development environment
-make logs                 # View all service logs
-make health               # Check service status
+# Quick Start
+make dev-setup            # Copy .env, build, and start all services
+make up                   # Start all services  
+make health               # Check all service status
+make logs                 # View all service logs (real-time)
 
-# Backend
-make backend-shell        # Open bash shell in backend container
-make backend-migrate      # Run Alembic migrations
-make backend-test         # Run pytest (creates temp container with dev deps)
-make backend-lint         # Run ruff and pylint
+# Backend Development
+make backend-shell        # Interactive bash shell in backend container
+make backend-migrate      # Run Alembic database migrations  
+make backend-test         # Run pytest in temporary container with dev deps
+make backend-lint         # Run ruff, pylint code quality checks
+make backend-format       # Auto-format with autoflake, autopep8, ruff, isort
 
-# Database
-make db-shell            # Open psql shell
-make db-backup FILE="backup.sql"    # Create database backup
-make db-restore FILE="backup.sql"   # Restore from backup
+# Database Operations
+make db-shell            # Interactive PostgreSQL psql shell
+make db-backup FILE="backup_$(date +%Y%m%d).sql"  # Create timestamped backup
+make db-restore FILE="backup.sql"                 # Restore from backup file
 
-# Service management
-make coagent-shell       # Access Node.js runtime container
-make frontend-logs       # View nginx logs
-make docs-restart        # Restart documentation service
+# Service Management  
+make coagent-shell       # Access Node.js CoAgent runtime container
+make frontend-logs       # View nginx frontend service logs
+make docs-restart        # Restart MkDocs documentation service
 ```
+
+### Manual Development Commands
+If not using Docker:
+
+```bash
+# Backend (FastAPI)
+cd backend && poetry install && poetry run alembic upgrade head
+poetry run fastapi dev app/main.py  # Development server on :8000
+
+# Frontend (React + Vite)
+cd frontend && npm install && npm run dev  # Development server on :5173  
+
+# CoAgent Runtime (Express + CopilotKit)
+cd coagent-runtime && npm install && npm run dev  # Runtime server on :4000
+```
+
+### Port Configuration
+- **Frontend**: http://localhost:9502 (Docker) / :5173 (dev)
+- **Backend API**: http://localhost:9500 (Docker) / :8000 (dev) 
+- **CoAgent Runtime**: http://localhost:9501 (Docker) / :4000 (dev)
+- **PostgreSQL**: localhost:5432
+- **Documentation**: http://localhost:9003
 
 ## Environment Setup
 
-1. **Copy environment template**: `cp .env.example .env`
-2. **Required API keys**:
-   - `OPENAI_API_KEY` - For LLM capabilities
-   - `TAVILY_API_KEY` - For web search tools
-   - `JWT_SECRET_KEY` - For authentication
-3. **Database**: PostgreSQL connection via `DATABASE_URL`
-4. **Frontend**: `VITE_COPILOT_RUNTIME_URL` points to CoAgent runtime
+### Required API Keys
+Copy `.env.example` to `.env` and configure:
+
+```bash
+# Core AI Services
+OPENAI_API_KEY=sk-...                    # OpenAI GPT models for CoAgent runtime
+ANTHROPIC_API_KEY=...                    # Claude models (if using)
+TAVILY_API_KEY=...                       # Web search capabilities
+
+# Specialized AI Services  
+GROQ_API_KEY=...                         # Fast inference
+CARTESIA_API_KEY=...                     # Real-time voice synthesis
+DEEPGRAM_API_KEY=...                     # Speech-to-text
+TOGETHER_API_KEY=...                     # Open-source model hosting
+ELEVENLABS_API_KEY=...                   # Advanced TTS
+HUGGINGFACE_API_KEY=...                  # ML model access
+LUMA_API_KEY=...                         # Video generation
+
+# VideoSDK Integration
+VIDEOSDK_API_KEY=...                     # Video calling platform
+VIDEOSDK_SECRET=...                      # VideoSDK authentication  
+VIDEOSDK_AUTH_TOKEN=...                  # VideoSDK token
+
+# Database & Security
+DATABASE_URL=postgresql+asyncpg://postgres:postgres@localhost:5432/ai_assistant
+JWT_SECRET_KEY=your-secret-key-here      # Authentication tokens
+PHI_ENCRYPTION_KEY=...                   # PHI data encryption (healthcare)
+
+# Frontend
+VITE_COPILOT_RUNTIME_URL=http://localhost:9501/copilotkit
+```
+
+### Healthcare Compliance
+- **PHI Encryption**: `PHI_ENCRYPTION_KEY` required for HIPAA compliance
+- **Audit Logging**: All patient interactions are logged for compliance
+- **Access Controls**: JWT-based authentication with role-based permissions
 
 ## Development Workflow
 
-1. **Environment setup**: `cp .env.example .env` and configure API keys
-2. **Start services**: `make up` or `docker compose up -d`  
-3. **Run migrations**: `make backend-migrate`
-4. **Access applications**:
-   - Frontend: http://localhost:3000
-   - Backend API: http://localhost:8000/docs
-   - CoAgent Runtime: http://localhost:4000/health
-   - Documentation: http://localhost:8090
+### Quick Start
+```bash
+1. cp .env.example .env              # Copy environment template
+2. # Edit .env with your API keys    # Configure required services
+3. make dev-setup                    # Initialize and start all services
+4. make backend-migrate              # Run database migrations
+```
+
+### Application Access
+- **Frontend**: http://localhost:9502 - Patient dashboard with AI sidebar
+- **Backend API**: http://localhost:9500/docs - FastAPI Swagger documentation  
+- **CoAgent Runtime**: http://localhost:9501/health - CopilotKit health check
+- **Database**: `make db-shell` - Direct PostgreSQL access
+- **Documentation**: http://localhost:9003 - MkDocs project documentation
+
+## High-Level Architecture
+
+### RadiantCompass Patient Journey Framework
+The platform implements a sophisticated 12-stage patient journey system:
+
+**Stage 1-2**: Awareness & Orientation → Diagnosis  
+**Stage 3-4**: Research & Compare-Care → Staging & Baseline Testing  
+**Stage 5-6**: Treatment Planning → Pre-treatment Preparation  
+**Stage 7-8**: Active Treatment → Treatment Monitoring  
+**Stage 9-10**: Early Recovery → Transition Planning  
+**Stage 11-12**: Long-term Living → Ongoing Survivorship  
+
+### Core AI Components
+
+**RadiantCompass CoAgent Runtime** (`coagent-runtime/src/index.ts`):
+- Express server hosting CopilotKit runtime at `/copilotkit` endpoint
+- OpenAI integration for conversational AI capabilities  
+- Awareness tools for Stage 1 patient orientation (`awarenessTools.ts`)
+- Designed for progressive enhancement with LangGraph workflows
+
+**Healthcare-Specific AI Routes** (`backend/app/routes/`):
+- `awareness.py` - Patient orientation and symptom interpretation
+- `ai_chat.py` - Conversational health guidance  
+- `ultra_low_latency.py` - Real-time voice interaction for critical moments
+- `tts_comparison.py` - Multi-provider text-to-speech for accessibility
+- `videosdk.py` - Video consultation integration
+- `medical_translation.py` - Clinical terminology simplification
+
+### Database Architecture Highlights
+
+**Comprehensive Patient Models** (`backend/app/models.py:187-413`):
+- **12-Stage Journey Tracking**: `JourneyProgress`, `JourneyStage` enums
+- **Healthcare Entities**: `PatientProfile`, `MedicalCondition`, `Treatment`, `CareTeam`
+- **Compliance Features**: `SymptomEntry`, `MentalHealthCheckIn`, `InsuranceInfo`
+- **AI Content Management**: `AIGeneratedContent`, `PeerStory`, `ResourceLibrary`
+
+**Key Relationships**:
+```python
+User (1) → (1) PatientProfile → (M) MedicalCondition → (M) Treatment
+PatientProfile → (M) JourneyProgress  # Track 12-stage progression
+PatientProfile → (M) CareTeam → (M) CareTeamMember  # Multi-provider coordination
+```
 
 ### Current Implementation Status
-- ✅ **Backend**: FastAPI with SQLModel, complete CRUD operations for Users, Conversations, Messages, and AgentSessions
-- ✅ **Database**: PostgreSQL with Alembic migrations configured
+- ✅ **Backend**: FastAPI with comprehensive healthcare data models (20+ SQLModel tables)
+- ✅ **Database**: PostgreSQL with Alembic migrations, healthcare-compliant schema
 - ✅ **Frontend**: React 19 + Vite 6 + TypeScript + TailwindCSS with CopilotKit integration
-- ✅ **CoAgent Runtime**: Express server with OpenAI adapter for CopilotKit
+- ✅ **AI Runtime**: Express server with OpenAI adapter, awareness-stage tools implemented
 - ✅ **Docker**: Multi-stage builds for all services with health checks
-- ✅ **Documentation**: MkDocs with comprehensive guides
+- ✅ **Documentation**: MkDocs with comprehensive development guides
+- 🚧 **Patient Journey**: Stage 1 (Awareness) tools implemented, 11 stages planned
+- 🚧 **LangGraph Integration**: Basic OpenAI adapter ready for workflow enhancement
 
 ## Key Implementation Details
 
@@ -242,24 +350,71 @@ function App() {
 - **Frontend**: No testing framework configured yet
 - **Integration**: Manual testing via health check endpoints
 
-### Key Files to Understand
-- `backend/app/main.py`: Complete FastAPI application with all CRUD endpoints (lines 70-291)
-- `frontend/src/App.tsx`: React application with CopilotKit sidebar integration
-- `coagent-runtime/src/index.ts`: Express server with OpenAI adapter
-- `compose.yml`: Multi-service Docker configuration with health checks
-- `Makefile`: Comprehensive development commands for all services
+## Critical Files & Development Patterns
 
-### RadiantCompass Context
-The `radiant requirements/` folder contains project-specific documentation:
-- Patient journey mapping HTML/PDF files
-- Requirements documentation for healthcare AI assistant
-- Suggests focus on patient experience analysis and journey visualization
+### Essential Files to Understand
+- **`backend/app/main.py:1-308`** - Complete FastAPI app with healthcare CRUD endpoints
+- **`backend/app/models.py:187-413`** - Comprehensive patient journey data models (20+ tables)
+- **`frontend/src/App.tsx`** - React 19 app with CopilotSidebar for patient interaction
+- **`coagent-runtime/src/index.ts`** - Express server with OpenAI adapter and awareness tools
+- **`compose.yml`** - Multi-service Docker orchestration with health checks
+- **`Makefile`** - Essential development commands for all services
+- **`COMPREHENSIVE_FEATURE_REQUIREMENTS.md`** - Complete feature specification (12-stage journey)
 
-## Code Quality Standards
+### RadiantCompass Healthcare Context
+The `radiant requirements/` folder contains comprehensive project documentation:
+- **Patient Journey Maps**: 12-stage HTML/PDF visualization of patient experience
+- **Feature Requirements**: Detailed pain points and AI solutions for each journey stage
+- **Market Analysis**: $12B rare-disease market targeting 400K+ annual patients
+- **Clinical Workflows**: Integration patterns for healthcare provider systems
 
-- **Python**: autoflake, autopep8, ruff, isort, pylint with 88-char line length (configured in pyproject.toml)
-- **Frontend**: ESLint with React 19 + TypeScript rules
-- **Security**: Non-root containers, environment-based secrets, CORS configured
-- **Database**: Async SQLModel with proper foreign key relationships
+### Development Patterns to Follow
 
-This implementation provides a solid foundation for RadiantCompass patient journey mapping with modern AI integration capabilities.
+**Healthcare Data Security**:
+- All PHI data must use `PHI_ENCRYPTION_KEY` encryption
+- Audit logging required for patient interactions (`AgentSession` tracking)
+- Role-based access control via `UserRole` enum (patient, caregiver, medical_professional)
+
+**AI-First Architecture**:
+- CoAgent runtime provides conversational interface for all patient interactions
+- Backend routes serve as specialized AI endpoints (not traditional REST APIs)
+- Frontend integrates CopilotSidebar as primary interaction method
+
+**Progressive Journey Enhancement**:
+- Current: Stage 1 (Awareness) tools implemented
+- Next: Expand `awarenessTools.ts` and implement Stage 2-12 workflows
+- Each stage requires specific AI tools, database tracking, and patient guidance
+
+## Code Quality & Compliance
+
+### Code Standards
+- **Python**: autoflake, autopep8, ruff, isort, pylint with 88-char line length (`make backend-format`)
+- **TypeScript**: ESLint with React 19 + TypeScript 5.8 rules (`npm run lint`)
+- **Security**: Non-root containers, environment-based secrets, CORS configured for healthcare
+- **Database**: Async SQLModel with comprehensive foreign key relationships and healthcare audit trails
+
+### Healthcare Compliance Standards
+- **HIPAA Compliance**: PHI encryption, audit logging, access controls implemented
+- **Clinical Accuracy**: All medical terminology and patient guidance requires clinical review
+- **Accessibility**: Multi-modal interfaces (text, voice, video) for diverse patient needs
+- **International**: Designed for global rare-disease patient populations
+
+### Testing Strategy
+- **Backend**: pytest with healthcare scenario coverage (`make backend-test`)
+- **Frontend**: Manual testing via CopilotSidebar integration (testing framework planned)
+- **AI Agents**: Conversation flow testing via CoAgent runtime health checks
+- **Compliance**: Audit log verification and PHI encryption validation
+
+## Summary
+
+RadiantCompass represents a transformative approach to healthcare AI, providing comprehensive patient journey guidance through sophisticated 12-stage workflows. The platform combines modern web technologies with specialized healthcare AI capabilities, targeting the critical needs of rare-disease patients and their care teams.
+
+**Key Differentiators**:
+- Comprehensive 12-stage patient journey framework
+- Healthcare-compliant architecture with PHI encryption
+- Multi-modal AI interfaces (conversational, voice, video)
+- Extensive patient data modeling (20+ specialized healthcare tables)
+- Real-time AI guidance tailored to patient journey stage
+- Integration-ready for healthcare provider systems
+
+This implementation provides a solid technical foundation for RadiantCompass patient journey mapping with modern AI integration capabilities, positioned to serve the $12B rare-disease market.

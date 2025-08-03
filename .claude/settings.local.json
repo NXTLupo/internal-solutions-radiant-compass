@@ -36,7 +36,18 @@
       "WebFetch(domain:docs.cursor.com)",
       "Bash(make:*)",
       "Bash(git push:*)",
-      "Bash(git remote set-url:*)"
+      "Bash(git remote set-url:*)",
+      "Bash(git checkout:*)",
+      "Bash(git restore:*)",
+      "Bash(docker exec:*)",
+      "WebFetch(domain:docs.cartesia.ai)",
+      "Bash(docker image rm:*)",
+      "WebFetch(domain:cartesia.ai)",
+      "Bash(python test_tts_speed.py:*)",
+      "Bash(python3:*)",
+      "Bash(rm:*)",
+      "Bash(find:*)",
+      "Bash(curl:*)"
     ],
     "deny": []
   }

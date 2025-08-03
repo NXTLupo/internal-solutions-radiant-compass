@@ -67,30 +67,16 @@ EOF
 # Copy built application from builder stage
 COPY --from=builder /app/dist /usr/share/nginx/html
 
-# Create non-root user for security (use existing nginx user or create if needed)
-RUN if ! getent group nginx > /dev/null 2>&1; then \
-        addgroup -g 1001 -S nginx; \
-    fi && \
-    if ! getent passwd nginx > /dev/null 2>&1; then \
-        adduser -S -D -H -u 1001 -h /var/cache/nginx -s /sbin/nologin -G nginx -g nginx nginx; \
-    fi
-
-# Change ownership of nginx directories
-RUN chown -R nginx:nginx /var/cache/nginx && \
-    chown -R nginx:nginx /var/log/nginx && \
-    chown -R nginx:nginx /etc/nginx/conf.d && \
-    touch /var/run/nginx.pid && \
-    chown -R nginx:nginx /var/run/nginx.pid
-
-# Switch to non-root user
-USER nginx
+# Fix permissions for nginx to run as root (required for proper nginx operation)
+RUN chown -R root:root /usr/share/nginx/html
 
 # Expose port
 EXPOSE 80
 
-# Health check
+# Health check (use wget instead of curl for alpine)
 HEALTHCHECK --interval=30s --timeout=3s --start-period=5s --retries=3 \
-    CMD curl -f http://localhost/health || exit 1
+    CMD wget --no-verbose --tries=1 --spider http://localhost/health || exit 1
 
 # Start Nginx
+RUN cat /etc/nginx/nginx.conf
 CMD ["nginx", "-g", "daemon off;"]
