@@ -1,8 +1,9 @@
 import { CopilotKit } from "@copilotkit/react-core";
 import { AppStateProvider } from "./components/AppStateProvider";
-import { PatientJourneyDashboard } from "./components/PatientJourneyDashboard";
+import { PremiumPatientJourney } from "./components/PremiumPatientJourney";
 import { JourneyAwareCoAgent } from "./components/JourneyAwareCoAgent";
 import "./App.css";
+import "./styles/premium-design-system.css";
 
 function App() {
   const runtimeUrl = "http://localhost:9501/copilotkit";
@@ -10,7 +11,7 @@ function App() {
   return (
     <CopilotKit runtimeUrl={runtimeUrl}>
       <AppStateProvider>
-        <PatientJourneyDashboard />
+        <PremiumPatientJourney />
         <div className="hidden">
           <JourneyAwareCoAgent />
         </div>
