@@ -47,7 +47,26 @@
       "Bash(python3:*)",
       "Bash(rm:*)",
       "Bash(find:*)",
-      "Bash(curl:*)"
+      "Bash(curl:*)",
+      "WebFetch(domain:dribbble.com)",
+      "Bash(grep:*)",
+      "Bash(docker run:*)",
+      "Bash(docker system prune:*)",
+      "Bash(node:*)",
+      "Bash(npm:*)",
+      "Bash(nvm install:*)",
+      "Bash(nvm use:*)",
+      "Bash(source:*)",
+      "Bash(gemini:*)",
+      "Bash(nvm list:*)",
+      "Bash(nvm alias:*)",
+      "Bash(nvm:*)",
+      "Bash(hash -r)",
+      "Bash(unset PATH)",
+      "Bash(/Users/jonathanlupo/.nvm/versions/node/v22.11.0/bin/gemini --version)",
+      "Bash(npx:*)",
+      "Bash(/Users/jonathanlupo/Documents/internal-solutions-radiant-compass/coagent-runtime)",
+      "Bash(sudo rm:*)"
     ],
     "deny": []
   }
