@@ -66,7 +66,10 @@
       "Bash(/Users/jonathanlupo/.nvm/versions/node/v22.11.0/bin/gemini --version)",
       "Bash(npx:*)",
       "Bash(/Users/jonathanlupo/Documents/internal-solutions-radiant-compass/coagent-runtime)",
-      "Bash(sudo rm:*)"
+      "Bash(sudo rm:*)",
+      "Bash(docker logs:*)",
+      "Bash(docker restart:*)",
+      "Bash(open http://localhost:9502)"
     ],
     "deny": []
   }

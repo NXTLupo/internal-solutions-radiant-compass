@@ -1,0 +1,136 @@
+**Radiant Compass – AI-Powered Patient & Caregiver Web App
+Comprehensive Product Development Plan (v1.0)**
+
+---
+
+### 1. North-Star Vision
+
+Build the “GPS for rare disease care”: a secure, responsive web platform that turns every diagnosis into a guided path of **clarity, compassion, and choice**. Patients, caregivers, clinicians, and researchers interact through role-based workspaces powered by a proprietary rare-disease knowledge graph and regulatory-grade FHIR data pipeline. The product launches first for rare cancers, then scales to 7 000+ rare conditions.&#x20;
+
+---
+
+### 2. Core Value Pillars
+
+| Pillar                    | Key Product Capabilities                                                                                                   | Differentiators                                               |
+| ------------------------- | -------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------- |
+| **Clarity Engine**        | AI translation of pathology, genomics, insurance letters; auto-generated “ask-your-doctor” checklists                      | Converts PDFs to 6-grade prose in 27 sec (alpha proof)        |
+| **Compare-My-Care™**      | Ranks centres by volume, outcomes, insurance fit, travel burden, bedside culture                                           | Eliminates “cold-calling” of multiple portals                 |
+| **Care-Circle Workspace** | Shared calendar, symptom tracker, task boards; personalised tone presets (“Radical Optimist”, “Clinical Researcher”, etc.) | Stakeholder-specific dashboards & communication styles        |
+| **Faith & Mind Studio**   | Mindfulness, scripture, CBT, journaling tied to the medical timeline                                                       | Integrates emotional/spiritual care with clinical milestones  |
+| **RWE Marketplace**       | Consent-driven, patient-revenue-sharing data exchange for pharma & academia                                                | Transparent 10 % share; regulatory-grade FHIR pipeline        |
+
+---
+
+### 3. User & Journey Requirements
+
+* 4 primary personas (Patient, Primary Caregiver, Support Circle, Outer Circle) with distinct info-needs and tone preferences&#x20;
+* Seven phased journey (Awareness → Long-Term Living) drives module sequencing
+* Top pain points: information-deficit loop, insurance denials, logistics burden, data fragmentation, scanxiety.&#x20;
+
+---
+
+### 4. Technical Architecture
+
+| Layer                   | Tech Stack                                                                                                                                                                                                                                                                                                                                      | Rationale                                                                           |
+| ----------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------- |
+| **Front-End**           | Next.js (React 18), TypeScript, Tailwind CSS, shadcn/ui; PWA-ready; Storybook for component library                                                                                                                                                                                                                                             | Fast SSR, excellent accessibility, clean modern aesthetic                           |
+| **Mobile Shell**        | Capacitor build to give app-store presence day-1                                                                                                                                                                                                                                                                                                | Minimal code-sharing friction                                                       |
+| **API Gateway**         | GraphQL Mesh (Apollo Router)                                                                                                                                                                                                                                                                                                                    | Uniform contract across micro-services; supports schema-stitching of FHIR endpoints |
+| **Core Services (K8s)** | 1️⃣ **User Service** (Go) – auth, RBAC, HIPAA/FedRAMP controls  <br>2️⃣ **Journey Service** (Node) – roadmap & checklist engine  <br>3️⃣ **Content Service** (Python/FastAPI) – documents, translations, tone re-writes  <br>4️⃣ **Compare Service** (Python) – ranking algorithms  <br>5️⃣ **Billing Service** (Rust) – Stripe & insurance EDI | Polyglot by domain; secure, scalable                                                |
+| **AI/ML Layer**         | 🔹 Fine-tuned LLM (Mistral-8B or Claude API) for translation & dialogue  <br>🔹 Vector DB (Qdrant) for semantic search across knowledge graph  <br>🔹 Retrieval-augmented pipelines (LangChain)  <br>🔹 Python micro-models: XGBoost for travel-burden score, CatBoost for insurance-fit                                                        | Open-weight models reduce PHI leakage; retrieval ensures provenance                 |
+| **Data Layer**          | Postgres 15; Neo4j 5 for knowledge graph; MinIO S3 for document blobs; HL7 FHIR store (Google Health Care API)                                                                                                                                                                                                                                  | Graph powers “patients-like-me”; FHIR ensures interoperability                      |
+| **CI/CD & Ops**         | GitHub Actions, Argo CD, Helm; automated SOC-2 evidence collection (Drata)                                                                                                                                                                                                                                                                      | Rapid, compliant shipping                                                           |
+| **Observability**       | OpenTelemetry, Grafana Cloud, Sentry; PHI-safe logging                                                                                                                                                                                                                                                                                          | End-to-end traceability                                                             |
+
+---
+
+### 5. Privacy, Security & Compliance
+
+* **HIPAA, 21 CFR Part 11, GDPR** mapped in threat model from sprint 0.
+* Field-level encryption (AES-256-GCM) for PHI columns; envelope keys in AWS KMS.
+* All AI prompts & outputs are streamed through a PHI-scrubber before storage.
+* Annual third-party penetration test; continuous vulnerability scan.
+
+---
+
+### 6. Development Roadmap (18 Months)
+
+| Quarter                                        | Major Deliverables                                                                                                                                                                             | Metrics & Gates                                                        |
+| ---------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------- |
+| **Q1 (Month 0-3) – Foundation**                | • IaC scaffold (Terraform) <br>• Auth 0 integration w/ SSO + MFA <br>• Basic patient dashboard (diagnosis card, file upload) <br>• Clarity Engine v0.1 (PDF → plain-language + checklist)      | Internal PHI red-team pass / PDF ≤ 60 s                                |
+| **Q2 (Month 4-6) – MVP**                       | • Compare-My-Care α (ranking UI, 100 seed hospitals) <br>• Journey Service with 7-phase roadmap & task lists <br>• Role-based portals + tone presets                                           | 200 beta users; SUS ≥ 75                                               |
+| **Q3 (Month 7-9) – Beta Launch**               | • Care-Circle Workspace (shared calendar, chat, symptom tracker) <br>• Insurance Navigator micro-service (EDI 271/ 275 ingest) <br>• Faith & Mind Studio v0.1 (guided meditations, journaling) | Active DAU/MAU ≥ 35 %; first payer pilot LOI                           |
+| **Q4 (Month 10-12) – Enterprise Readiness**    | • FHIR ingestion & outbound API <br>• Knowledge Graph v1 (3 M nodes) feeding personalised insights <br>• Data governance portal (consent management, audit logs)                               | SaaS pilot signed; SOC-2 Type I                                        |
+| **Q5 (Month 13-15) – RWE Marketplace α**       | • De-identification pipeline (Safe-Harbor + Expert Determination) <br>• Queryable cohort builder for researchers <br>• 10 % revenue-share smart contract (USDC escrow)                         | First research dataset sale; IRB approval                              |
+| **Q6 (Month 16-18) – FDA 510(k) Prep & Scale** | • Explainable AI module (SHAP) for treatment suggestions <br>• Wearable SDK (Vitals AI) <br>• Automated validation test harness & submission dossier generator                                 | 1 000 paying patients; 2 enterprise contracts; 95 % unit-test coverage |
+
+---
+
+### 7. Agile Process & Team Shape
+
+* **Two-week sprints, dual-track (Discovery + Delivery).**
+* **Key Roles**:
+
+  * VP Eng (platform)
+  * Staff ML Engineer (knowledge graph, ranking)
+  * Full-Stack Tribes (React/Node) × 2
+  * Compliance Lead (HIPAA, FDA)
+  * Clinical Ontologist (SNOMED, ORDO mapping)
+  * Product Designer (accessible, WCAG AA)
+  * Patient Advisory Board (monthly design critique)
+* **Definition of Done** includes a) unit & integration tests, b) storybook snapshot, c) accessibility check, d) PHI leakage scan.
+
+---
+
+### 8. Rapid-Build Principles for Claude Code
+
+1. **Start with rich type-safe contracts.** Generate GraphQL schema first, then autogenerate TypeScript types for both client & server.
+2. **Leverage agentic scaffolding.** Use Claude Code to create end-to-end slices that include React component, GraphQL resolver, and Cypress test in one prompt.
+3. **Chunk-wise generation.** For large features (e.g., Insurance Navigator), break into micro-services and ask Claude to output full file trees respecting repository layout, aligning with user preference for entire files.
+4. **Embed knowledge-graph context.** Pass graph sub-queries to Claude at runtime for RAG-style explanations—include citations for medical safety.
+5. **Prompt design.** Always include persona + chain-of-thought exemplars to steer tone presets; store reusable prompt templates in `/prompts/*.md`.
+6. **Guardrails.** Route all LLM calls through an internal gateway with PII/PHI mask-unmask filters and open-source policy engine (Rego) rules.
+
+---
+
+### 9. UX & Design System
+
+* **Brand**: Deep-blue primary (#2C5282) with emerald accents (#38A169) per journey map; round 8 px; soft-shadow elevation.
+* **Motion**: Framer Motion; preference-reduces for vestibular users.
+* **Accessibility**: WCAG 2.2 AA, keyboard-first navigation, prefers-reduced-motion.
+* **Content Tone**: Default “Balanced Calm”; user can switch per message; outer-circle messages auto-redact sensitive PHI.
+
+---
+
+### 10. Key Risk Mitigations
+
+| Risk                           | Mitigation                                                                      |
+| ------------------------------ | ------------------------------------------------------------------------------- |
+| Regulatory delays (510(k))     | Engage advisory board; parallel track predicate device analysis in Q2           |
+| PHI leakage in AI outputs      | Two-tier scrubber; RLHF fine-tune on HIPAA toxic spill dataset                  |
+| Hospital data-sharing friction | FHIR Bulk-Export connector & SMART-on-FHIR launch to fit existing workflows     |
+| Model drift on rare subtypes   | Continual learning loop via federated fine-tune; shadow-deploy new models first |
+
+---
+
+### 11. Success Metrics (18 mo)
+
+* **Patient NPS ≥ 60**
+* **Care plan time-to-clarity ↓ 50 %** vs. baseline (survey)
+* **Insurance approval cycle time ↓ 30 %** for beta cohort
+* **Average monthly real-world evidence sales ≥ \$25 k**
+* **1 000 + paying subscribers @ \$18 / mo**
+
+---
+
+### 12. Immediate Next Steps (Week 0-2)
+
+1. Finalise functional PRD & sprint-0 backlog.
+2. Stand-up repo (`radiant-compass/monorepo`) with ESLint, Prettier, Husky hooks.
+3. Provision Dev + Staging clusters (AWS EKS) with network policies.
+4. Run **Claude Code spike**: ingest sample pathology PDF → JSON → plain-language card component.
+5. Recruit first 10 patient-advisory testers through partner foundations.
+
+---
+
+Radiant Compass now has a clear, execution-ready blueprint to deliver a modern, AI-native, whole-person navigation platform that closes the five critical gaps rare-disease families face. Let’s ship hope—on time, and at scale.

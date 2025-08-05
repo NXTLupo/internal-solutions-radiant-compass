@@ -2,9 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { createPortal } from 'react-dom';
 import { useCopilotAction } from "@copilotkit/react-core";
 import { RadiantLogo } from './RadiantLogo';
-import { PremiumVoiceExperience } from './PremiumVoiceExperience';
+import { DrMayaVoiceExperience } from './DrMayaVoiceExperience';
 import { JourneyTool } from './journeystages/JourneyTool';
-import '../styles/premium-design-system.css';
 
 // === TYPES ===
 interface Tool {
@@ -99,8 +98,8 @@ const COMPLETE_JOURNEY_STAGES: JourneyStage[] = [
     theme: 'From Planning to Readiness',
     color: '#E91E63',
     icon: '📋',
-    description: 'Handling insurance, logistics, and preparing for treatment to begin',
-    duration: '2-4 weeks',
+    description: 'Insurance approvals, scheduling, and preparing for your treatment journey',
+    duration: '2-3 weeks',
     status: 'upcoming'
   },
   {
@@ -108,66 +107,66 @@ const COMPLETE_JOURNEY_STAGES: JourneyStage[] = [
     name: 'treatment',
     title: 'Active Treatment Phase',
     subtitle: 'Taking action',
-    theme: 'From Preparation to Healing',
-    color: '#2196F3',
-    icon: '⚡',
-    description: 'Undergoing treatment with close monitoring and support from your care team',
-    duration: 'Variable',
+    theme: 'From Preparation to Action',
+    color: '#F44336',
+    icon: '⚕️',
+    description: 'Beginning your treatment plan with your medical team',
+    duration: '3-12 months',
     status: 'upcoming'
   },
   {
     id: 8,
     name: 'monitoring',
-    title: 'Treatment Monitoring & Adjustment',
+    title: 'Treatment Response Monitoring',
     subtitle: 'Tracking progress',
-    theme: 'From Treatment to Optimization',
-    color: '#00BCD4',
+    theme: 'From Action to Assessment',
+    color: '#2196F3',
     icon: '📊',
-    description: 'Continuous monitoring of treatment response and making adjustments as needed',
+    description: 'Regular check-ins and adjustments to optimize your treatment',
     duration: 'Ongoing',
     status: 'upcoming'
   },
   {
     id: 9,
     name: 'recovery',
-    title: 'Early Recovery & Assessment',
+    title: 'Early Recovery & Response',
     subtitle: 'Seeing results',
     theme: 'From Treatment to Recovery',
     color: '#4CAF50',
     icon: '🌱',
-    description: 'Initial recovery phase with careful assessment of treatment outcomes',
-    duration: '4-12 weeks',
+    description: 'Initial recovery phase and assessing treatment effectiveness',
+    duration: '1-6 months',
     status: 'upcoming'
   },
   {
     id: 10,
     name: 'transition',
-    title: 'Transition Planning & Next Steps',
-    subtitle: 'Looking ahead',
-    theme: 'From Recovery to Future',
-    color: '#8BC34A',
+    title: 'Recovery & Transition Planning',
+    subtitle: 'Moving forward',
+    theme: 'From Recovery to Renewal',
+    color: '#00BCD4',
     icon: '🚀',
-    description: 'Planning the transition to long-term care and defining next steps',
-    duration: '2-4 weeks',
+    description: 'Planning your transition back to normal life and ongoing care',
+    duration: '2-4 months',
     status: 'upcoming'
   },
   {
     id: 11,
     name: 'living',
     title: 'Long-term Living & Wellness',
-    subtitle: 'New normal',
+    subtitle: 'Thriving daily',
     theme: 'From Recovery to Thriving',
-    color: '#CDDC39',
-    icon: '🌻',
-    description: 'Adapting to long-term wellness routines and maintaining your health',
-    duration: 'Ongoing',
+    color: '#8BC34A',
+    icon: '🌟',
+    description: 'Establishing sustainable routines for long-term health and wellness',
+    duration: '6+ months',
     status: 'upcoming'
   },
   {
     id: 12,
     name: 'survivorship',
-    title: 'Ongoing Survivorship & Advocacy',
-    subtitle: 'Paying it forward',
+    title: 'Ongoing Survivorship & Giving Back',
+    subtitle: 'Inspiring others',
     theme: 'From Surviving to Inspiring',
     color: '#FFC107',
     icon: '👑',
@@ -177,24 +176,16 @@ const COMPLETE_JOURNEY_STAGES: JourneyStage[] = [
   }
 ];
 
-// === PREMIUM FLOATING ACTION BUTTON ===
+// === ULTRA-CLEAN FLOATING VOICE BUTTON ===
 const PremiumFloatingVoiceButton: React.FC<{ onClick: () => void }> = ({ onClick }) => {
   const [isHovered, setIsHovered] = useState(false);
-  const [isPulsing, setIsPulsing] = useState(true);
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setIsPulsing(prev => !prev);
-    }, 2000);
-    return () => clearInterval(interval);
-  }, []);
 
   return createPortal(
     <div 
       style={{
         position: 'fixed',
-        bottom: '48px',
-        right: '48px',
+        bottom: '32px',
+        right: '32px',
         zIndex: 2147483646
       }}
     >
@@ -202,55 +193,48 @@ const PremiumFloatingVoiceButton: React.FC<{ onClick: () => void }> = ({ onClick
         onClick={onClick}
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
-        className="voice-button-premium"
         style={{
-          background: isHovered 
-            ? 'linear-gradient(135deg, #FF8A65, #FF6B35)' 
-            : 'linear-gradient(135deg, #FF6B35, #E64A19)',
-          transform: isHovered ? 'scale(1.1)' : isPulsing ? 'scale(1.02)' : 'scale(1)',
-          animation: isPulsing ? 'pulse 2s infinite' : 'none',
+          width: '72px',
+          height: '72px',
+          borderRadius: '50%',
+          border: 'none',
+          background: isHovered ? '#2563EB' : '#3B82F6',
           color: 'white',
-          fontSize: '48px',
+          fontSize: '32px',
           display: 'flex',
           alignItems: 'center',
-          justifyContent: 'center'
+          justifyContent: 'center',
+          cursor: 'pointer',
+          transition: 'all 0.2s ease',
+          boxShadow: isHovered 
+            ? '0 8px 32px rgba(59, 130, 246, 0.4)' 
+            : '0 4px 20px rgba(59, 130, 246, 0.3)',
+          transform: isHovered ? 'scale(1.05)' : 'scale(1)',
+          outline: 'none'
         }}
-        aria-label="Talk to Dr. Maya - Ultra-fast voice assistant"
+        aria-label="Talk to Dr. Maya - Voice Assistant"
       >
         {isHovered ? '🎤' : '👩‍⚕️'}
       </button>
       
-      {/* Floating tooltip */}
+      {/* Clean tooltip */}
       {isHovered && (
         <div 
           style={{
             position: 'absolute',
-            bottom: '140px',
+            bottom: '88px',
             right: '0',
-            background: 'rgba(0, 0, 0, 0.8)',
+            background: '#374151',
             color: 'white',
-            padding: '12px 16px',
-            borderRadius: '12px',
+            padding: '8px 12px',
+            borderRadius: '8px',
             fontSize: '14px',
             fontWeight: '500',
-            whiteSpace: 'nowrap',
-            backdropFilter: 'blur(8px)',
-            animation: 'fadeIn 0.2s ease-out'
+            whiteSpace: 'nowrap' as const,
+            boxShadow: '0 4px 12px rgba(0, 0, 0, 0.2)'
           }}
         >
           Talk to Dr. Maya
-          <div 
-            style={{
-              position: 'absolute',
-              top: '100%',
-              right: '24px',
-              width: '0',
-              height: '0',
-              borderLeft: '6px solid transparent',
-              borderRight: '6px solid transparent',
-              borderTop: '6px solid rgba(0, 0, 0, 0.8)'
-            }}
-          />
         </div>
       )}
     </div>,
@@ -265,37 +249,25 @@ export const PremiumPatientJourney: React.FC = () => {
   const [tools, setTools] = useState<Tool[]>([]);
   const [isLoadingTools, setIsLoadingTools] = useState(false);
   const [activeTool, setActiveTool] = useState<string | null>(null);
-  const [journeyStages, setJourneyStages] = useState(COMPLETE_JOURNEY_STAGES);
 
-  // CopilotKit integration for AI tool orchestration
-  useCopilotAction({
-    name: "showTool",
-    parameters: [
-      { name: "toolName", type: "string", description: "The name of the tool component to display." },
-      { name: "category", type: "string", description: "Tool category: essential, supportive, or advanced." }
-    ],
-    handler: ({ toolName, category }) => {
-      console.log(`[Premium Dashboard] AI command: show ${category} tool '${toolName}'`);
-      setActiveTool(toolName);
-    },
-  });
+  const [journeyStages] = useState<JourneyStage[]>(COMPLETE_JOURNEY_STAGES);
 
+  // Copilot action for stage navigation
   useCopilotAction({
-    name: "navigateToStage",
+    name: "navigate_to_journey_stage",
+    description: "Navigate to a specific stage in the patient journey",
     parameters: [
-      { name: "stageName", type: "string", description: "The journey stage to navigate to." },
-      { name: "stageId", type: "number", description: "The numeric ID of the stage (1-12)." }
+      {
+        name: "stage_name",
+        type: "string",
+        description: "The name of the journey stage to navigate to",
+        enum: journeyStages.map(s => s.name)
+      }
     ],
-    handler: ({ stageName, stageId }) => {
-      console.log(`[Premium Dashboard] AI navigation: stage ${stageId} - ${stageName}`);
-      setSelectedStage(stageName);
-      // Update stage status
-      setJourneyStages(prev => prev.map(stage => ({
-        ...stage,
-        status: stage.id === stageId ? 'current' : 
-               stage.id < stageId ? 'completed' : 'upcoming'
-      })));
-    },
+    handler: async ({ stage_name }) => {
+      setSelectedStage(stage_name);
+      return `Navigated to ${stage_name} stage`;
+    }
   });
 
   // Fetch tools for selected stage
@@ -304,25 +276,12 @@ export const PremiumPatientJourney: React.FC = () => {
       setIsLoadingTools(true);
       try {
         const response = await fetch(`http://localhost:9500/api/v1/journey/${selectedStage}`);
-        const data = await response.json();
-        
-        // Enhanced tools with categories and descriptions
-        const enhancedTools: Tool[] = (data.tools || []).map((tool: any) => ({
-          ...tool,
-          description: tool.description || `${tool.name} - helping you navigate this stage`,
-          icon: tool.icon || '🛠️',
-          category: tool.category || 'essential'
-        }));
-        
-        setTools(enhancedTools);
-        
-        // Auto-select first essential tool
-        if (!activeTool && enhancedTools.length > 0) {
-          const essentialTool = enhancedTools.find(t => t.category === 'essential') || enhancedTools[0];
-          setActiveTool(essentialTool.component);
+        if (response.ok) {
+          const data = await response.json();
+          setTools(data.tools || []);
         }
       } catch (error) {
-        console.error("Failed to fetch tools:", error);
+        console.error('Error fetching tools:', error);
         setTools([]);
       }
       setIsLoadingTools(false);
@@ -333,7 +292,7 @@ export const PremiumPatientJourney: React.FC = () => {
 
   // Show premium voice experience
   if (showVoiceChat) {
-    return <PremiumVoiceExperience onExit={() => setShowVoiceChat(false)} />;
+    return <DrMayaVoiceExperience onExit={() => setShowVoiceChat(false)} />;
   }
 
   const currentStage = journeyStages.find(s => s.name === selectedStage) || journeyStages[0];
@@ -345,57 +304,55 @@ export const PremiumPatientJourney: React.FC = () => {
     <div 
       style={{
         minHeight: '100vh',
-        background: 'linear-gradient(135deg, #F8F9FA 0%, #E9ECEF 25%, #DEE2E6 50%, #CED4DA 75%, #ADB5BD 100%)',
-        fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", Roboto, sans-serif'
+        background: '#FFFFFF',
+        fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", system-ui, sans-serif',
+        overflowY: 'auto',
+        overflowX: 'hidden'
       }}
     >
-      {/* Premium Header */}
+      {/* Ultra-Clean Header */}
       <header 
-        className="glass-card"
         style={{
-          margin: 0,
-          borderRadius: 0,
-          borderTop: 'none',
-          borderLeft: 'none',
-          borderRight: 'none',
-          padding: 'var(--space-medium) var(--space-large)',
-          background: 'var(--glass-bg)',
-          backdropFilter: 'var(--blur-strong)',
+          background: '#FFFFFF',
+          borderBottom: '1px solid #E5E7EB',
+          padding: '20px 0',
           position: 'sticky',
           top: 0,
           zIndex: 100
         }}
       >
-        <div className="premium-container">
+        <div style={{ maxWidth: '1400px', margin: '0 auto', padding: '0 24px' }}>
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-medium)' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
               <RadiantLogo size="lg" />
               <div>
                 <h1 style={{ 
-                  fontSize: 'var(--font-headline)', 
+                  fontSize: '28px', 
                   fontWeight: 700, 
-                  color: 'var(--neutral-900)',
-                  marginBottom: 'var(--space-micro)'
+                  color: '#111827',
+                  margin: 0,
+                  marginBottom: '4px'
                 }}>
                   Your RadiantCompass Journey
                 </h1>
                 <p style={{ 
-                  fontSize: 'var(--font-body)', 
-                  color: 'var(--neutral-600)',
-                  fontWeight: 500
+                  fontSize: '16px', 
+                  color: '#6B7280',
+                  fontWeight: 500,
+                  margin: 0
                 }}>
                   Stage {currentStage.id} of 12: {currentStage.theme}
                 </p>
               </div>
             </div>
             
-            <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-small)' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
               <div style={{ 
                 background: currentStage.color + '20',
                 color: currentStage.color,
-                padding: 'var(--space-micro) var(--space-small)',
-                borderRadius: 'var(--radius-medium)',
-                fontSize: 'var(--font-caption)',
+                padding: '6px 12px',
+                borderRadius: '8px',
+                fontSize: '14px',
                 fontWeight: 600
               }}>
                 {currentStage.duration}
@@ -405,118 +362,125 @@ export const PremiumPatientJourney: React.FC = () => {
         </div>
       </header>
 
-      <div className="premium-container" style={{ padding: 'var(--space-hero) var(--space-large)' }}>
+      <div style={{ maxWidth: '1400px', margin: '0 auto', padding: '48px 24px' }}>
         {/* Current Stage Hero Section */}
-        <section style={{ marginBottom: 'var(--space-hero)' }}>
+        <section style={{ marginBottom: '64px' }}>
           <div 
-            className="glass-card"
             style={{
-              padding: 'var(--space-hero)',
+              padding: '48px',
               background: `linear-gradient(135deg, ${currentStage.color}08, ${currentStage.color}04)`,
               border: `1px solid ${currentStage.color}20`,
-              textAlign: 'center'
+              borderRadius: '16px',
+              textAlign: 'center' as const,
+              boxShadow: '0 4px 20px rgba(0, 0, 0, 0.05)'
             }}
           >
-            <div style={{ fontSize: '72px', marginBottom: 'var(--space-medium)' }}>
+            <div style={{ fontSize: '72px', marginBottom: '24px' }}>
               {currentStage.icon}
             </div>
             <h2 style={{ 
-              fontSize: 'var(--font-hero)', 
-              fontWeight: 800, 
-              color: 'var(--neutral-900)',
-              marginBottom: 'var(--space-small)',
-              background: `linear-gradient(135deg, ${currentStage.color}, ${currentStage.color}CC)`,
-              WebkitBackgroundClip: 'text',
-              WebkitTextFillColor: 'transparent',
-              backgroundClip: 'text'
+              fontSize: '36px', 
+              fontWeight: 700, 
+              color: '#111827',
+              marginBottom: '12px'
             }}>
               {currentStage.title}
             </h2>
             <p style={{ 
-              fontSize: 'var(--font-subtitle)', 
-              color: 'var(--neutral-700)',
-              marginBottom: 'var(--space-medium)',
-              fontWeight: 500
-            }}>
-              {currentStage.subtitle}
-            </p>
-            <p style={{ 
-              fontSize: 'var(--font-body)', 
-              color: 'var(--neutral-600)',
+              fontSize: '18px', 
+              color: '#6B7280',
+              marginBottom: '24px',
               maxWidth: '600px',
-              margin: '0 auto',
-              lineHeight: 1.6
+              margin: '0 auto 24px auto'
             }}>
               {currentStage.description}
             </p>
+            <div style={{ 
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: '8px',
+              background: 'rgba(255, 255, 255, 0.8)',
+              padding: '8px 16px',
+              borderRadius: '20px',
+              fontSize: '14px',
+              color: '#374151'
+            }}>
+              <span>Expected Duration: {currentStage.duration}</span>
+            </div>
           </div>
         </section>
 
-        {/* Tools Section - Prominently Displayed */}
-        <section style={{ marginBottom: 'var(--space-hero)' }}>
-          <h3 style={{ 
-            fontSize: 'var(--font-headline)', 
-            fontWeight: 700, 
-            color: 'var(--neutral-900)',
-            marginBottom: 'var(--space-large)',
-            textAlign: 'center'
-          }}>
-            Your Stage {currentStage.id} Tools & Support
-          </h3>
-
-          {isLoadingTools ? (
-            <div style={{ textAlign: 'center', padding: 'var(--space-hero)' }}>
-              <div style={{ fontSize: '48px', marginBottom: 'var(--space-medium)' }}>⏳</div>
-              <p style={{ fontSize: 'var(--font-subtitle)', color: 'var(--neutral-600)' }}>
-                Loading your personalized tools...
-              </p>
-            </div>
-          ) : (
-            <div style={{ display: 'grid', gap: 'var(--space-large)' }}>
+        {/* Tools Section - Only show if tools exist */}
+        {tools.length > 0 && (
+          <section style={{ marginBottom: '64px' }}>
+            <h3 style={{ 
+              fontSize: '24px', 
+              fontWeight: 700, 
+              color: '#111827',
+              marginBottom: '32px',
+              textAlign: 'center' as const
+            }}>
+              Tools & Resources for This Stage
+            </h3>
+            
+            <div style={{ display: 'flex', flexDirection: 'column' as const, gap: '32px' }}>
               {/* Essential Tools */}
               {essentialTools.length > 0 && (
                 <div>
                   <h4 style={{ 
-                    fontSize: 'var(--font-title)', 
+                    fontSize: '20px', 
                     fontWeight: 600, 
-                    color: 'var(--primary-radiant)',
-                    marginBottom: 'var(--space-medium)',
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: 'var(--space-small)'
+                    color: '#111827',
+                    marginBottom: '16px'
                   }}>
-                    ⭐ Essential Tools
+                    🎯 Essential Tools
                   </h4>
-                  <div 
-                    className="premium-grid"
-                    style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))' }}
-                  >
+                  <div style={{ 
+                    display: 'grid',
+                    gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
+                    gap: '16px'
+                  }}>
                     {essentialTools.map(tool => (
                       <div
                         key={tool.name}
-                        className={`tool-card-premium ${activeTool === tool.component ? 'active' : ''}`}
-                        onClick={() => setActiveTool(tool.component)}
                         style={{
-                          background: activeTool === tool.component 
-                            ? `linear-gradient(135deg, ${currentStage.color}10, ${currentStage.color}05)`
-                            : undefined
+                          background: '#FFFFFF',
+                          border: '1px solid #E5E7EB',
+                          borderRadius: '12px',
+                          padding: '20px',
+                          cursor: 'pointer',
+                          transition: 'all 0.2s ease',
+                          boxShadow: activeTool === tool.component 
+                            ? '0 4px 20px rgba(59, 130, 246, 0.15)'
+                            : '0 2px 8px rgba(0, 0, 0, 0.05)'
+                        }}
+                        onClick={() => setActiveTool(tool.component)}
+                        onMouseEnter={(e) => {
+                          e.currentTarget.style.transform = 'translateY(-2px)';
+                          e.currentTarget.style.boxShadow = '0 8px 32px rgba(0, 0, 0, 0.1)';
+                        }}
+                        onMouseLeave={(e) => {
+                          e.currentTarget.style.transform = 'translateY(0)';
+                          e.currentTarget.style.boxShadow = activeTool === tool.component 
+                            ? '0 4px 20px rgba(59, 130, 246, 0.15)'
+                            : '0 2px 8px rgba(0, 0, 0, 0.05)';
                         }}
                       >
-                        <div style={{ display: 'flex', alignItems: 'flex-start', gap: 'var(--space-small)' }}>
-                          <span style={{ fontSize: '32px' }}>{tool.icon}</span>
-                          <div style={{ flex: 1 }}>
+                        <div style={{ display: 'flex', alignItems: 'flex-start', gap: '12px' }}>
+                          <span style={{ fontSize: '24px' }}>{tool.icon}</span>
+                          <div>
                             <h5 style={{ 
-                              fontSize: 'var(--font-subtitle)', 
+                              fontSize: '16px', 
                               fontWeight: 600, 
-                              color: 'var(--neutral-900)',
-                              marginBottom: 'var(--space-micro)'
+                              color: '#111827',
+                              marginBottom: '4px'
                             }}>
                               {tool.name}
                             </h5>
                             <p style={{ 
-                              fontSize: 'var(--font-body)', 
-                              color: 'var(--neutral-600)',
-                              lineHeight: 1.5
+                              fontSize: '14px', 
+                              color: '#6B7280',
+                              margin: 0
                             }}>
                               {tool.description}
                             </p>
@@ -532,40 +496,59 @@ export const PremiumPatientJourney: React.FC = () => {
               {supportiveTools.length > 0 && (
                 <div>
                   <h4 style={{ 
-                    fontSize: 'var(--font-title)', 
+                    fontSize: '20px', 
                     fontWeight: 600, 
-                    color: 'var(--primary-hope)',
-                    marginBottom: 'var(--space-medium)',
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: 'var(--space-small)'
+                    color: '#111827',
+                    marginBottom: '16px'
                   }}>
                     🤝 Supportive Tools
                   </h4>
-                  <div 
-                    className="premium-grid"
-                    style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))' }}
-                  >
+                  <div style={{ 
+                    display: 'grid',
+                    gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
+                    gap: '16px'
+                  }}>
                     {supportiveTools.map(tool => (
                       <div
                         key={tool.name}
-                        className={`tool-card-premium ${activeTool === tool.component ? 'active' : ''}`}
+                        style={{
+                          background: '#FFFFFF',
+                          border: '1px solid #E5E7EB',
+                          borderRadius: '12px',
+                          padding: '20px',
+                          cursor: 'pointer',
+                          transition: 'all 0.2s ease',
+                          boxShadow: activeTool === tool.component 
+                            ? '0 4px 20px rgba(59, 130, 246, 0.15)'
+                            : '0 2px 8px rgba(0, 0, 0, 0.05)'
+                        }}
                         onClick={() => setActiveTool(tool.component)}
+                        onMouseEnter={(e) => {
+                          e.currentTarget.style.transform = 'translateY(-2px)';
+                          e.currentTarget.style.boxShadow = '0 8px 32px rgba(0, 0, 0, 0.1)';
+                        }}
+                        onMouseLeave={(e) => {
+                          e.currentTarget.style.transform = 'translateY(0)';
+                          e.currentTarget.style.boxShadow = activeTool === tool.component 
+                            ? '0 4px 20px rgba(59, 130, 246, 0.15)'
+                            : '0 2px 8px rgba(0, 0, 0, 0.05)';
+                        }}
                       >
-                        <div style={{ display: 'flex', alignItems: 'flex-start', gap: 'var(--space-small)' }}>
+                        <div style={{ display: 'flex', alignItems: 'flex-start', gap: '12px' }}>
                           <span style={{ fontSize: '24px' }}>{tool.icon}</span>
                           <div>
                             <h5 style={{ 
-                              fontSize: 'var(--font-body)', 
+                              fontSize: '16px', 
                               fontWeight: 600, 
-                              color: 'var(--neutral-900)',
-                              marginBottom: 'var(--space-micro)'
+                              color: '#111827',
+                              marginBottom: '4px'
                             }}>
                               {tool.name}
                             </h5>
                             <p style={{ 
-                              fontSize: 'var(--font-caption)', 
-                              color: 'var(--neutral-600)'
+                              fontSize: '14px', 
+                              color: '#6B7280',
+                              margin: 0
                             }}>
                               {tool.description}
                             </p>
@@ -581,40 +564,59 @@ export const PremiumPatientJourney: React.FC = () => {
               {advancedTools.length > 0 && (
                 <div>
                   <h4 style={{ 
-                    fontSize: 'var(--font-title)', 
+                    fontSize: '20px', 
                     fontWeight: 600, 
-                    color: 'var(--primary-wisdom)',
-                    marginBottom: 'var(--space-medium)',
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: 'var(--space-small)'
+                    color: '#111827',
+                    marginBottom: '16px'
                   }}>
                     🚀 Advanced Tools
                   </h4>
-                  <div 
-                    className="premium-grid"
-                    style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))' }}
-                  >
+                  <div style={{ 
+                    display: 'grid',
+                    gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
+                    gap: '16px'
+                  }}>
                     {advancedTools.map(tool => (
                       <div
                         key={tool.name}
-                        className={`tool-card-premium ${activeTool === tool.component ? 'active' : ''}`}
+                        style={{
+                          background: '#FFFFFF',
+                          border: '1px solid #E5E7EB',
+                          borderRadius: '12px',
+                          padding: '20px',
+                          cursor: 'pointer',
+                          transition: 'all 0.2s ease',
+                          boxShadow: activeTool === tool.component 
+                            ? '0 4px 20px rgba(59, 130, 246, 0.15)'
+                            : '0 2px 8px rgba(0, 0, 0, 0.05)'
+                        }}
                         onClick={() => setActiveTool(tool.component)}
+                        onMouseEnter={(e) => {
+                          e.currentTarget.style.transform = 'translateY(-2px)';
+                          e.currentTarget.style.boxShadow = '0 8px 32px rgba(0, 0, 0, 0.1)';
+                        }}
+                        onMouseLeave={(e) => {
+                          e.currentTarget.style.transform = 'translateY(0)';
+                          e.currentTarget.style.boxShadow = activeTool === tool.component 
+                            ? '0 4px 20px rgba(59, 130, 246, 0.15)'
+                            : '0 2px 8px rgba(0, 0, 0, 0.05)';
+                        }}
                       >
-                        <div style={{ display: 'flex', alignItems: 'flex-start', gap: 'var(--space-small)' }}>
+                        <div style={{ display: 'flex', alignItems: 'flex-start', gap: '12px' }}>
                           <span style={{ fontSize: '24px' }}>{tool.icon}</span>
                           <div>
                             <h5 style={{ 
-                              fontSize: 'var(--font-body)', 
+                              fontSize: '16px', 
                               fontWeight: 600, 
-                              color: 'var(--neutral-900)',
-                              marginBottom: 'var(--space-micro)'
+                              color: '#111827',
+                              marginBottom: '4px'
                             }}>
                               {tool.name}
                             </h5>
                             <p style={{ 
-                              fontSize: 'var(--font-caption)', 
-                              color: 'var(--neutral-600)'
+                              fontSize: '14px', 
+                              color: '#6B7280',
+                              margin: 0
                             }}>
                               {tool.description}
                             </p>
@@ -626,13 +628,19 @@ export const PremiumPatientJourney: React.FC = () => {
                 </div>
               )}
             </div>
-          )}
-        </section>
+          </section>
+        )}
 
         {/* Active Tool Display */}
         {activeTool && (
-          <section style={{ marginBottom: 'var(--space-hero)' }}>
-            <div className="glass-card" style={{ padding: 'var(--space-large)' }}>
+          <section style={{ marginBottom: '64px' }}>
+            <div style={{ 
+              background: '#FFFFFF', 
+              border: '1px solid #E5E7EB',
+              borderRadius: '16px',
+              padding: '32px',
+              boxShadow: '0 4px 20px rgba(0, 0, 0, 0.05)'
+            }}>
               <JourneyTool componentName={activeTool} />
             </div>
           </section>
@@ -641,84 +649,99 @@ export const PremiumPatientJourney: React.FC = () => {
         {/* Complete 12-Stage Journey Map */}
         <section>
           <h3 style={{ 
-            fontSize: 'var(--font-headline)', 
+            fontSize: '28px', 
             fontWeight: 700, 
-            color: 'var(--neutral-900)',
-            marginBottom: 'var(--space-large)',
-            textAlign: 'center'
+            color: '#111827',
+            marginBottom: '32px',
+            textAlign: 'center' as const
           }}>
             Your Complete 12-Stage Journey
           </h3>
           
           <div 
-            className="premium-grid"
-            style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: 'var(--space-medium)' }}
+            style={{ 
+              display: 'grid',
+              gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', 
+              gap: '16px' 
+            }}
           >
             {journeyStages.map(stage => (
               <div
                 key={stage.id}
-                className={`journey-stage-card ${selectedStage === stage.name ? 'active' : ''}`}
-                onClick={() => setSelectedStage(stage.name)}
                 style={{
-                  opacity: stage.status === 'upcoming' ? 0.7 : 1,
-                  background: stage.status === 'completed' 
-                    ? `linear-gradient(135deg, ${stage.color}15, ${stage.color}08)`
-                    : selectedStage === stage.name
+                  background: selectedStage === stage.name 
                     ? `linear-gradient(135deg, ${stage.color}20, ${stage.color}10)`
-                    : undefined
+                    : '#FFFFFF',
+                  border: selectedStage === stage.name 
+                    ? `2px solid ${stage.color}`
+                    : '1px solid #E5E7EB',
+                  borderRadius: '16px',
+                  padding: '24px',
+                  cursor: 'pointer',
+                  transition: 'all 0.2s ease',
+                  opacity: stage.status === 'upcoming' ? 0.7 : 1,
+                  boxShadow: selectedStage === stage.name 
+                    ? `0 8px 32px ${stage.color}20`
+                    : '0 2px 8px rgba(0, 0, 0, 0.05)'
+                }}
+                onClick={() => setSelectedStage(stage.name)}
+                onMouseEnter={(e) => {
+                  if (selectedStage !== stage.name) {
+                    e.currentTarget.style.transform = 'translateY(-4px)';
+                    e.currentTarget.style.boxShadow = '0 12px 48px rgba(0, 0, 0, 0.15)';
+                  }
+                }}
+                onMouseLeave={(e) => {
+                  if (selectedStage !== stage.name) {
+                    e.currentTarget.style.transform = 'translateY(0)';
+                    e.currentTarget.style.boxShadow = '0 2px 8px rgba(0, 0, 0, 0.05)';
+                  }
                 }}
               >
-                <div style={{ display: 'flex', alignItems: 'flex-start', gap: 'var(--space-small)', marginBottom: 'var(--space-small)' }}>
+                <div style={{ display: 'flex', alignItems: 'flex-start', gap: '12px', marginBottom: '12px' }}>
                   <span style={{ fontSize: '32px' }}>{stage.icon}</span>
                   <div style={{ flex: 1 }}>
-                    <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-small)', marginBottom: 'var(--space-micro)' }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '4px' }}>
                       <span style={{ 
-                        fontSize: 'var(--font-caption)', 
+                        fontSize: '12px', 
                         fontWeight: 700, 
                         color: stage.color,
                         background: stage.color + '20',
                         padding: '2px 8px',
-                        borderRadius: 'var(--radius-small)'
+                        borderRadius: '4px'
                       }}>
                         Stage {stage.id}
                       </span>
                       <span style={{ 
-                        fontSize: 'var(--font-micro)', 
-                        color: 'var(--neutral-500)',
+                        fontSize: '12px', 
+                        color: '#6B7280',
                         fontWeight: 500
                       }}>
                         {stage.duration}
                       </span>
                     </div>
                     <h4 style={{ 
-                      fontSize: 'var(--font-subtitle)', 
+                      fontSize: '18px', 
                       fontWeight: 600, 
-                      color: 'var(--neutral-900)',
-                      marginBottom: 'var(--space-micro)'
+                      color: '#111827',
+                      marginBottom: '4px'
                     }}>
                       {stage.title}
                     </h4>
                     <p style={{ 
-                      fontSize: 'var(--font-caption)', 
-                      color: 'var(--neutral-600)',
-                      fontStyle: 'italic',
-                      marginBottom: 'var(--space-small)'
+                      fontSize: '14px', 
+                      color: '#6B7280',
+                      fontWeight: 500,
+                      marginBottom: '8px'
                     }}>
                       {stage.subtitle}
                     </p>
                   </div>
-                  <div style={{ 
-                    fontSize: '16px',
-                    color: stage.status === 'completed' ? 'var(--success)' : 
-                           stage.status === 'current' ? 'var(--primary-radiant)' : 'var(--neutral-400)'
-                  }}>
-                    {stage.status === 'completed' ? '✅' : 
-                     stage.status === 'current' ? '🔄' : '⏳'}
-                  </div>
                 </div>
                 <p style={{ 
-                  fontSize: 'var(--font-caption)', 
-                  color: 'var(--neutral-600)',
+                  fontSize: '14px', 
+                  color: '#374151',
+                  margin: 0,
                   lineHeight: 1.4
                 }}>
                   {stage.description}

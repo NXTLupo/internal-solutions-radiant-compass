@@ -11,8 +11,13 @@ import openai
 import anthropic
 import aiofiles
 import time
+import logging
 from pathlib import Path
 from datetime import datetime
+
+# Configure logging
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
 
 router = APIRouter(prefix="/api/v1/ultra-low-latency", tags=["ultra-low-latency"])
 
@@ -405,13 +410,21 @@ async def deepgram_ultra_fast_stt(websocket: WebSocket):
         await websocket.send_json({"error": f"Ultra-fast STT failed: {str(e)}"})
 
 def build_ultra_fast_medical_prompt(patient_name: str, journey_stage: str = "general", user_role: str = "patient", context: dict = None) -> str:
-    """Build RadiantCompass-optimized medical prompt with patient memory context."""
+    """Build RadiantCompass-optimized medical prompt with patient memory context and dynamic tools."""
     
     # Get patient context for personalization
     patient_context = context.get("patient_context", {}) if context else {}
     conditions = patient_context.get("conditions", [])
     key_concerns = patient_context.get("key_concerns", [])
     total_conversations = patient_context.get("total_conversations", 0)
+    
+    # Get available tools and triggered tools from context
+    available_tools = context.get("availableTools", []) if context else []
+    triggered_tools = context.get("triggeredTools", []) if context else []
+    
+    # Debug logging for tool integration
+    logger.info(f"🔧 DEBUG: Available tools: {len(available_tools)} - {[t.get('name') for t in available_tools]}")
+    logger.info(f"🔧 DEBUG: Triggered tools: {len(triggered_tools)} - {[t.get('name') for t in triggered_tools]}")
     
     # Build memory-aware introduction
     memory_context = ""
@@ -424,6 +437,25 @@ PATIENT MEMORY & CONTINUITY:
 - Continue our conversation with full awareness of our previous discussions
 - Reference past conversations naturally and show you remember their journey"""
     
+    # Build dynamic tool context
+    tool_context = ""
+    if available_tools:
+        tool_names = [tool.get('name', 'Unknown Tool') for tool in available_tools]
+        tool_context = f"""
+AVAILABLE TOOLS FOR {journey_stage.upper()} STAGE:
+- You have access to: {', '.join(tool_names)}
+- These tools can help {patient_name} with stage-specific guidance
+- Naturally mention relevant tools when they would be helpful
+- Present tools as practical solutions, not just features"""
+        
+        if triggered_tools:
+            triggered_names = [tool.get('name', 'Unknown Tool') for tool in triggered_tools]
+            tool_context += f"""
+- TRIGGERED TOOLS: {', '.join(triggered_names)} (patient's message suggests these would be helpful)
+- IMPORTANT: Proactively mention using these tools and starting to track/explain immediately
+- Say things like "Let me start tracking your symptoms" or "I'll help you understand this condition"
+- Be ready to fill out forms and gather specific information"""
+    
     # Base RadiantCompass expertise system
     radiant_compass_expertise = f"""You are Dr. Maya, a warm and empathetic AI healthcare companion helping {patient_name}.
 
@@ -435,15 +467,18 @@ CORE IDENTITY:
 CURRENT CONTEXT:
 - Patient: {patient_name}
 - Journey Stage: {journey_stage.replace('_', ' ').title()}
-- Role: {user_role.title()}{memory_context}
+- Role: {user_role.title()}{memory_context}{tool_context}
 
 VOICE CONVERSATION RULES:
 - Speak directly as Dr. Maya - NO thinking out loud
 - Keep responses very brief (20-40 words for voice)
 - Use warm, everyday language - no medical jargon
 - Sound caring and genuinely interested in helping
+- When tools are triggered, IMMEDIATELY offer to start using them (e.g., "Let me track that symptom for you")
+- Be proactive about tool activation - don't just mention, but actively suggest starting
+- Say things like "I'll start a symptom log" or "Let me explain this condition"
 - NO verbose explanations or clinical reasoning
-- Just provide direct, compassionate responses"""
+- Just provide direct, compassionate responses with immediate tool activation offers"""
 
     # Journey stage-specific expertise
     stage_expertise = get_journey_stage_expertise(journey_stage)
@@ -925,11 +960,19 @@ async def groq_fast_chat(request: dict):
         
         start_time = datetime.utcnow()
         
+        # Debug: Print context for tool integration
+        logger.info(f"🔧 DEBUG GROQ-CHAT: Available tools in context: {context.get('availableTools', [])}")
+        logger.info(f"🔧 DEBUG GROQ-CHAT: Triggered tools in context: {context.get('triggeredTools', [])}")
+        
         # Build messages with memory context
+        system_prompt = build_ultra_fast_medical_prompt(patient_name, journey_stage, user_role, context)
+        logger.info(f"🔧 DEBUG GROQ-CHAT: System prompt length: {len(system_prompt)} chars")
+        logger.info(f"🔧 DEBUG GROQ-CHAT: Tool mentions in prompt: {'Symptom Tracker' in system_prompt}")
+        
         messages = [
             {
                 "role": "system",
-                "content": build_ultra_fast_medical_prompt(patient_name, journey_stage, user_role, context)
+                "content": system_prompt
             }
         ]
         
