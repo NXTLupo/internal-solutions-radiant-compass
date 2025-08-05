@@ -1,6 +1,6 @@
 import { CopilotKit } from "@copilotkit/react-core";
 import { AppStateProvider } from "./components/AppStateProvider";
-import { PremiumPatientJourney } from "./components/PremiumPatientJourney";
+import { DrMayaVoiceExperience } from "./components/DrMayaVoiceExperience";
 import { JourneyAwareCoAgent } from "./components/JourneyAwareCoAgent";
 
 function App() {
@@ -9,7 +9,7 @@ function App() {
   return (
     <CopilotKit runtimeUrl={runtimeUrl}>
       <AppStateProvider>
-        <PremiumPatientJourney />
+        <DrMayaVoiceExperience onExit={() => {}} />
         <div className="hidden">
           <JourneyAwareCoAgent />
         </div>

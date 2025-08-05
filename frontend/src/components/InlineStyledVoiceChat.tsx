@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect, useCallback } from 'react';
-import { SymptomTracker } from './tools/SymptomTracker';
-import { ConditionExplainer } from './tools/ConditionExplainer';
+import { SymptomTracker } from './journeystages/SymptomTracker';
+import { ConditionExplainer } from './journeystages/ConditionExplainer';
+import { useAppState } from './AppStateProvider';
 
 interface InlineStyledVoiceChatProps {
   onNavigateHome?: () => void;
@@ -16,72 +17,81 @@ interface ChatMessage {
   toolData?: any;
 }
 
-// ULTRA-CLEAN WHITE DESIGN - INLINE STYLES
+// PREMIUM HEALTHCARE CONCIERGE DESIGN - INLINE STYLES
 const styles = {
-  // FULL SCREEN ULTRA-CLEAN WHITE
+  // FULL SCREEN PREMIUM WHITE WITH SUBTLE WARMTH
   fullScreen: {
     position: 'fixed' as const,
     top: 0,
     left: 0,
     right: 0,
     bottom: 0,
-    background: '#FFFFFF',
+    background: 'linear-gradient(135deg, #FFFFFF 0%, #FEFEFE 100%)',
     display: 'flex',
     flexDirection: 'column' as const,
-    fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", system-ui, sans-serif',
+    fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Segoe UI", system-ui, sans-serif',
     zIndex: 9999,
-    overflow: 'hidden'
+    overflow: 'hidden',
+    letterSpacing: '-0.01em'
   },
 
-  // CLEAN WHITE HEADER
+  // PREMIUM HEALTHCARE HEADER
   header: {
-    background: '#FFFFFF',
-    borderBottom: '1px solid #E5E7EB',
-    padding: '20px 24px',
+    background: 'rgba(255, 255, 255, 0.95)',
+    backdropFilter: 'blur(20px)',
+    borderBottom: '1px solid rgba(229, 231, 235, 0.6)',
+    padding: '24px 32px',
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'space-between',
-    flexShrink: 0
+    flexShrink: 0,
+    boxShadow: '0 1px 3px rgba(0, 0, 0, 0.02)'
   },
 
   exitButton: {
     background: 'transparent',
-    border: 'none',
-    fontSize: '16px',
+    border: '1px solid rgba(229, 231, 235, 0.6)',
+    fontSize: '15px',
     fontWeight: 500,
-    color: '#374151',
+    color: '#475569',
     cursor: 'pointer',
-    padding: '8px 16px',
-    borderRadius: '8px',
-    transition: 'all 0.2s ease'
+    padding: '10px 18px',
+    borderRadius: '12px',
+    transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+    letterSpacing: '-0.01em'
   },
 
   headerTitle: {
     display: 'flex',
     alignItems: 'center',
-    gap: '12px'
+    gap: '16px'
   },
 
   titleText: {
-    fontSize: '20px',
-    fontWeight: 600,
-    color: '#111827',
-    margin: 0
+    fontSize: '24px',
+    fontWeight: 700,
+    color: '#0F172A',
+    margin: 0,
+    letterSpacing: '-0.02em'
   },
 
   subtitle: {
-    fontSize: '14px',
-    color: '#6B7280',
-    margin: 0
+    fontSize: '15px',
+    color: '#64748B',
+    margin: 0,
+    fontWeight: 500,
+    letterSpacing: '-0.01em'
   },
 
   latencyBadge: {
-    background: '#10B981',
+    background: 'linear-gradient(135deg, #059669 0%, #10B981 100%)',
     color: 'white',
-    padding: '4px 12px',
-    borderRadius: '12px',
-    fontSize: '12px',
-    fontWeight: 500
+    padding: '6px 14px',
+    borderRadius: '20px',
+    fontSize: '13px',
+    fontWeight: 600,
+    boxShadow: '0 2px 8px rgba(16, 185, 129, 0.3)',
+    letterSpacing: '-0.01em'
   },
 
   // MAIN CONTENT AREA
@@ -92,246 +102,281 @@ const styles = {
     overflow: 'hidden'
   },
 
-  // DR MAYA AVATAR SECTION  
+  // DR MAYA PREMIUM AVATAR SECTION  
   avatarSection: {
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
-    padding: '40px 24px',
-    flexShrink: 0
+    padding: '48px 32px',
+    flexShrink: 0,
+    position: 'relative' as const
   },
 
   avatar: {
-    width: '120px',
-    height: '120px',
+    width: '160px',
+    height: '160px',
     borderRadius: '50%',
-    transition: 'all 0.3s ease',
-    boxShadow: '0 4px 20px rgba(0, 0, 0, 0.1)',
-    border: '3px solid #F3F4F6'
+    transition: 'all 0.4s cubic-bezier(0.4, 0, 0.2, 1)',
+    boxShadow: '0 8px 32px rgba(0, 0, 0, 0.08), 0 4px 16px rgba(0, 0, 0, 0.04)',
+    border: '4px solid rgba(248, 250, 252, 0.8)',
+    objectFit: 'cover' as const,
+    position: 'relative' as const,
+    zIndex: 2
   },
 
   avatarListening: {
-    boxShadow: '0 0 30px rgba(59, 130, 246, 0.5)',
-    borderColor: '#3B82F6'
+    boxShadow: '0 0 40px rgba(59, 130, 246, 0.4), 0 8px 32px rgba(59, 130, 246, 0.2)',
+    borderColor: 'rgba(59, 130, 246, 0.6)',
+    transform: 'scale(1.05)'
   },
 
   avatarThinking: {
-    boxShadow: '0 0 30px rgba(147, 51, 234, 0.5)',
-    borderColor: '#9333EA'
+    boxShadow: '0 0 40px rgba(139, 92, 246, 0.4), 0 8px 32px rgba(139, 92, 246, 0.2)',
+    borderColor: 'rgba(139, 92, 246, 0.6)',
+    transform: 'scale(1.02)'
   },
 
   avatarSpeaking: {
-    boxShadow: '0 0 30px rgba(34, 197, 94, 0.5)',
-    borderColor: '#22C55E'
+    boxShadow: '0 0 40px rgba(16, 185, 129, 0.4), 0 8px 32px rgba(16, 185, 129, 0.2)',
+    borderColor: 'rgba(16, 185, 129, 0.6)',
+    transform: 'scale(1.08)'
   },
 
-  // CHAT MESSAGES CONTAINER
+  // PREMIUM CHAT MESSAGES CONTAINER
   chatContainer: {
     flex: 1,
     overflowY: 'auto' as const,
-    padding: '0 24px',
+    padding: '0 32px',
     display: 'flex',
     flexDirection: 'column' as const,
-    gap: '16px'
+    gap: '20px',
+    scrollBehavior: 'smooth' as const
   },
 
-  // MESSAGE BUBBLES
+  // PREMIUM MESSAGE BUBBLES
   messageBubble: {
-    maxWidth: '75%',
-    padding: '16px 20px',
-    borderRadius: '18px',
+    maxWidth: '80%',
+    padding: '18px 24px',
+    borderRadius: '24px',
     fontSize: '16px',
-    lineHeight: 1.5,
+    lineHeight: 1.6,
     position: 'relative' as const,
     wordWrap: 'break-word' as const,
-    wordBreak: 'break-word' as const
+    wordBreak: 'break-word' as const,
+    letterSpacing: '-0.01em'
   },
 
   userBubble: {
-    background: '#3B82F6',
+    background: 'linear-gradient(135deg, #3B82F6 0%, #2563EB 100%)',
     color: '#FFFFFF',
     alignSelf: 'flex-end',
-    borderBottomRightRadius: '6px'
+    borderBottomRightRadius: '8px',
+    boxShadow: '0 4px 16px rgba(59, 130, 246, 0.25), 0 2px 8px rgba(59, 130, 246, 0.15)'
   },
 
   assistantBubble: {
-    background: '#F8FAFC',
-    color: '#1F2937',
+    background: 'rgba(248, 250, 252, 0.8)',
+    color: '#0F172A',
     alignSelf: 'flex-start',
-    borderBottomLeftRadius: '6px',
-    border: '1px solid #E2E8F0',
-    boxShadow: '0 1px 3px rgba(0, 0, 0, 0.1)'
+    borderBottomLeftRadius: '8px',
+    border: '1px solid rgba(226, 232, 240, 0.6)',
+    boxShadow: '0 4px 16px rgba(0, 0, 0, 0.04), 0 2px 8px rgba(0, 0, 0, 0.02)',
+    backdropFilter: 'blur(8px)'
   },
 
   systemBubble: {
-    background: '#10B981',
+    background: 'linear-gradient(135deg, #059669 0%, #10B981 100%)',
     color: '#FFFFFF',
     alignSelf: 'center',
     textAlign: 'center' as const,
-    fontSize: '14px'
+    fontSize: '15px',
+    fontWeight: 500,
+    boxShadow: '0 4px 16px rgba(16, 185, 129, 0.25)'
   },
 
   messageContent: {
     margin: 0,
     fontSize: '16px',
-    lineHeight: 1.5,
-    fontWeight: 400
+    lineHeight: 1.6,
+    fontWeight: 400,
+    letterSpacing: '-0.01em'
   },
 
   messageFooter: {
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'space-between',
-    marginTop: '8px',
-    opacity: 0.7
+    marginTop: '12px',
+    opacity: 0.6
   },
 
   timestamp: {
-    fontSize: '11px'
+    fontSize: '12px',
+    fontWeight: 500,
+    letterSpacing: '-0.01em'
   },
 
   latencyTag: {
     fontSize: '11px',
-    background: 'rgba(0,0,0,0.1)',
-    padding: '2px 6px',
-    borderRadius: '4px'
+    background: 'rgba(0, 0, 0, 0.08)',
+    padding: '4px 8px',
+    borderRadius: '8px',
+    fontWeight: 500,
+    letterSpacing: '-0.01em'
   },
 
-  // VOICE CONTROLS - ALWAYS VISIBLE
+  // PREMIUM VOICE CONTROLS - ALWAYS VISIBLE
   controlsContainer: {
-    background: '#FFFFFF',
-    borderTop: '1px solid #E5E7EB',
-    padding: '32px 24px',
+    background: 'rgba(255, 255, 255, 0.95)',
+    backdropFilter: 'blur(20px)',
+    borderTop: '1px solid rgba(229, 231, 235, 0.4)',
+    padding: '40px 32px',
     display: 'flex',
     flexDirection: 'column' as const,
     alignItems: 'center',
-    gap: '20px',
-    flexShrink: 0
+    gap: '24px',
+    flexShrink: 0,
+    boxShadow: '0 -4px 16px rgba(0, 0, 0, 0.02)'
   },
 
   voiceButton: {
-    width: '80px',
-    height: '80px',
+    width: '100px',
+    height: '100px',
     borderRadius: '50%',
     border: 'none',
     cursor: 'pointer',
-    transition: 'all 0.2s ease',
-    fontSize: '32px',
+    transition: 'all 0.4s cubic-bezier(0.4, 0, 0.2, 1)',
+    fontSize: '36px',
     color: 'white',
-    boxShadow: '0 4px 20px rgba(0, 0, 0, 0.15)',
+    boxShadow: '0 8px 32px rgba(0, 0, 0, 0.12), 0 4px 16px rgba(0, 0, 0, 0.08)',
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
-    outline: 'none'
+    outline: 'none',
+    position: 'relative' as const
   },
 
   voiceButtonListening: {
-    background: '#EF4444',
-    transform: 'scale(1.1)',
-    boxShadow: '0 0 30px rgba(239, 68, 68, 0.5)'
+    background: 'linear-gradient(135deg, #EF4444 0%, #DC2626 100%)',
+    transform: 'scale(1.15)',
+    boxShadow: '0 0 40px rgba(239, 68, 68, 0.4), 0 8px 32px rgba(239, 68, 68, 0.3)'
   },
 
   voiceButtonProcessing: {
-    background: '#F59E0B',
-    cursor: 'not-allowed'
+    background: 'linear-gradient(135deg, #F59E0B 0%, #D97706 100%)',
+    cursor: 'not-allowed',
+    boxShadow: '0 0 32px rgba(245, 158, 11, 0.3), 0 8px 24px rgba(245, 158, 11, 0.2)'
   },
 
   voiceButtonSpeaking: {
-    background: '#10B981',
-    cursor: 'not-allowed'
+    background: 'linear-gradient(135deg, #10B981 0%, #059669 100%)',
+    cursor: 'not-allowed',
+    transform: 'scale(1.1)',
+    boxShadow: '0 0 36px rgba(16, 185, 129, 0.4), 0 8px 28px rgba(16, 185, 129, 0.25)'
   },
 
   voiceButtonReady: {
-    background: '#3B82F6'
+    background: 'linear-gradient(135deg, #3B82F6 0%, #2563EB 100%)',
+    boxShadow: '0 8px 32px rgba(59, 130, 246, 0.3), 0 4px 16px rgba(59, 130, 246, 0.2)'
   },
 
   statusText: {
-    fontSize: '16px',
-    fontWeight: 500,
-    color: '#374151',
+    fontSize: '18px',
+    fontWeight: 600,
+    color: '#0F172A',
     textAlign: 'center' as const,
-    margin: 0
+    margin: 0,
+    letterSpacing: '-0.01em'
   },
 
   techSpecs: {
     display: 'flex',
     justifyContent: 'center',
-    gap: '16px',
+    gap: '20px',
     flexWrap: 'wrap' as const
   },
 
   techSpec: {
-    fontSize: '12px',
-    color: '#6B7280',
-    background: '#F3F4F6',
-    padding: '6px 12px',
-    borderRadius: '12px'
+    fontSize: '13px',
+    color: '#64748B',
+    background: 'rgba(248, 250, 252, 0.8)',
+    padding: '8px 16px',
+    borderRadius: '16px',
+    fontWeight: 500,
+    letterSpacing: '-0.01em',
+    border: '1px solid rgba(226, 232, 240, 0.6)'
   },
 
-  // CONNECTION SCREEN
+  // PREMIUM CONNECTION SCREEN
   connectionScreen: {
     alignItems: 'center',
     justifyContent: 'center',
-    padding: '40px 24px'
+    padding: '48px 32px'
   },
 
   connectionContent: {
     textAlign: 'center' as const,
-    maxWidth: '400px'
+    maxWidth: '480px'
   },
 
   connectionAvatar: {
-    width: '120px',
-    height: '120px',
-    margin: '0 auto 40px auto',
+    width: '160px',
+    height: '160px',
+    margin: '0 auto 48px auto',
     borderRadius: '50%',
-    background: '#3B82F6',
+    background: 'linear-gradient(135deg, #3B82F6 0%, #2563EB 100%)',
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
-    fontSize: '48px',
-    boxShadow: '0 8px 40px rgba(59, 130, 246, 0.3)'
+    fontSize: '64px',
+    boxShadow: '0 12px 48px rgba(59, 130, 246, 0.3), 0 8px 32px rgba(59, 130, 246, 0.2)'
   },
 
   connectionTitle: {
-    fontSize: '28px',
+    fontSize: '32px',
     fontWeight: 700,
-    color: '#111827',
-    marginBottom: '16px'
+    color: '#0F172A',
+    marginBottom: '20px',
+    letterSpacing: '-0.02em'
   },
 
   connectionSubtitle: {
-    fontSize: '16px',
-    color: '#6B7280',
-    marginBottom: '32px',
-    lineHeight: 1.5
+    fontSize: '18px',
+    color: '#64748B',
+    marginBottom: '40px',
+    lineHeight: 1.6,
+    letterSpacing: '-0.01em'
   },
 
   errorBox: {
-    background: '#FEF2F2',
-    border: '1px solid #FECACA',
-    borderRadius: '8px',
-    padding: '16px',
-    marginBottom: '24px'
+    background: 'rgba(254, 242, 242, 0.8)',
+    border: '1px solid rgba(254, 202, 202, 0.6)',
+    borderRadius: '16px',
+    padding: '20px',
+    marginBottom: '32px',
+    backdropFilter: 'blur(8px)'
   },
 
   errorText: {
     color: '#DC2626',
-    fontSize: '14px',
-    margin: 0
+    fontSize: '15px',
+    margin: 0,
+    fontWeight: 500,
+    letterSpacing: '-0.01em'
   },
 
   connectButton: {
-    fontSize: '16px',
-    padding: '12px 32px',
-    background: '#3B82F6',
+    fontSize: '18px',
+    padding: '16px 40px',
+    background: 'linear-gradient(135deg, #3B82F6 0%, #2563EB 100%)',
     color: '#FFFFFF',
     border: 'none',
-    borderRadius: '8px',
+    borderRadius: '16px',
     cursor: 'pointer',
     fontWeight: 600,
-    boxShadow: '0 4px 12px rgba(59, 130, 246, 0.3)',
-    transition: 'all 0.2s ease'
+    boxShadow: '0 8px 32px rgba(59, 130, 246, 0.3), 0 4px 16px rgba(59, 130, 246, 0.2)',
+    transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+    letterSpacing: '-0.01em'
   }
 };
 
