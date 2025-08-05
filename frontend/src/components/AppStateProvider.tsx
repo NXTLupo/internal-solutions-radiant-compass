@@ -1,5 +1,5 @@
 import { useCopilotReadable } from "@copilotkit/react-core";
-import { useState, useEffect } from "react";
+import { useState, useEffect, createContext, useContext } from "react";
 import type { ReactNode } from "react";
 
 interface AppData {
@@ -18,6 +18,14 @@ interface AppData {
 interface AppStateProviderProps {
   children: ReactNode;
 }
+
+// Create context first
+const AppStateContext = createContext<{
+  appData: AppData;
+  incrementRequestCount: () => void;
+  addRecentSearch: (search: string) => void;
+  updateUserPreferences: (preferences: Partial<AppData['userPreferences']>) => void;
+} | null>(null);
 
 export function AppStateProvider({ children }: AppStateProviderProps) {
   const [appData, setAppData] = useState<AppData>({
@@ -118,16 +126,6 @@ export function AppStateProvider({ children }: AppStateProviderProps) {
     </AppStateContext.Provider>
   );
 }
-
-// Create context for components that need it
-import { createContext, useContext } from "react";
-
-const AppStateContext = createContext<{
-  appData: AppData;
-  incrementRequestCount: () => void;
-  addRecentSearch: (search: string) => void;
-  updateUserPreferences: (preferences: Partial<AppData['userPreferences']>) => void;
-} | null>(null);
 
 export const useAppState = () => {
   const context = useContext(AppStateContext);

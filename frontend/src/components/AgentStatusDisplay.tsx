@@ -9,13 +9,13 @@ export function AgentStatusDisplay() {
   const getStatusColor = (status: string) => {
     switch (status) {
       case "running":
-        return "bg-blue-500";
+        return "var(--color-primary)";
       case "completed":
-        return "bg-green-500";
+        return "var(--color-success)";
       case "error":
-        return "bg-red-500";
+        return "var(--color-error)";
       default:
-        return "bg-gray-500";
+        return "var(--color-neutral-500)";
     }
   };
 
@@ -33,35 +33,103 @@ export function AgentStatusDisplay() {
   };
 
   return (
-    <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6">
-      <h3 className="font-semibold text-gray-900 dark:text-white mb-4">
+    <div 
+      style={{
+        backgroundColor: '#FFFFFF',
+        borderRadius: 'var(--radius-3xl)',
+        boxShadow: 'var(--shadow-lg)',
+        padding: 'var(--space-8)',
+        border: '2px solid var(--color-neutral-200)'
+      }}
+    >
+      <h3 
+        style={{
+          fontSize: 'var(--text-2xl)',
+          fontWeight: 'var(--font-bold)',
+          color: 'var(--color-neutral-900)',
+          marginBottom: 'var(--space-6)'
+        }}
+      >
         🤖 Agent Status
       </h3>
       
-      <div className="flex items-center gap-3 mb-3">
-        <div className={`w-3 h-3 rounded-full ${getStatusColor(agentState.status)}`}>
+      <div 
+        className="flex items-center" 
+        style={{ 
+          gap: 'var(--space-4)', 
+          marginBottom: 'var(--space-4)' 
+        }}
+      >
+        <div 
+          style={{
+            width: '20px',
+            height: '20px',
+            borderRadius: 'var(--radius-full)',
+            backgroundColor: getStatusColor(agentState.status),
+            position: 'relative'
+          }}
+        >
           {agentState.status === "running" && (
-            <div className="w-full h-full rounded-full animate-pulse bg-blue-300"></div>
+            <div 
+              style={{
+                width: '100%',
+                height: '100%',
+                borderRadius: 'var(--radius-full)',
+                backgroundColor: 'var(--color-primary-light)',
+                animation: 'pulse 2s infinite',
+                position: 'absolute',
+                top: 0,
+                left: 0
+              }}
+            />
           )}
         </div>
-        <span className="font-medium text-gray-900 dark:text-white">
+        <span 
+          style={{
+            fontSize: 'var(--text-xl)',
+            fontWeight: 'var(--font-semibold)',
+            color: 'var(--color-neutral-900)'
+          }}
+        >
           {getStatusText(agentState.status)}
         </span>
       </div>
       
       {agentState.currentStep && (
-        <div className="text-sm text-gray-600 dark:text-gray-300 bg-gray-50 dark:bg-gray-700 rounded-md p-3">
-          <span className="font-medium">Current step:</span> {agentState.currentStep}
+        <div 
+          style={{
+            fontSize: 'var(--text-lg)',
+            color: 'var(--color-neutral-700)',
+            backgroundColor: '#FFFFFF',
+            border: '2px solid var(--color-neutral-200)',
+            borderRadius: 'var(--radius-2xl)',
+            padding: 'var(--space-4)'
+          }}
+        >
+          <span style={{ fontWeight: 'var(--font-semibold)' }}>Current step:</span> {agentState.currentStep}
         </div>
       )}
       
-      <div className="mt-4 text-xs text-gray-500 dark:text-gray-400">
-        <div className="flex justify-between">
-          <span>Research Agent</span>
-          <span className="flex items-center gap-1">
-            <div className="w-2 h-2 bg-green-400 rounded-full"></div>
-            Connected
-          </span>
+      <div 
+        style={{
+          marginTop: 'var(--space-6)',
+          fontSize: 'var(--text-base)',
+          color: 'var(--color-neutral-600)'
+        }}
+      >
+        <div className="flex justify-between items-center">
+          <span style={{ fontWeight: 'var(--font-medium)' }}>Research Agent</span>
+          <div className="flex items-center" style={{ gap: 'var(--space-2)' }}>
+            <div 
+              style={{
+                width: '12px',
+                height: '12px',
+                backgroundColor: 'var(--color-success)',
+                borderRadius: 'var(--radius-full)'
+              }}
+            />
+            <span style={{ fontWeight: 'var(--font-medium)' }}>Connected</span>
+          </div>
         </div>
       </div>
     </div>

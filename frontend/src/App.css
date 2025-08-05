@@ -1,42 +1,51 @@
+/*
+  RadiantCompass - A Design System of Calm, Clarity, and Trust
+  Inspired by Apple's Human Interface Guidelines & the RadiantCompass Mission
+*/
+
+:root {
+  /* --- Color Palette: A Sanctuary of Calm --- */
+  --color-background: #FDFDFD; /* A soft, warm white */
+  --color-surface: #FFFFFF;
+  --color-border: #F0F0F0;
+  --color-text-primary: #1D1D1F; /* Apple's primary text color */
+  --color-text-secondary: #6E6E73;
+  --color-accent: #FF9500; /* A warm, optimistic orange */
+  --color-accent-light: #FFF5E5;
+
+  /* --- Typography: SF Pro Inspired for Ultimate Legibility --- */
+  --font-family-sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-size-base: 17px;
+  --font-size-lg: 24px;
+  --font-size-xl: 34px;
+  --font-weight-regular: 400;
+  --font-weight-semibold: 600;
+  --line-height-base: 1.5;
+
+  /* --- Spacing & Radius --- */
+  --space-md: 16px;
+  --space-lg: 24px;
+  --space-xl: 32px;
+  --radius-lg: 20px;
+  --radius-full: 9999px;
+
+  /* --- Shadows & Effects: Subtle, Realistic Depth --- */
+  --shadow-soft: 0 4px 12px rgba(0,0,0,0.05);
+  --shadow-interactive: 0 6px 16px rgba(0,0,0,0.07);
+}
+
+/* --- Base Styles --- */
+body {
+  background-color: var(--color-background);
+  color: var(--color-text-primary);
+  font-family: var(--font-family-sans);
+  font-size: var(--font-size-base);
+  line-height: var(--line-height-base);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
 #root {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
-  text-align: center;
-}
-
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
-}
-
-@keyframes logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
-  }
-}
-
-.card {
-  padding: 2em;
-}
-
-.read-the-docs {
-  color: #888;
+  width: 100vw;
+  height: 100vh;
 }

@@ -549,7 +549,7 @@ async def text_to_speech(request: dict):
             model="tts-1",  # Fast model for real-time
             voice="nova",   # Natural female voice - warm and engaging
             input=text,
-            speed=0.6       # FIXED: Much slower for natural healthcare conversation
+            speed=0.9       # Slower for natural healthcare conversation
         )
         
         # Convert audio to base64 for frontend

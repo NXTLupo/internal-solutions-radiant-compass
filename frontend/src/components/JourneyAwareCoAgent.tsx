@@ -9,14 +9,10 @@ import { useCopilotAction, useCopilotReadable } from '@copilotkit/react-core';
 
 export type JourneyStage = 
   | "awareness_orientation"
-  | "specialist_diagnosis" 
-  | "research_compare_care"
-  | "staging_baseline"
-  | "treatment_planning"
-  | "insurance_travel"
-  | "neoadjuvant_therapy"
-  | "surgery_local_treatment"
-  | "adjuvant_maintenance"
+  | "organize_plan"
+  | "explore_decide"
+  | "coordinate_commit"
+  | "undergo_treatment"
   | "early_recovery"
   | "surveillance_rehabilitation"
   | "long_term_living";
@@ -188,8 +184,8 @@ Remember: Medical reports contain a lot of technical language. It's normal to ne
     ],
     handler: async ({ condition, location_preferences = "open to travel" }) => {
       // Update journey state
-      setJourneyState(prev => ({ ...prev, condition, currentStage: "research_compare_care" }));
-      onStageChange?.("research_compare_care");
+      setJourneyState(prev => ({ ...prev, condition, currentStage: "explore_decide" }));
+      onStageChange?.("explore_decide");
 
       return `🏥 **Compare-My-Care™ Framework for ${condition}**
 
@@ -324,28 +320,28 @@ I'm here with you through this difficult moment. Please reach out for help - you
           🤔 New Symptoms
         </button>
         <button 
-          onClick={() => updateJourneyStage("specialist_diagnosis")}
-          className={`p-2 rounded-md text-left ${journeyState.currentStage === "specialist_diagnosis"
+          onClick={() => updateJourneyStage("organize_plan")}
+          className={`p-2 rounded-md text-left ${journeyState.currentStage === "organize_plan"
             ? "bg-blue-100 text-blue-800 border border-blue-300"
             : "bg-gray-50 text-gray-600 hover:bg-gray-100"}`}
         >
-          🔬 Diagnosis
+          🗺️ Organize Plan
         </button>
         <button 
-          onClick={() => updateJourneyStage("research_compare_care")}
-          className={`p-2 rounded-md text-left ${journeyState.currentStage === "research_compare_care"
+          onClick={() => updateJourneyStage("explore_decide")}
+          className={`p-2 rounded-md text-left ${journeyState.currentStage === "explore_decide"
             ? "bg-green-100 text-green-800 border border-green-300"
             : "bg-gray-50 text-gray-600 hover:bg-gray-100"}`}
         >
-          🏥 Compare Care
+          🔍 Explore & Decide
         </button>
         <button 
-          onClick={() => updateJourneyStage("treatment_planning")}
-          className={`p-2 rounded-md text-left ${journeyState.currentStage === "treatment_planning"
+          onClick={() => updateJourneyStage("coordinate_commit")}
+          className={`p-2 rounded-md text-left ${journeyState.currentStage === "coordinate_commit"
             ? "bg-purple-100 text-purple-800 border border-purple-300"
             : "bg-gray-50 text-gray-600 hover:bg-gray-100"}`}
         >
-          📋 Treatment Plan
+          📋 Coordinate
         </button>
       </div>
 

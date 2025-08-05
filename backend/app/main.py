@@ -17,7 +17,7 @@ from app.models import (
     Message, MessageCreate, MessageRead,
     AgentSession, AgentSessionCreate, AgentSessionRead, AgentSessionUpdate
 )
-from app.routes import awareness, ai_chat, ultra_low_latency, videosdk, tts_comparison
+from app.routes import awareness, ai_chat, ultra_low_latency, videosdk, tts_comparison, journey
 
 # Create FastAPI app
 app = FastAPI(
@@ -46,6 +46,7 @@ app.include_router(ai_chat.router)
 app.include_router(ultra_low_latency.router)
 app.include_router(tts_comparison.router)
 app.include_router(videosdk.router)
+app.include_router(journey.router)
 
 @app.on_event("startup")
 async def on_startup():
