@@ -25,7 +25,7 @@ export const toolOrchestrator: Action<[
   }
 ]> = {
   name: "selectAndShowTool",
-  description: "Based on the user's conversation, select and show the most relevant patient tool.",
+  description: "Based on the user's conversation, select the most relevant patient tool and provide step-by-step guidance.",
   parameters: [
     {
       name: "conversation",
@@ -51,7 +51,6 @@ export const toolOrchestrator: Action<[
     }
     const manifest = await response.json();
     const tools: JourneyTool[] = manifest.tools;
-    console.log(`[Orchestrator] Successfully fetched manifest with ${tools.length} tools.`);
 
     // 2. Analyze the conversation to find a matching tool.
     let selectedTool: JourneyTool | null = null;
@@ -59,24 +58,45 @@ export const toolOrchestrator: Action<[
       for (const trigger of tool.triggers) {
         if (conversation.toLowerCase().includes(trigger.toLowerCase())) {
           selectedTool = tool;
-          console.log(`[Orchestrator] MATCH FOUND: Trigger "${trigger}" matched for tool "${selectedTool.name}"`);
           break;
         }
       }
       if (selectedTool) break;
     }
 
-    // 3. If a tool is matched, return a command to the frontend to show it.
+    // 3. If a tool is matched, dynamically import and execute its workflow.
     if (selectedTool) {
-      console.log(`[Orchestrator] SUCCESS: Sending command to display tool: ${selectedTool.component}`);
-      return {
-        success: true,
-        toolToDisplay: selectedTool.component,
-        message: `I've brought up the ${selectedTool.name} for you.`,
-      };
+      try {
+        console.log(`[Orchestrator] Loading workflow for tool: ${selectedTool.component}`);
+        const workflowModule = await import(`../workflows/${selectedTool.component}.ts`);
+        
+        let workflow;
+        
+        // Special handling for SymptomTracker - use dynamic workflow creation
+        if (selectedTool.component === 'SymptomTracker') {
+          console.log(`[Orchestrator] Creating dynamic SymptomTracker workflow from conversation: "${conversation}"`);
+          const { createSymptomTrackerWorkflow } = workflowModule;
+          workflow = createSymptomTrackerWorkflow(conversation);
+          console.log(`[Orchestrator] Extracted symptom data:`, workflow.extractedData);
+        } else {
+          // Use default export for other workflows
+          workflow = workflowModule.default;
+        }
+        
+        console.log(`[Orchestrator] Executing workflow: ${workflow.name}`);
+        return { 
+          success: true, 
+          workflow: workflow,
+          message: `Activating ${selectedTool.name} with real-time autonomous guidance.`
+        };
+
+      } catch (error) {
+        console.error(`[Orchestrator] ERROR: Failed to load or execute workflow for ${selectedTool.component}`, error);
+        return { success: false, message: `I found a tool for that, but I encountered an error while trying to start it.` };
+      }
     }
 
-    console.log("[Orchestrator] No tool trigger was matched in the conversation.");
-    return { success: false, message: "No specific tool seems to match our current conversation." };
+    console.log("[Orchestrator] No specific tool trigger was matched in the conversation.");
+    return { success: false, message: "I can help with that, but I don't have a specific tool for it right now." };
   },
 };
