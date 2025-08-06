@@ -76,4 +76,5 @@ logs/
 
 # Misc
 *.tgz
-*.tar.gz
+*.tar.gzEHR/ehr/
+EHR/
