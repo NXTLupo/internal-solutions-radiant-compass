@@ -1,24 +1,26 @@
 import React from 'react';
-import { InlineStyledVoiceChat } from './InlineStyledVoiceChat';
+import { EnhancedVoiceExperience } from './EnhancedVoiceExperience';
 
 interface DrMayaVoiceExperienceProps {
   onExit: () => void;
 }
 
 /**
- * Dr. Maya Voice Experience - Premium Wall-to-Wall Experience
+ * Dr. Maya Voice Experience - Enhanced Tool Demonstration Platform
  * 
- * This component provides a full-screen, immersive voice chat experience
- * using inline styles (no Tailwind) for reliable rendering in Docker.
+ * This component provides a comprehensive voice chat experience with
+ * an integrated tool panel for demonstrating all RadiantCompass tools.
  * 
  * Features:
- * - Wall-to-wall full-screen experience 
+ * - Full-screen enhanced experience with tool panel
  * - Premium Apple/Netflix-quality design
- * - Voice functionality preserved (Web Speech API + Groq + Cartesia)
- * - No external CSS dependencies
+ * - Voice functionality with autonomous tool demonstrations
+ * - 36+ tools across 12 patient journey stages
+ * - Dr. Maya guides users through each tool autonomously
+ * - Remote control-inspired tool panel interface
  */
 export const DrMayaVoiceExperience: React.FC<DrMayaVoiceExperienceProps> = ({ onExit }) => {
   return (
-    <InlineStyledVoiceChat onNavigateHome={onExit} />
+    <EnhancedVoiceExperience onNavigateHome={onExit} />
   );
 };

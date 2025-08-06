@@ -58,10 +58,10 @@ async def on_shutdown():
     """Close database connections on shutdown"""
     await close_db()
 
-# Health check endpoint
-@app.get("/health")
+# Health check endpoint - no logging to reduce noise
+@app.get("/health", include_in_schema=False)
 async def health_check():
-    """Health check endpoint"""
+    """Health check endpoint - exclude from OpenAPI docs and logs"""
     return {"status": "healthy", "service": "radiantcompass-patient-journey-api"}
 
 # Root endpoint

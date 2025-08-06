@@ -1,0 +1,891 @@
+{
+  "project": "RadiantCompass AI Healthcare Platform",
+  "version": "1.0.0",
+  "last_updated": "2025-01-05",
+  "purpose": "Comprehensive documentation for new developers joining the RadiantCompass team focusing on autonomous AI tool system",
+  
+  "executive_summary": {
+    "mission": "Transform every rare-disease diagnosis into a guided path of clarity, compassion, and choice through AI-powered autonomous tool activation",
+    "market_context": "400K+ U.S. patients receive rare-disease diagnosis annually, $12B global rare-disease market",
+    "current_status": "5% complete - 4 of 80+ tools implemented with sophisticated orchestration framework",
+    "key_innovation": "Dr. Maya (Claude 3.7) autonomously detects patient needs and activates relevant healthcare tools within chat interface"
+  },
+
+  "autonomous_tool_system": {
+    "overview": "Dr. Maya AI Copilot analyzes patient conversations in real-time, detects trigger words/phrases, and autonomously activates appropriate healthcare tools with pre-populated data",
+    
+    "workflow": {
+      "step_1": {
+        "name": "Conversation Analysis",
+        "description": "Dr. Maya (Claude 3.7 Sonnet) analyzes every patient message for medical context, emotional state, and tool triggers",
+        "technical_implementation": "Real-time NLP processing with 85%+ confidence scoring"
+      },
+      "step_2": {
+        "name": "Trigger Detection", 
+        "description": "System matches conversation content against comprehensive trigger word registry for each tool",
+        "technical_implementation": "Backend registry at /backend/app/routes/journey.py with stage-specific tool manifests"
+      },
+      "step_3": {
+        "name": "Tool Orchestration",
+        "description": "toolOrchestrator.ts determines most relevant tool and sends activation command to frontend",
+        "technical_implementation": "CopilotKit runtime processes tool selection and returns UI component to display"
+      },
+      "step_4": {
+        "name": "Visual Tool Activation",
+        "description": "Appropriate tool component slides into chat interface with smooth animations",
+        "technical_implementation": "React components in /frontend/src/components/tools/ with slideIn 0.3s ease-out animations"
+      },
+      "step_5": {
+        "name": "Autonomous Data Population",
+        "description": "Dr. Maya pre-fills tool forms with data extracted from conversation context",
+        "technical_implementation": "autoFillData props passed to tool components via useEffect hooks"
+      },
+      "step_6": {
+        "name": "Patient Collaboration",
+        "description": "Patient can edit pre-filled data or let Dr. Maya complete autonomously",
+        "technical_implementation": "Real-time onDataUpdate callbacks sync patient edits with AI context"
+      }
+    },
+
+    "example_interaction": {
+      "patient_says": "I've been having this weird chest pain that comes and goes",
+      "dr_maya_response": "I hear you're experiencing chest pain - that must be concerning. Let me start tracking this symptom for you so we can understand the pattern better.",
+      "autonomous_action": "SymptomTracker tool slides into chat interface pre-filled with 'chest pain', severity slider, frequency options",
+      "patient_experience": "Patient sees professional medical form with their symptom already populated, can edit details or proceed"
+    }
+  },
+
+  "technical_architecture": {
+    "frontend": {
+      "framework": "React 19 + TypeScript 5.8 + Vite 6",
+      "styling": "TailwindCSS 4.1 with custom medical design system",
+      "ai_integration": "CopilotKit 1.9 with CoAgents",
+      "tool_location": "/frontend/src/components/tools/",
+      "key_files": [
+        "SymptomTracker.tsx - Fully implemented symptom tracking with auto-fill",
+        "ConditionExplainer.tsx - Medical condition education with AI explanations",
+        "App.tsx - Main CopilotKit integration",
+        "PremiumPatientJourney.tsx - Journey stage management"
+      ]
+    },
+    "backend": {
+      "framework": "FastAPI 0.115.12 + SQLModel + PostgreSQL",
+      "ai_runtime": "Express + CopilotKit CoAgents + Claude 3.7 Sonnet",
+      "tool_registry": "/backend/app/routes/journey.py - Journey stage tool manifests",
+      "ai_prompts": "/backend/app/routes/ultra_low_latency.py - Dynamic tool context integration",
+      "key_endpoints": [
+        "/api/v1/journey/{stage_name} - Get tools for journey stage",
+        "/api/v1/ultra-low-latency/groq-chat - AI chat with tool context",
+        "/copilotkit - CopilotKit runtime endpoint"
+      ]
+    },
+    "ai_runtime": {
+      "location": "/coagent-runtime/src/",
+      "model": "Claude 3.7 Sonnet (claude-3-7-sonnet-20250219)",
+      "orchestrator": "toolOrchestrator.ts - Core tool selection logic",
+      "tools": "tools/ directory with awarenessTools.ts and journeyTools.ts",
+      "port": "9501 (Docker) / 4000 (dev)"
+    }
+  },
+
+  "journey_stages": {
+    "stage_1": {
+      "name": "First Hints & Initial Doctor Visit",
+      "theme": "From Fear to Understanding", 
+      "implementation_status": "40% Complete (2/5 tools)",
+      "tools": {
+        "symptom_tracker": {
+          "status": "✅ FULLY IMPLEMENTED",
+          "component": "SymptomTracker.tsx",
+          "triggers": ["symptom", "feel", "pain", "not right", "weird", "track"],
+          "description": "Beautiful blue-themed interface for tracking symptoms with severity slider, frequency, duration, notes",
+          "auto_fill_capabilities": "Symptom name, severity level, frequency selection from conversation context",
+          "technical_notes": "Complete React component with real-time data sync and Apple-inspired design"
+        },
+        "condition_explainer": {
+          "status": "✅ FULLY IMPLEMENTED", 
+          "component": "ConditionExplainer.tsx",
+          "triggers": ["condition", "diagnosis", "what is", "learn about", "understand"],
+          "description": "Green-themed educational interface explaining medical conditions with symptoms, causes, next steps",
+          "auto_fill_capabilities": "Condition name, description, symptoms list, causes, warning signs",
+          "technical_notes": "Comprehensive React component with loading states and medical disclaimers"
+        },
+        "pre_appointment_questionnaire": {
+          "status": "❌ NOT IMPLEMENTED",
+          "priority": "HIGH",
+          "description": "Help patients articulate concerns effectively before doctor visits",
+          "triggers": ["appointment", "doctor visit", "prepare", "questions"],
+          "estimated_effort": "2-3 weeks"
+        },
+        "education_module": {
+          "status": "❌ NOT IMPLEMENTED", 
+          "priority": "MEDIUM",
+          "description": "Guide when to seek specialist care directly vs primary care",
+          "triggers": ["specialist", "urgent", "emergency", "when to see"],
+          "estimated_effort": "3-4 weeks"
+        },
+        "ai_symptom_sage": {
+          "status": "❌ NOT IMPLEMENTED",
+          "priority": "HIGH", 
+          "description": "Real-time symptom interpretation with emotional intelligence and urgency assessment",
+          "technical_specs": {
+            "model": "Claude 3.7 Sonnet",
+            "temperature": 0.3,
+            "max_tokens": 1000,
+            "response_time": "<3 seconds",
+            "confidence_scoring": "85%+"
+          },
+          "estimated_effort": "4-5 weeks"
+        }
+      }
+    },
+
+    "stage_2": {
+      "name": "Specialist Work-up & Diagnosis",
+      "theme": "From Shock to Clarity",
+      "implementation_status": "40% Complete (2/5 tools)",
+      "tools": {
+        "pathology_translator": {
+          "status": "✅ BACKEND REGISTERED",
+          "component": "PathologyTranslator (not implemented)",
+          "triggers": ["pathology", "report", "test results", "translate", "decode"],
+          "description": "Convert complex pathology reports into 6th-grade reading level explanations",
+          "priority": "CRITICAL",
+          "estimated_effort": "5-6 weeks"
+        },
+        "second_opinion_guide": {
+          "status": "✅ BACKEND REGISTERED",
+          "component": "SecondOpinionGuide (not implemented)", 
+          "triggers": ["second opinion", "another doctor", "confirm", "different perspective"],
+          "description": "Guide patients through getting second opinions with preparation steps",
+          "priority": "HIGH",
+          "estimated_effort": "3-4 weeks"
+        },
+        "guided_question_generator": {
+          "status": "❌ NOT IMPLEMENTED",
+          "priority": "HIGH",
+          "description": "AI-generated consultation checklists for doctor appointments",
+          "triggers": ["questions", "consultation", "appointment prep"],
+          "estimated_effort": "3-4 weeks"
+        },
+        "peer_connection_platform": {
+          "status": "❌ NOT IMPLEMENTED",
+          "priority": "MEDIUM", 
+          "description": "Connect patients with similar diagnoses for peer support",
+          "triggers": ["connect", "others like me", "peer support", "similar"],
+          "estimated_effort": "8-10 weeks"
+        },
+        "emotional_support_resources": {
+          "status": "❌ NOT IMPLEMENTED",
+          "priority": "HIGH",
+          "description": "Diagnosis-specific counseling and emotional support resources", 
+          "triggers": ["scared", "overwhelmed", "anxiety", "support", "help"],
+          "estimated_effort": "4-5 weeks"
+        }
+      }
+    },
+
+    "stage_3": {
+      "name": "Research & Compare-Care Phase",
+      "theme": "From Confusion to Clarity",
+      "implementation_status": "0% Complete (0/6 tools)",
+      "tools": {
+        "compare_my_care_tool": {
+          "status": "❌ NOT IMPLEMENTED",
+          "priority": "CRITICAL",
+          "description": "Rank hospitals by volume, outcomes, insurance status, travel burden, and culture",
+          "triggers": ["hospital", "treatment center", "compare", "best place", "where should I go"],
+          "technical_specs": {
+            "ranking_criteria": ["Hospital procedure volume", "Published outcome statistics", "Insurance network participation", "Travel burden", "Hospital culture ratings", "Clinical trial availability"],
+            "data_sources": ["CMS Hospital Compare database", "AHRQ quality indicators", "HCAHPS patient satisfaction surveys", "Insurance provider networks"]
+          },
+          "estimated_effort": "10-12 weeks"
+        },
+        "medical_record_hub": {
+          "status": "❌ NOT IMPLEMENTED", 
+          "priority": "HIGH",
+          "description": "Aggregate and share medical records across providers",
+          "triggers": ["records", "history", "share", "transfer", "documents"],
+          "estimated_effort": "8-10 weeks"
+        },
+        "insurance_coverage_analyzer": {
+          "status": "❌ NOT IMPLEMENTED",
+          "priority": "CRITICAL",
+          "description": "Pre-authorization assistance and network navigation",
+          "triggers": ["insurance", "coverage", "cost", "approve", "network"],
+          "estimated_effort": "6-8 weeks"
+        },
+        "travel_planning_assistant": {
+          "status": "❌ NOT IMPLEMENTED",
+          "priority": "MEDIUM",
+          "description": "Accommodation and logistics coordination for treatment travel",
+          "triggers": ["travel", "accommodation", "hotel", "logistics", "trip"],
+          "estimated_effort": "4-5 weeks"
+        },
+        "treatment_center_reviews": {
+          "status": "❌ NOT IMPLEMENTED",
+          "priority": "MEDIUM", 
+          "description": "Curated patient experience database for treatment centers",
+          "triggers": ["reviews", "experience", "patients say", "feedback"],
+          "estimated_effort": "6-7 weeks"
+        },
+        "decision_support_framework": {
+          "status": "❌ NOT IMPLEMENTED",
+          "priority": "HIGH",
+          "description": "Structured evaluation methodology for treatment decisions",
+          "triggers": ["decide", "choose", "evaluate", "pros and cons", "help me decide"],
+          "estimated_effort": "5-6 weeks"
+        }
+      }
+    },
+
+    "stage_4": {
+      "name": "Full Staging & Baseline Testing", 
+      "theme": "From Uncertainty to Planning",
+      "implementation_status": "0% Complete (0/6 tools)",
+      "tools": {
+        "insurance_navigation_assistant": {
+          "status": "❌ NOT IMPLEMENTED",
+          "priority": "CRITICAL",
+          "description": "Automated scan approval system for insurance denials",
+          "triggers": ["scan denied", "insurance denial", "appeal", "authorization"],
+          "estimated_effort": "8-10 weeks"
+        },
+        "coordinated_scheduling_platform": {
+          "status": "❌ NOT IMPLEMENTED",
+          "priority": "HIGH", 
+          "description": "Cross-department appointment management",
+          "triggers": ["schedule", "appointments", "coordinate", "multiple tests"],
+          "estimated_effort": "6-8 weeks"
+        },
+        "staging_translation_tool": {
+          "status": "❌ NOT IMPLEMENTED",
+          "priority": "HIGH",
+          "description": "Plain-language explanations of medical staging terminology", 
+          "triggers": ["staging", "stage", "T1N0M0", "grade", "what does this mean"],
+          "estimated_effort": "4-5 weeks"
+        },
+        "digital_results_repository": {
+          "status": "❌ NOT IMPLEMENTED",
+          "priority": "MEDIUM",
+          "description": "Organized storage of all test results with search and sharing",
+          "triggers": ["results", "tests", "scans", "lab work", "organize"],
+          "estimated_effort": "5-6 weeks"
+        },
+        "procedure_preparation_guides": {
+          "status": "❌ NOT IMPLEMENTED", 
+          "priority": "MEDIUM",
+          "description": "Step-by-step preparation instructions for medical procedures",
+          "triggers": ["prepare for", "procedure", "test prep", "what to expect"],
+          "estimated_effort": "3-4 weeks"
+        },
+        "test_completion_tracker": {
+          "status": "❌ NOT IMPLEMENTED",
+          "priority": "LOW",
+          "description": "Progress monitoring dashboard for baseline testing completion",
+          "triggers": ["progress", "completed tests", "what's left", "tracking"],
+          "estimated_effort": "3-4 weeks"
+        }
+      }
+    },
+
+    "stage_5": {
+      "name": "Multidisciplinary Treatment Planning",
+      "theme": "From Options to Decision", 
+      "implementation_status": "0% Complete (0/6 tools)",
+      "tools": {
+        "virtual_tumor_board": {
+          "status": "❌ NOT IMPLEMENTED",
+          "priority": "CRITICAL",
+          "description": "Patient representation in treatment planning discussions",
+          "triggers": ["tumor board", "treatment plan", "doctors discussing", "recommendations"],
+          "estimated_effort": "12-15 weeks"
+        },
+        "treatment_visualization_tool": {
+          "status": "❌ NOT IMPLEMENTED",
+          "priority": "HIGH",
+          "description": "Compare treatment approaches with visual aids and timelines",
+          "triggers": ["treatment options", "compare treatments", "visualize", "timeline"],
+          "estimated_effort": "8-10 weeks"
+        },
+        "clinical_trial_matching": {
+          "status": "❌ NOT IMPLEMENTED",
+          "priority": "CRITICAL", 
+          "description": "Eligibility screening and clinical trial explanation service",
+          "triggers": ["clinical trial", "research study", "experimental", "eligible"],
+          "estimated_effort": "10-12 weeks"
+        },
+        "treatment_summaries": {
+          "status": "❌ NOT IMPLEMENTED",
+          "priority": "HIGH",
+          "description": "AI-powered tumor board translation into plain language",
+          "triggers": ["treatment plan", "what doctors decided", "recommendations", "next steps"],
+          "estimated_effort": "6-8 weeks"
+        },
+        "decision_support_framework_5": {
+          "status": "❌ NOT IMPLEMENTED",
+          "priority": "HIGH",
+          "description": "Pros/cons analysis framework for treatment decisions",
+          "triggers": ["pros and cons", "help decide", "treatment choice", "best option"],
+          "estimated_effort": "5-6 weeks"
+        },
+        "consultation_prep": {
+          "status": "❌ NOT IMPLEMENTED",
+          "priority": "MEDIUM",
+          "description": "Comprehensive preparation guides for treatment planning consultations",
+          "triggers": ["consultation prep", "questions to ask", "appointment preparation"],
+          "estimated_effort": "3-4 weeks"
+        }
+      }
+    },
+
+    "stage_6": {
+      "name": "Insurance Confirmation & Travel Setup",
+      "theme": "From Bureaucracy to Preparation",
+      "implementation_status": "0% Complete (0/6 tools)",
+      "tools": {
+        "insurance_appeals_assistant": {
+          "status": "❌ NOT IMPLEMENTED",
+          "priority": "CRITICAL",
+          "description": "Automated appeals process with medical expertise",
+          "triggers": ["insurance denied", "appeal", "denied coverage", "fight insurance"],
+          "estimated_effort": "10-12 weeks"
+        },
+        "cost_estimation_calculator": {
+          "status": "❌ NOT IMPLEMENTED", 
+          "priority": "HIGH",
+          "description": "Transparent pricing and financial planning for treatment",
+          "triggers": ["cost", "price", "how much", "afford", "financial planning"],
+          "estimated_effort": "6-8 weeks"
+        },
+        "accommodation_concierge": {
+          "status": "❌ NOT IMPLEMENTED",
+          "priority": "MEDIUM",
+          "description": "Curated accommodation options near treatment centers",
+          "triggers": ["hotel", "stay", "accommodation", "housing", "place to stay"],
+          "estimated_effort": "4-5 weeks"
+        },
+        "transportation_coordinator": {
+          "status": "❌ NOT IMPLEMENTED",
+          "priority": "MEDIUM",
+          "description": "Travel arrangement assistance for medical treatment",
+          "triggers": ["travel", "transportation", "flights", "getting there"],
+          "estimated_effort": "4-5 weeks"
+        },
+        "family_care_organizer": {
+          "status": "❌ NOT IMPLEMENTED",
+          "priority": "MEDIUM",
+          "description": "Support network management and coordination",
+          "triggers": ["family", "support", "organize help", "coordination"],
+          "estimated_effort": "5-6 weeks"
+        },
+        "financial_assistance_navigator": {
+          "status": "❌ NOT IMPLEMENTED",
+          "priority": "HIGH",
+          "description": "Program identification and application assistance",
+          "triggers": ["financial help", "assistance", "grants", "can't afford"],
+          "estimated_effort": "6-7 weeks"
+        }
+      }
+    },
+
+    "stage_7": {
+      "name": "Up-front (Neoadjuvant) Therapy",
+      "theme": "From Endurance to Empowerment",
+      "implementation_status": "0% Complete (0/6 tools)",
+      "tools": {
+        "side_effect_tracking": {
+          "status": "❌ NOT IMPLEMENTED",
+          "priority": "CRITICAL", 
+          "description": "AI-powered symptom monitoring with automated provider alerts",
+          "triggers": ["side effects", "symptoms", "not feeling well", "reaction"],
+          "estimated_effort": "8-10 weeks"
+        },
+        "treatment_calendar": {
+          "status": "❌ NOT IMPLEMENTED",
+          "priority": "HIGH",
+          "description": "Integrated scheduling with preparation reminders",
+          "triggers": ["schedule", "calendar", "appointments", "when is treatment"],
+          "estimated_effort": "5-6 weeks"
+        },
+        "symptom_severity_assessment": {
+          "status": "❌ NOT IMPLEMENTED",
+          "priority": "HIGH",
+          "description": "Automated triage system for provider contact decisions",
+          "triggers": ["severe", "bad symptoms", "call doctor", "emergency"],
+          "estimated_effort": "6-8 weeks"
+        },
+        "nutrition_hydration_support": {
+          "status": "❌ NOT IMPLEMENTED",
+          "priority": "MEDIUM",
+          "description": "Personalized dietary guidance during active treatment",
+          "triggers": ["nutrition", "diet", "eating", "hydration", "nausea"],
+          "estimated_effort": "4-5 weeks"
+        },
+        "virtual_support_groups": {
+          "status": "❌ NOT IMPLEMENTED",
+          "priority": "MEDIUM",
+          "description": "Treatment-phase specific peer support communities",
+          "triggers": ["support group", "others going through", "peer support"],
+          "estimated_effort": "8-10 weeks"
+        },
+        "medication_management": {
+          "status": "❌ NOT IMPLEMENTED",
+          "priority": "HIGH",
+          "description": "Drug interaction checker and reminder system",
+          "triggers": ["medications", "drugs", "interactions", "when to take"],
+          "estimated_effort": "6-7 weeks"
+        }
+      }
+    },
+
+    "stage_8": {
+      "name": "Definitive Surgery or Local Treatment",
+      "theme": "From Fear to Recovery",
+      "implementation_status": "0% Complete (0/6 tools)",
+      "tools": {
+        "pre_surgical_preparation": {
+          "status": "❌ NOT IMPLEMENTED",
+          "priority": "HIGH",
+          "description": "Complete preparation checklist and education suite",
+          "triggers": ["surgery", "operation", "prepare for surgery", "pre-op"],
+          "estimated_effort": "6-8 weeks"
+        },
+        "virtual_hospital_tour": {
+          "status": "❌ NOT IMPLEMENTED",
+          "priority": "MEDIUM",
+          "description": "Procedure explanation with immersive visualization",
+          "triggers": ["what to expect", "hospital tour", "procedure walkthrough"],
+          "estimated_effort": "8-10 weeks"
+        },
+        "recovery_milestone_tracker": {
+          "status": "❌ NOT IMPLEMENTED",
+          "priority": "HIGH",
+          "description": "Progress monitoring with realistic expectation management",
+          "triggers": ["recovery", "healing", "progress", "milestones"],
+          "estimated_effort": "5-6 weeks"
+        },
+        "discharge_planning": {
+          "status": "❌ NOT IMPLEMENTED",
+          "priority": "HIGH", 
+          "description": "Comprehensive home care coordination assistant",
+          "triggers": ["going home", "discharge", "home care", "after surgery"],
+          "estimated_effort": "6-7 weeks"
+        },
+        "home_care_platform": {
+          "status": "❌ NOT IMPLEMENTED",
+          "priority": "MEDIUM",
+          "description": "Post-surgical care management system",
+          "triggers": ["home care", "recovery at home", "wound care", "follow-up"],
+          "estimated_effort": "8-10 weeks"
+        },
+        "caregiver_support_hub": {
+          "status": "❌ NOT IMPLEMENTED",
+          "priority": "MEDIUM",
+          "description": "Resources and respite care coordination for caregivers",
+          "triggers": ["caregiver", "family support", "help for helpers"],
+          "estimated_effort": "6-8 weeks"
+        }
+      }
+    },
+
+    "stage_9": {
+      "name": "Adjuvant or Maintenance Therapy", 
+      "theme": "From Survival to Thriving",
+      "implementation_status": "0% Complete (0/6 tools)",
+      "tools": {
+        "integrated_recovery_planner": {
+          "status": "❌ NOT IMPLEMENTED",
+          "priority": "HIGH",
+          "description": "Balance treatment and recovery optimization planning",
+          "triggers": ["recovery plan", "getting better", "balance", "adjuvant"],
+          "estimated_effort": "6-8 weeks"
+        },
+        "complementary_therapy_guide": {
+          "status": "❌ NOT IMPLEMENTED",
+          "priority": "MEDIUM",
+          "description": "Evidence-based alternative and complementary approaches",
+          "triggers": ["complementary", "alternative", "holistic", "integrative"],
+          "estimated_effort": "5-6 weeks"
+        },
+        "treatment_completion_countdown": {
+          "status": "❌ NOT IMPLEMENTED",
+          "priority": "LOW",
+          "description": "Milestone celebration and motivation system",
+          "triggers": ["almost done", "finishing treatment", "countdown", "last session"],
+          "estimated_effort": "3-4 weeks"
+        },
+        "long_term_side_effect_monitor": {
+          "status": "❌ NOT IMPLEMENTED",
+          "priority": "HIGH",
+          "description": "Ongoing health impact tracking for late effects",
+          "triggers": ["long term effects", "late effects", "ongoing symptoms"],
+          "estimated_effort": "6-7 weeks"
+        },
+        "survivorship_transition": {
+          "status": "❌ NOT IMPLEMENTED", 
+          "priority": "HIGH",
+          "description": "Preparation for post-treatment life transition",
+          "triggers": ["survivorship", "after treatment", "what's next", "transition"],
+          "estimated_effort": "7-8 weeks"
+        },
+        "financial_assistance_navigator_9": {
+          "status": "❌ NOT IMPLEMENTED",
+          "priority": "MEDIUM",
+          "description": "Ongoing cost support programs and resources",
+          "triggers": ["financial help", "cost assistance", "ongoing expenses"],
+          "estimated_effort": "4-5 weeks"
+        }
+      }
+    },
+
+    "stage_10": {
+      "name": "Early Recovery (First Three Months)",
+      "theme": "From Treatment to Healing", 
+      "implementation_status": "0% Complete (0/6 tools)",
+      "tools": {
+        "recovery_milestone_tracker_10": {
+          "status": "❌ NOT IMPLEMENTED",
+          "priority": "HIGH",
+          "description": "Realistic expectation management with progress visualization",
+          "triggers": ["recovery", "healing", "progress", "getting better"],
+          "estimated_effort": "5-6 weeks"
+        },
+        "personalized_rehabilitation": {
+          "status": "❌ NOT IMPLEMENTED",
+          "priority": "HIGH",
+          "description": "Physical therapy and recovery optimization programs",
+          "triggers": ["physical therapy", "rehabilitation", "strength", "mobility"],
+          "estimated_effort": "8-10 weeks"
+        },
+        "nutrition_exercise_recovery": {
+          "status": "❌ NOT IMPLEMENTED",
+          "priority": "MEDIUM", 
+          "description": "Evidence-based recovery support for nutrition and exercise",
+          "triggers": ["nutrition", "exercise", "diet", "fitness", "recovery"],
+          "estimated_effort": "5-6 weeks"
+        },
+        "scan_anxiety_management": {
+          "status": "❌ NOT IMPLEMENTED",
+          "priority": "HIGH",
+          "description": "Preparation and coping strategies for surveillance scans",
+          "triggers": ["scan anxiety", "scanxiety", "worried about scans", "scan prep"],
+          "estimated_effort": "4-5 weeks"
+        },
+        "return_to_work_planning": {
+          "status": "❌ NOT IMPLEMENTED",
+          "priority": "MEDIUM",
+          "description": "Phased reintegration assistance for work return",
+          "triggers": ["return to work", "back to work", "job", "work planning"],
+          "estimated_effort": "5-6 weeks"
+        },
+        "post_treatment_support_groups": {
+          "status": "❌ NOT IMPLEMENTED",
+          "priority": "MEDIUM",
+          "description": "Early recovery peer connections and support",
+          "triggers": ["support group", "others like me", "early recovery"],
+          "estimated_effort": "6-7 weeks"
+        }
+      }
+    },
+
+    "stage_11": {
+      "name": "Surveillance & Rehabilitation (Years 1-5)",
+      "theme": "From Monitoring to Living",
+      "implementation_status": "0% Complete (0/6 tools)", 
+      "tools": {
+        "surveillance_schedule_manager": {
+          "status": "❌ NOT IMPLEMENTED",
+          "priority": "HIGH",
+          "description": "Automated reminders and coordination for surveillance appointments",
+          "triggers": ["surveillance", "follow-up", "monitoring", "schedule"],
+          "estimated_effort": "6-7 weeks"
+        },
+        "symptom_assessment_tool": {
+          "status": "❌ NOT IMPLEMENTED",
+          "priority": "HIGH", 
+          "description": "Recurrence monitoring with AI triage capabilities",
+          "triggers": ["new symptoms", "worried about", "recurrence", "assessment"],
+          "estimated_effort": "7-8 weeks"
+        },
+        "long_term_side_effect_tracker_11": {
+          "status": "❌ NOT IMPLEMENTED",
+          "priority": "MEDIUM",
+          "description": "Ongoing health impact monitoring for years 1-5",
+          "triggers": ["long term effects", "ongoing symptoms", "side effects"],
+          "estimated_effort": "5-6 weeks"
+        },
+        "survivorship_care_plan": {
+          "status": "❌ NOT IMPLEMENTED",
+          "priority": "HIGH",
+          "description": "Comprehensive long-term health planning and management",
+          "triggers": ["survivorship plan", "long term care", "health plan"],
+          "estimated_effort": "8-10 weeks"
+        },
+        "lifestyle_optimization": {
+          "status": "❌ NOT IMPLEMENTED",
+          "priority": "MEDIUM",
+          "description": "Cancer survivor-specific health recommendations",
+          "triggers": ["lifestyle", "health optimization", "survivor health"],
+          "estimated_effort": "6-7 weeks"
+        },
+        "survivorship_community": {
+          "status": "❌ NOT IMPLEMENTED", 
+          "priority": "MEDIUM",
+          "description": "Long-term survivor support network platform",
+          "triggers": ["survivor community", "long term survivors", "connect"],
+          "estimated_effort": "8-10 weeks"
+        }
+      }
+    },
+
+    "stage_12": {
+      "name": "Long-term Living",
+      "theme": "From Management to Mastery",
+      "implementation_status": "0% Complete (0/6 tools)",
+      "tools": {
+        "long_term_survivorship_plan": {
+          "status": "❌ NOT IMPLEMENTED",
+          "priority": "MEDIUM",
+          "description": "Comprehensive lifelong health management system",
+          "triggers": ["lifelong care", "long term plan", "survivorship"],
+          "estimated_effort": "8-10 weeks"
+        },
+        "survivor_mentorship": {
+          "status": "❌ NOT IMPLEMENTED",
+          "priority": "LOW",
+          "description": "Connect long-term survivors with newly diagnosed patients",
+          "triggers": ["mentorship", "help others", "give back", "mentor"],
+          "estimated_effort": "6-8 weeks"
+        },
+        "lifelong_health_monitoring": {
+          "status": "❌ NOT IMPLEMENTED",
+          "priority": "MEDIUM",
+          "description": "Comprehensive health tracking dashboard for survivors",
+          "triggers": ["health monitoring", "tracking", "dashboard", "lifelong"],
+          "estimated_effort": "10-12 weeks"
+        },
+        "research_participation": {
+          "status": "❌ NOT IMPLEMENTED",
+          "priority": "LOW", 
+          "description": "Platform to contribute to survivorship research",
+          "triggers": ["research", "studies", "contribute", "participate"],
+          "estimated_effort": "8-10 weeks"
+        },
+        "legacy_documentation": {
+          "status": "❌ NOT IMPLEMENTED",
+          "priority": "LOW",
+          "description": "Comprehensive medical history management system",
+          "triggers": ["medical history", "documentation", "legacy", "records"],
+          "estimated_effort": "6-7 weeks"
+        },
+        "provider_transition_assistant": {
+          "status": "❌ NOT IMPLEMENTED",
+          "priority": "MEDIUM",
+          "description": "Medical history summary for new healthcare providers",
+          "triggers": ["new doctor", "provider transition", "medical summary"],
+          "estimated_effort": "4-5 weeks"
+        }
+      }
+    }
+  },
+
+  "development_roadmap": {
+    "immediate_priorities": {
+      "quarter_1_2025": {
+        "focus": "Complete Stage 1 & 2 Foundation",
+        "tools_to_implement": [
+          {
+            "name": "AI Symptom Sage",
+            "stage": 1,
+            "priority": "CRITICAL",
+            "effort": "4-5 weeks",
+            "technical_requirements": "Claude 3.7 integration with medical knowledge base"
+          },
+          {
+            "name": "Pre-appointment Questionnaire", 
+            "stage": 1,
+            "priority": "HIGH",
+            "effort": "2-3 weeks",
+            "technical_requirements": "React form component with intelligent question generation"
+          },
+          {
+            "name": "Pathology Report Translator",
+            "stage": 2, 
+            "priority": "CRITICAL",
+            "effort": "5-6 weeks",
+            "technical_requirements": "AI translation engine with medical terminology database"
+          },
+          {
+            "name": "Second Opinion Guide",
+            "stage": 2,
+            "priority": "HIGH", 
+            "effort": "3-4 weeks",
+            "technical_requirements": "Provider directory integration and referral workflow"
+          }
+        ],
+        "success_metrics": "Complete Stage 1 (80%) and Stage 2 (80%) tools",
+        "estimated_team_velocity": "2-3 developers, 12 weeks total"
+      }
+    },
+
+    "medium_term_goals": {
+      "quarter_2_2025": {
+        "focus": "Stage 3 Critical Decision Support",
+        "tools_to_implement": [
+          {
+            "name": "Compare-My-Care™ Tool",
+            "stage": 3,
+            "priority": "CRITICAL",
+            "effort": "10-12 weeks", 
+            "technical_requirements": "Hospital data integration, CMS API, complex ranking algorithms"
+          },
+          {
+            "name": "Insurance Coverage Analyzer",
+            "stage": 3,
+            "priority": "CRITICAL",
+            "effort": "6-8 weeks",
+            "technical_requirements": "Insurance API integration, pre-authorization automation"
+          },
+          {
+            "name": "Clinical Trial Matching",
+            "stage": 5,
+            "priority": "CRITICAL",
+            "effort": "10-12 weeks",
+            "technical_requirements": "ClinicalTrials.gov API, eligibility algorithms"
+          }
+        ],
+        "success_metrics": "Stage 3 (50%) completion, begin Stage 4-5 tools",
+        "estimated_team_velocity": "3-4 developers, 12 weeks total"
+      }
+    },
+
+    "long_term_vision": {
+      "year_1_goals": {
+        "stages_1_3_complete": "100% tool implementation for first 3 stages",
+        "stages_4_6_foundation": "Core infrastructure and 50% tool completion",
+        "ai_agents_implemented": "Provider Prophet and Anxiety Alchemist systems", 
+        "healthcare_integration": "FHIR R4 compliance and EHR connectivity"
+      },
+      "year_2_goals": {
+        "stages_4_9_complete": "Full treatment journey support through active therapy",
+        "survivorship_foundation": "Begin Stage 10-12 long-term care tools",
+        "research_platform": "Knowledge graph and RWE marketplace launch"
+      },
+      "year_3_goals": {
+        "complete_platform": "All 12 stages with 80+ tools fully implemented",
+        "ai_orchestration": "Advanced multi-agent coordination and autonomous care",
+        "market_expansion": "Additional rare disease verticals and international"
+      }
+    }
+  },
+
+  "implementation_guidelines": {
+    "tool_development_pattern": {
+      "step_1": "Backend trigger registration in journey.py manifest",
+      "step_2": "React component creation in /frontend/src/components/tools/",
+      "step_3": "Auto-fill data integration with conversation context",
+      "step_4": "CopilotKit orchestrator integration in toolOrchestrator.ts",
+      "step_5": "AI prompt enhancement in ultra_low_latency.py",
+      "step_6": "Testing with Dr. Maya conversation triggers"
+    },
+
+    "code_standards": {
+      "frontend": {
+        "framework": "React 19 + TypeScript 5.8",
+        "styling": "TailwindCSS with medical design tokens",
+        "component_structure": "Props interface, state management, auto-fill hooks, real-time sync",
+        "animation": "slideIn 0.3s ease-out for tool activation",
+        "accessibility": "WCAG 2.1 AA compliance required"
+      },
+      "backend": {
+        "framework": "FastAPI + SQLModel + PostgreSQL",
+        "api_design": "RESTful endpoints with async/await patterns",
+        "data_validation": "Pydantic models with medical field validation",
+        "ai_integration": "Claude 3.7 Sonnet with healthcare-specific prompts"
+      },
+      "ai_runtime": {
+        "orchestration": "CopilotKit runtime with tool selection logic",
+        "model_integration": "Claude 3.7 Sonnet for healthcare conversations",
+        "tool_activation": "Trigger-based autonomous activation system"
+      }
+    },
+
+    "healthcare_compliance": {
+      "hipaa_requirements": "All tools must handle PHI with encryption and audit logging",
+      "medical_accuracy": "Clinical review required for all medical content and tools",
+      "data_retention": "Patient data retention policies and deletion workflows",
+      "security_standards": "OAuth 2.0, MFA, end-to-end encryption for medical data"
+    }
+  },
+
+  "testing_strategy": {
+    "conversation_testing": {
+      "trigger_validation": "Test all trigger words activate correct tools",
+      "context_preservation": "Ensure conversation context carries through tool activation",
+      "auto_fill_accuracy": "Verify AI extracts correct data for tool pre-population"
+    },
+    "integration_testing": {
+      "end_to_end_flows": "Complete patient journey through multiple tool activations",
+      "ai_orchestration": "Dr. Maya tool selection accuracy and relevance",
+      "healthcare_workflows": "Medical professional review of tool outputs"
+    },
+    "performance_testing": {
+      "response_times": "Tool activation < 3 seconds, AI responses < 5 seconds",
+      "concurrent_users": "Support 1000+ concurrent patient conversations",
+      "data_accuracy": "99%+ accuracy for medical data extraction and tool pre-filling"
+    }
+  },
+
+  "team_recommendations": {
+    "required_roles": {
+      "senior_fullstack_developer": "React + FastAPI expertise, 2-3 needed",
+      "ai_integration_specialist": "CopilotKit + Claude experience, 1-2 needed", 
+      "healthcare_ui_designer": "Medical interface design expertise, 1 needed",
+      "clinical_advisor": "Medical professional for content review, 1 needed",
+      "qa_engineer": "Healthcare testing and compliance, 1 needed"
+    },
+    "skill_priorities": {
+      "critical_skills": ["React 19", "TypeScript", "FastAPI", "CopilotKit", "Healthcare UI/UX"],
+      "valuable_skills": ["Claude AI integration", "Medical terminology", "HIPAA compliance", "PostgreSQL"],
+      "nice_to_have": ["FHIR/HL7", "Healthcare APIs", "Medical device integration"]
+    }
+  },
+
+  "success_metrics": {
+    "technical_metrics": {
+      "tool_completion_rate": "Target: 80+ tools implemented by end of Year 1",
+      "autonomous_activation_accuracy": "Target: 95%+ correct tool selection by Dr. Maya",
+      "patient_engagement": "Target: 80%+ of patients use 3+ tools per session",
+      "response_time": "Target: <3 seconds for tool activation, <5 seconds for AI responses"
+    },
+    "clinical_metrics": {
+      "patient_satisfaction": "Target: 4.5+ stars for tool usefulness and accuracy",
+      "care_coordination": "Target: 50%+ reduction in appointment preparation time",
+      "health_outcomes": "Target: Improved medication adherence and follow-up compliance",
+      "provider_efficiency": "Target: 30%+ time savings in patient information gathering"
+    }
+  },
+
+  "resources": {
+    "documentation": [
+      "/COMPREHENSIVE_FEATURE_REQUIREMENTS.md - Complete feature specifications",
+      "/CLAUDE.md - Development environment and architecture guide", 
+      "/frontend/src/components/tools/ - Implemented tool components",
+      "/backend/app/routes/journey.py - Tool registry and trigger management",
+      "/coagent-runtime/src/tools/ - AI tool orchestration logic"
+    ],
+    "key_apis": [
+      "Claude 3.7 Sonnet API - Primary AI model for healthcare conversations",
+      "CopilotKit Runtime - Tool orchestration and AI integration",
+      "CMS Hospital Compare - Treatment center data and outcomes",
+      "ClinicalTrials.gov - Research study matching and information"
+    ],
+    "learning_resources": [
+      "CopilotKit Documentation - https://docs.copilotkit.ai/",
+      "FastAPI Healthcare Patterns - Async/await with medical data",
+      "React 19 Medical UI Components - Accessibility and healthcare design",
+      "HIPAA Compliance for Developers - Healthcare data security requirements"
+    ]
+  }
+}

@@ -22,6 +22,8 @@ interface AppStateProviderProps {
 // Create context first
 const AppStateContext = createContext<{
   appData: AppData;
+  guidance: string | null;
+  setGuidance: (guidance: string | null) => void;
   incrementRequestCount: () => void;
   addRecentSearch: (search: string) => void;
   updateUserPreferences: (preferences: Partial<AppData['userPreferences']>) => void;
@@ -40,6 +42,7 @@ export function AppStateProvider({ children }: AppStateProviderProps) {
       requestCount: 0
     }
   });
+  const [guidance, setGuidance] = useState<string | null>(null);
 
   // Update request count when user interacts
   const incrementRequestCount = () => {
@@ -110,6 +113,8 @@ export function AppStateProvider({ children }: AppStateProviderProps) {
   // Provide context functions to children if needed
   const contextValue = {
     appData,
+    guidance,
+    setGuidance,
     incrementRequestCount,
     addRecentSearch,
     updateUserPreferences: (preferences: Partial<AppData['userPreferences']>) => {

@@ -16,6 +16,7 @@
     "@copilotkit/runtime-client-gql": "^1.9.1",
     "@copilotkit/shared": "^1.9.1",
     "@videosdk.live/react-sdk": "^0.3.12",
+    "lucide-react": "^0.460.0",
     "react": "^19.1.0",
     "react-dom": "^19.1.0"
   },

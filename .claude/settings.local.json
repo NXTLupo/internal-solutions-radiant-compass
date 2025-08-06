@@ -69,7 +69,11 @@
       "Bash(sudo rm:*)",
       "Bash(docker logs:*)",
       "Bash(docker restart:*)",
-      "Bash(open http://localhost:9502)"
+      "Bash(open http://localhost:9502)",
+      "Bash(git stash:*)",
+      "Bash(git reset:*)",
+      "Bash(git clean:*)",
+      "Bash(echo:*)"
     ],
     "deny": []
   }

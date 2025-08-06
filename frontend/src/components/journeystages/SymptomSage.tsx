@@ -2,13 +2,13 @@ import React, { useState } from "react";
 import { useCopilotAction } from "@copilotkit/react-core";
 import { AIGuidanceDisplay } from "../AIGuidanceDisplay";
 
-export const PathologyTranslator: React.FC = () => {
+export const SymptomSage: React.FC = () => {
   const [fieldValue, setFieldValue] = useState("");
   const [isComplete, setIsComplete] = useState(false);
 
   useCopilotAction({
-    name: "setFieldValue_PathologyTranslator",
-    description: "Set a field value for the AI Translation Engine tool.",
+    name: "setFieldValue_SymptomSage",
+    description: "Set a field value for the AI Symptom Sage tool.",
     parameters: [{ name: "value", type: "string" }],
     handler: async ({ value }) => {
       setFieldValue(value);
@@ -16,8 +16,8 @@ export const PathologyTranslator: React.FC = () => {
   });
 
   useCopilotAction({
-    name: "markToolComplete_PathologyTranslator",
-    description: "Mark the AI Translation Engine tool as complete.",
+    name: "markToolComplete_SymptomSage",
+    description: "Mark the AI Symptom Sage tool as complete.",
     handler: async () => {
       setIsComplete(true);
     },
@@ -27,7 +27,7 @@ export const PathologyTranslator: React.FC = () => {
     return (
       <div style={{ padding: "20px", border: "1px solid #4CAF50", borderRadius: "8px", background: "#F1F8E9", textAlign: "center" }}>
         <AIGuidanceDisplay />
-        <h3 style={{ marginTop: 0, color: "#2E7D32" }}>AI Translation Engine Complete!</h3>
+        <h3 style={{ marginTop: 0, color: "#2E7D32" }}>AI Symptom Sage Complete!</h3>
       </div>
     );
   }
@@ -36,7 +36,7 @@ export const PathologyTranslator: React.FC = () => {
     <div style={{ padding: "20px", border: "1px solid #E5E7EB", borderRadius: "8px", background: "#fff" }}>
       <AIGuidanceDisplay />
       <div style={{ marginTop: "20px" }}>
-        <h3 style={{ marginTop: 0, marginBottom: "16px", color: "#111827" }}>AI Translation Engine</h3>
+        <h3 style={{ marginTop: 0, marginBottom: "16px", color: "#111827" }}>AI Symptom Sage</h3>
         <textarea
           value={fieldValue}
           onChange={(e) => setFieldValue(e.target.value)}

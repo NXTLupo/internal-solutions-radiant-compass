@@ -252,6 +252,8 @@ export const PremiumPatientJourney: React.FC = () => {
 
   const [journeyStages] = useState<JourneyStage[]>(COMPLETE_JOURNEY_STAGES);
 
+  const { setGuidance } = useAppState();
+
   // Copilot action for stage navigation
   useCopilotAction({
     name: "navigate_to_journey_stage",
@@ -266,7 +268,36 @@ export const PremiumPatientJourney: React.FC = () => {
     ],
     handler: async ({ stage_name }) => {
       setSelectedStage(stage_name);
+      setGuidance(null); // Clear guidance when changing stages
       return `Navigated to ${stage_name} stage`;
+    }
+  });
+
+  // Copilot action for receiving tool guidance
+  useCopilotAction({
+    name: "show_tool_with_guidance",
+    description: "Show a tool to the user and provide initial guidance.",
+    parameters: [
+      { name: "toolName", type: "string", description: "The name of the tool to display." },
+      { name: "guidance", type: "string", description: "The initial guidance message for the user." }
+    ],
+    handler: async ({ toolName, guidance }) => {
+      setActiveTool(toolName);
+      setGuidance(guidance);
+      return `Showing the ${toolName} and providing guidance.`;
+    }
+  });
+
+  // Copilot action for updating guidance
+  useCopilotAction({
+    name: "update_guidance_for_tool",
+    description: "Update the guidance message for the currently active tool.",
+    parameters: [
+      { name: "guidance", type: "string", description: "The new guidance message for the user." }
+    ],
+    handler: async ({ guidance }) => {
+      setGuidance(guidance);
+      return `Guidance updated.`;
     }
   });
 

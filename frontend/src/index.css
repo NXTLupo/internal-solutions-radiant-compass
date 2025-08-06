@@ -9,10 +9,9 @@
 
 /* 
   Tailwind CSS Directives 
-  These are essential for Tailwind to function correctly.
+  These are essential for Tailwind CSS v4 to function correctly.
 */
-@tailwind base;
-@tailwind components;
+@import "tailwindcss/preflight";
 @tailwind utilities;
 
 /* 
@@ -20,6 +19,7 @@
   - Sets a clean, white background.
   - Uses the primary font defined in App.css.
   - Ensures high-contrast text for readability.
+  - Allows natural scrolling behavior.
 */
 body {
   background-color: var(--color-background, #FFFFFF);
@@ -27,6 +27,10 @@ body {
   font-family: var(--font-family-primary, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  margin: 0;
+  padding: 0;
+  overflow-y: auto;
+  overflow-x: hidden;
 }
 
 /* 
@@ -35,6 +39,7 @@ body {
 */
 #root {
   width: 100vw;
-  height: 100vh;
-  overflow: hidden;
+  min-height: 100vh;
+  overflow-y: auto;
+  overflow-x: hidden;
 }
