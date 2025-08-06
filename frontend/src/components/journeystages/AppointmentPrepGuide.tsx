@@ -74,15 +74,40 @@ export const AppointmentPrepGuide: React.FC<AppointmentPrepGuideProps> = ({
           backgroundColor: '#DBEAFE',
           border: '1px solid #3B82F6',
           borderRadius: '8px',
-          padding: '12px',
-          marginBottom: '16px'
+          padding: '16px',
+          marginBottom: '20px'
         }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-            <span style={{ fontSize: '16px' }}>🤖</span>
-            <div>
-              <div style={{ fontWeight: 600, color: '#1E40AF', fontSize: '14px' }}>Dr. Maya is actively preparing your appointment</div>
-              <div style={{ fontSize: '12px', color: '#3730A3' }}>
-                I've analyzed our conversation and prepared questions based on your concerns
+          <div style={{ display: 'flex', alignItems: 'flex-start', gap: '12px' }}>
+            <span style={{ fontSize: '20px' }}>🤖</span>
+            <div style={{ flex: 1 }}>
+              <div style={{ fontWeight: 600, color: '#1E40AF', fontSize: '16px', marginBottom: '8px' }}>
+                Dr. Maya's Expert Demonstration
+              </div>
+              <div style={{ fontSize: '14px', color: '#1E40AF', marginBottom: '12px', lineHeight: '1.5' }}>
+                {autoFillData?.expertDescription || "This tool transforms stressful medical visits into productive, organized sessions by helping you articulate concerns and generate relevant questions."}
+              </div>
+              {autoFillData?.preparationChecklist && (
+                <div style={{ 
+                  backgroundColor: 'rgba(255,255,255,0.7)', 
+                  borderRadius: '6px', 
+                  padding: '12px', 
+                  marginTop: '12px' 
+                }}>
+                  <div style={{ fontSize: '12px', fontWeight: 600, color: '#1E40AF', marginBottom: '8px' }}>
+                    🎯 Preparation Checklist:
+                  </div>
+                  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '6px' }}>
+                    {autoFillData.preparationChecklist.map((item: string, idx: number) => (
+                      <div key={idx} style={{ fontSize: '11px', color: '#3730A3', display: 'flex', alignItems: 'center', gap: '4px' }}>
+                        <div style={{ width: '4px', height: '4px', backgroundColor: '#3B82F6', borderRadius: '50%' }}></div>
+                        {item}
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+              <div style={{ fontSize: '12px', color: '#1E40AF', fontWeight: 500, marginTop: '12px' }}>
+                🚀 I'm now filling in your concerns and generating personalized questions!
               </div>
             </div>
           </div>
@@ -107,11 +132,36 @@ export const AppointmentPrepGuide: React.FC<AppointmentPrepGuideProps> = ({
           <label style={{ display: 'block', marginBottom: '8px', color: '#374151', fontWeight: 500 }}>
             Questions for My Doctor
           </label>
-          <ul style={{ listStyleType: 'disc', paddingLeft: '20px', margin: 0 }}>
+          <ul style={{ listStyleType: 'none', paddingLeft: '0', margin: 0 }}>
             {questions.map((q, i) => (
-              <li key={i} style={{ marginBottom: '8px' }}>{q}</li>
+              <li key={i} style={{ 
+                marginBottom: '10px', 
+                padding: '10px', 
+                backgroundColor: '#F0F9FF', 
+                borderLeft: '3px solid #3B82F6',
+                borderRadius: '4px',
+                fontSize: '14px',
+                display: 'flex',
+                alignItems: 'flex-start',
+                gap: '8px'
+              }}>
+                <span style={{ color: '#3B82F6', fontWeight: 600, minWidth: '20px' }}>{i + 1}.</span>
+                <span>{q}</span>
+              </li>
             ))}
-            {questions.length === 0 && <p style={{ color: '#9CA3AF', margin: 0 }}>Dr. Maya will help you generate questions.</p>}
+            {questions.length === 0 && (
+              <div style={{ color: '#9CA3AF', margin: 0, padding: '12px', backgroundColor: '#F9FAFB', borderRadius: '6px' }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '8px' }}>
+                  <span>🤖</span>
+                  <span style={{ fontWeight: 500 }}>Dr. Maya is generating personalized questions...</span>
+                </div>
+                {autoFillData?.suggestedPrompts && (
+                  <div style={{ fontSize: '12px', color: '#6B7280' }}>
+                    Based on: {autoFillData.suggestedPrompts.slice(0, 2).join(', ')}
+                  </div>
+                )}
+              </div>
+            )}
           </ul>
         </div>
       </div>

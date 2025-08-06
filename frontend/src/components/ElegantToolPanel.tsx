@@ -5,6 +5,7 @@ import {
   Shield, Pill, Scissors, Heart, TrendingUp, 
   Eye, Sparkles, ChevronRight, Play
 } from 'lucide-react';
+import RadiantCompassLogo from '../assets/radiant-compass-logo.png'; 
 
 interface Tool {
   id: string;
@@ -33,7 +34,7 @@ const JOURNEY_STAGES: JourneyStage[] = [
     theme: "Fear to Understanding",
     icon: Activity,
     color: "#10B981",
-    gradient: "from-emerald-400 to-emerald-600",
+    gradient: "linear-gradient(135deg, #34D399 0%, #10B981 100%)", 
     tools: [
       { id: "symptom-tracker", name: "Symptom Tracker", description: "Track symptoms with AI analysis", category: "tracking", icon: "📊", stage: 1, priority: "high" },
       { id: "appointment-prep", name: "Appointment Prep", description: "Optimize doctor visits", category: "planning", icon: "📋", stage: 1, priority: "high" },
@@ -46,7 +47,7 @@ const JOURNEY_STAGES: JourneyStage[] = [
     theme: "Shock to Clarity", 
     icon: Stethoscope,
     color: "#3B82F6",
-    gradient: "from-blue-400 to-blue-600",
+    gradient: "linear-gradient(135deg, #60A5FA 0%, #3B82F6 100%)", 
     tools: [
       { id: "medical-translator", name: "Medical Translator", description: "Convert reports to plain language", category: "translation", icon: "🔤", stage: 2, priority: "high" },
       { id: "question-generator", name: "Question Generator", description: "AI consultation checklists", category: "preparation", icon: "❓", stage: 2, priority: "high" },
@@ -59,7 +60,7 @@ const JOURNEY_STAGES: JourneyStage[] = [
     theme: "Confusion to Clarity",
     icon: Search,
     color: "#8B5CF6", 
-    gradient: "from-purple-400 to-purple-600",
+    gradient: "linear-gradient(135deg, #A78BFA 0%, #8B5CF6 100%)", 
     tools: [
       { id: "compare-care", name: "Compare-My-Care™", description: "Rank hospitals by outcomes", category: "comparison", icon: "⚖️", stage: 3, priority: "high" },
       { id: "insurance-analyzer", name: "Insurance Analyzer", description: "Coverage navigation", category: "financial", icon: "🛡️", stage: 3, priority: "high" },
@@ -72,7 +73,7 @@ const JOURNEY_STAGES: JourneyStage[] = [
     theme: "Uncertainty to Planning",
     icon: Calendar,
     color: "#F59E0B",
-    gradient: "from-amber-400 to-amber-600", 
+    gradient: "linear-gradient(135deg, #FBBF24 0%, #F59E0B 100%)", 
     tools: [
       { id: "treatment-calendar", name: "Treatment Calendar", description: "Schedule and track appointments", category: "scheduling", icon: "🗓️", stage: 4, priority: "high" },
       { id: "test-coordinator", name: "Test Coordinator", description: "Coordinate multiple tests", category: "scheduling", icon: "🔬", stage: 4, priority: "high" },
@@ -170,10 +171,10 @@ Watch as the tool loads and I demonstrate its capabilities!`;
 
   return (
     <div style={{
-      width: '320px',
+      width: '360px', 
       height: '100%',
-      backgroundColor: '#FFFFFF',
-      borderRight: '1px solid #E5E7EB',
+      backgroundColor: '#F8F9FA', 
+      borderRight: '1px solid #E0E0E0',
       display: 'flex',
       flexDirection: 'column',
       overflow: 'hidden',
@@ -181,36 +182,28 @@ Watch as the tool loads and I demonstrate its capabilities!`;
     }}>
       {/* Elegant Header */}
       <div style={{
-        padding: '24px 24px',
-        borderBottom: '1px solid #F3F4F6'
+        padding: '32px 28px', 
+        borderBottom: '1px solid #EEEEEE',
+        backgroundColor: '#FFFFFF',
+        boxShadow: '0 2px 8px rgba(0,0,0,0.05)'
       }}>
         <div style={{
           display: 'flex',
           alignItems: 'center',
-          gap: '12px',
-          marginBottom: '16px'
+          gap: '16px', 
+          marginBottom: '20px' 
         }}>
-          <div style={{
-            width: '32px',
-            height: '32px',
-            borderRadius: '8px',
-            background: 'linear-gradient(135deg, #3B82F6 0%, #8B5CF6 100%)',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center'
-          }}>
-            <Sparkles style={{ width: '16px', height: '16px', color: 'white' }} />
-          </div>
+          <img src={RadiantCompassLogo} alt="Radiant Compass Logo" style={{ width: '50px', height: '50px' }} /> 
           <div>
             <h2 style={{
-              fontSize: '18px',
-              fontWeight: 600,
-              color: '#111827',
+              fontSize: '24px', 
+              fontWeight: 700,
+              color: '#212121',
               margin: 0
             }}>RadiantCompass</h2>
             <p style={{
-              fontSize: '12px',
-              color: '#6B7280',
+              fontSize: '15px', 
+              color: '#757575',
               margin: 0
             }}>Journey Tools</p>
           </div>
@@ -220,23 +213,24 @@ Watch as the tool loads and I demonstrate its capabilities!`;
         <div style={{
           display: 'flex',
           alignItems: 'center',
-          gap: '8px',
-          padding: '12px 16px',
-          borderRadius: '8px',
+          gap: '10px', 
+          padding: '16px 20px', 
+          borderRadius: '12px', 
           transition: 'all 0.3s ease',
-          backgroundColor: isExecuting ? '#ECFDF5' : '#F9FAFB',
-          border: isExecuting ? '1px solid #BBF7D0' : '1px solid #E5E7EB'
+          backgroundColor: isExecuting ? '#E8F5E9' : '#F5F5F5', 
+          border: isExecuting ? '1px solid #81C784' : '1px solid #E0E0E0', 
+          boxShadow: isExecuting ? '0 4px 12px rgba(76, 175, 80, 0.2)' : 'none'
         }}>
           <div style={{
-            width: '8px',
-            height: '8px',
+            width: '10px', 
+            height: '10px', 
             borderRadius: '50%',
-            backgroundColor: isExecuting ? '#10B981' : '#9CA3AF',
+            backgroundColor: isExecuting ? '#4CAF50' : '#BDBDBD', 
             animation: isExecuting ? 'pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite' : 'none'
           }} />
           <span style={{
-            fontSize: '14px',
-            color: '#374151',
+            fontSize: '16px', 
+            color: isExecuting ? '#388E3C' : '#424242',
             fontWeight: 500
           }}>
             {isExecuting ? 'Activating tool...' : 'Ready to demonstrate'}
@@ -246,37 +240,41 @@ Watch as the tool loads and I demonstrate its capabilities!`;
 
       {/* Category Filter */}
       <div style={{
-        padding: '16px 24px',
-        borderBottom: '1px solid #F3F4F6'
+        padding: '20px 28px', 
+        borderBottom: '1px solid #EEEEEE',
+        backgroundColor: '#FFFFFF'
       }}>
         <div style={{
           display: 'flex',
           flexWrap: 'wrap',
-          gap: '8px'
+          gap: '10px' 
         }}>
           {categories.map((category) => (
             <button
               key={category}
               onClick={() => setSelectedCategory(category)}
               style={{
-                padding: '4px 12px',
-                borderRadius: '20px',
-                fontSize: '12px',
+                padding: '8px 18px', 
+                borderRadius: '30px', 
+                fontSize: '14px', 
                 fontWeight: 500,
                 transition: 'all 0.2s ease',
-                border: 'none',
+                border: '1px solid #E0E0E0',
                 cursor: 'pointer',
-                backgroundColor: selectedCategory === category ? '#DBEAFE' : '#F3F4F6',
-                color: selectedCategory === category ? '#1D4ED8' : '#6B7280'
+                backgroundColor: selectedCategory === category ? '#E3F2FD' : '#F5F5F5', 
+                color: selectedCategory === category ? '#1976D2' : '#616161', 
+                boxShadow: selectedCategory === category ? '0 2px 6px rgba(25, 118, 210, 0.1)' : 'none'
               }}
               onMouseOver={(e) => {
                 if (selectedCategory !== category) {
-                  e.currentTarget.style.backgroundColor = '#E5E7EB';
+                  e.currentTarget.style.backgroundColor = '#E0E0E0';
+                  e.currentTarget.style.borderColor = '#BDBDBD';
                 }
               }}
               onMouseOut={(e) => {
                 if (selectedCategory !== category) {
-                  e.currentTarget.style.backgroundColor = '#F3F4F6';
+                  e.currentTarget.style.backgroundColor = '#F5F5F5';
+                  e.currentTarget.style.borderColor = '#E0E0E0';
                 }
               }}
             >
@@ -290,9 +288,10 @@ Watch as the tool loads and I demonstrate its capabilities!`;
       <div style={{
         flex: 1,
         overflowY: 'auto',
-        padding: '24px'
+        padding: '28px', 
+        backgroundColor: '#F8F9FA'
       }}>
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}> 
           {JOURNEY_STAGES.map((stage) => {
             const stageTools = stage.tools.filter(tool => 
               selectedCategory === 'all' || tool.category === selectedCategory
@@ -303,44 +302,46 @@ Watch as the tool loads and I demonstrate its capabilities!`;
             const StageIcon = stage.icon;
             
             return (
-              <div key={stage.id} style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+              <div key={stage.id} style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}> 
                 {/* Stage Header */}
                 <div style={{
                   display: 'flex',
                   alignItems: 'center',
-                  gap: '12px'
+                  gap: '14px', 
+                  marginBottom: '10px' 
                 }}>
                   <div style={{
-                    width: '24px',
-                    height: '24px',
-                    borderRadius: '6px',
-                    background: stage.color,
+                    width: '32px', 
+                    height: '32px', 
+                    borderRadius: '10px', 
+                    background: stage.gradient, 
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center',
-                    flexShrink: 0
+                    flexShrink: 0,
+                    boxShadow: '0 4px 12px rgba(0,0,0,0.1)'
                   }}>
-                    <StageIcon style={{ width: '12px', height: '12px', color: 'white' }} />
+                    <StageIcon style={{ width: '16px', height: '16px', color: 'white' }} /> 
                   </div>
                   <div>
                     <div style={{
-                      fontSize: '14px',
+                      fontSize: '17px', 
                       fontWeight: 600,
-                      color: '#111827'
+                      color: '#212121'
                     }}>Stage {stage.id}</div>
                     <div style={{
-                      fontSize: '12px',
-                      color: '#6B7280'
+                      fontSize: '14px', 
+                      color: '#757575'
                     }}>{stage.theme}</div>
                   </div>
                 </div>
 
                 {/* Stage Tools */}
                 <div style={{
-                  marginLeft: '36px',
+                  marginLeft: '44px', 
                   display: 'flex',
                   flexDirection: 'column',
-                  gap: '8px'
+                  gap: '12px' 
                 }}>
                   {stageTools.map((tool) => (
                     <button
@@ -348,32 +349,32 @@ Watch as the tool loads and I demonstrate its capabilities!`;
                       onClick={() => handleToolClick(tool)}
                       style={{
                         width: '100%',
-                        padding: '16px',
-                        borderRadius: '12px',
+                        padding: '22px', 
+                        borderRadius: '16px', 
                         textAlign: 'left',
                         transition: 'all 0.2s ease',
                         border: selectedTool?.id === tool.id 
-                          ? '2px solid #3B82F6' 
-                          : '1px solid #E5E7EB',
+                          ? '2px solid #42A5F5' 
+                          : '1px solid #E0E0E0',
                         backgroundColor: selectedTool?.id === tool.id 
-                          ? 'linear-gradient(135deg, #EBF8FF 0%, #F3E8FF 100%)' 
+                          ? 'linear-gradient(135deg, #E3F2FD 0%, #BBDEFB 100%)' 
                           : '#FFFFFF',
                         cursor: 'pointer',
                         boxShadow: selectedTool?.id === tool.id 
-                          ? '0 4px 12px rgba(59, 130, 246, 0.15)' 
-                          : '0 1px 3px rgba(0, 0, 0, 0.1)'
+                          ? '0 6px 18px rgba(66, 165, 245, 0.25)' 
+                          : '0 2px 8px rgba(0, 0, 0, 0.05)'
                       }}
                       onMouseOver={(e) => {
                         if (selectedTool?.id !== tool.id) {
-                          e.currentTarget.style.borderColor = '#D1D5DB';
+                          e.currentTarget.style.borderColor = '#BDBDBD';
                           e.currentTarget.style.boxShadow = '0 4px 12px rgba(0, 0, 0, 0.1)';
-                          e.currentTarget.style.transform = 'translateY(-1px)';
+                          e.currentTarget.style.transform = 'translateY(-2px)';
                         }
                       }}
                       onMouseOut={(e) => {
                         if (selectedTool?.id !== tool.id) {
-                          e.currentTarget.style.borderColor = '#E5E7EB';
-                          e.currentTarget.style.boxShadow = '0 1px 3px rgba(0, 0, 0, 0.1)';
+                          e.currentTarget.style.borderColor = '#E0E0E0';
+                          e.currentTarget.style.boxShadow = '0 2px 8px rgba(0, 0, 0, 0.05)';
                           e.currentTarget.style.transform = 'translateY(0)';
                         }
                       }}
@@ -381,10 +382,10 @@ Watch as the tool loads and I demonstrate its capabilities!`;
                       <div style={{
                         display: 'flex',
                         alignItems: 'center',
-                        gap: '12px'
+                        gap: '16px' 
                       }}>
                         <div style={{ 
-                          fontSize: '20px',
+                          fontSize: '26px', 
                           flexShrink: 0
                         }}>{tool.icon}</div>
                         <div style={{
@@ -392,10 +393,10 @@ Watch as the tool loads and I demonstrate its capabilities!`;
                           minWidth: 0
                         }}>
                           <div style={{
-                            fontSize: '14px',
+                            fontSize: '17px', 
                             fontWeight: 600,
-                            color: selectedTool?.id === tool.id ? '#1D4ED8' : '#111827',
-                            marginBottom: '4px',
+                            color: selectedTool?.id === tool.id ? '#1565C0' : '#212121', 
+                            marginBottom: '6px', 
                             overflow: 'hidden',
                             textOverflow: 'ellipsis',
                             whiteSpace: 'nowrap'
@@ -403,9 +404,9 @@ Watch as the tool loads and I demonstrate its capabilities!`;
                             {tool.name}
                           </div>
                           <div style={{
-                            fontSize: '12px',
-                            color: '#6B7280',
-                            lineHeight: '1.4',
+                            fontSize: '14px', 
+                            color: '#757575',
+                            lineHeight: '1.6', 
                             display: '-webkit-box',
                             WebkitLineClamp: 2,
                             WebkitBoxOrient: 'vertical',
@@ -417,21 +418,21 @@ Watch as the tool loads and I demonstrate its capabilities!`;
                         <div style={{
                           display: 'flex',
                           alignItems: 'center',
-                          gap: '4px',
+                          gap: '8px', 
                           flexShrink: 0
                         }}>
                           {tool.priority === 'high' && (
                             <div style={{
-                              width: '8px',
-                              height: '8px',
+                              width: '10px', 
+                              height: '10px', 
                               borderRadius: '50%',
-                              backgroundColor: '#10B981'
+                              backgroundColor: '#4CAF50' 
                             }}></div>
                           )}
                           <ChevronRight style={{ 
-                            width: '16px', 
-                            height: '16px', 
-                            color: selectedTool?.id === tool.id ? '#3B82F6' : '#9CA3AF'
+                            width: '20px', 
+                            height: '20px', 
+                            color: selectedTool?.id === tool.id ? '#1976D2' : '#9E9E9E' 
                           }} />
                         </div>
                       </div>
@@ -446,20 +447,21 @@ Watch as the tool loads and I demonstrate its capabilities!`;
 
       {/* Footer */}
       <div style={{
-        padding: '16px 24px',
-        borderTop: '1px solid #F3F4F6',
-        backgroundColor: '#F9FAFB'
+        padding: '20px 28px', 
+        borderTop: '1px solid #EEEEEE',
+        backgroundColor: '#FFFFFF',
+        boxShadow: '0 -2px 8px rgba(0,0,0,0.03)'
       }}>
         <div style={{ textAlign: 'center' }}>
           <div style={{
-            fontSize: '12px',
-            color: '#6B7280',
-            marginBottom: '4px'
+            fontSize: '14px', 
+            color: '#757575',
+            marginBottom: '6px' 
           }}>Select any tool above</div>
           <div style={{
-            fontSize: '12px',
-            fontWeight: 500,
-            color: '#2563EB'
+            fontSize: '14px', 
+            fontWeight: 600,
+            color: '#1976D2'
           }}>Dr. Maya will demonstrate it visually</div>
         </div>
       </div>

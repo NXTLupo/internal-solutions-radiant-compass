@@ -6,7 +6,98 @@ import { TreatmentCalendar } from './tools/TreatmentCalendar';
 import { AppointmentPrepGuide } from './journeystages/AppointmentPrepGuide';
 import { SymptomSage } from './journeystages/SymptomSage';
 import { SecondOpinionGuide } from './journeystages/SecondOpinionGuide';
+import { InsuranceAnalyzer } from './journeystages/InsuranceAnalyzer';
+import { TestCoordinator } from './journeystages/TestCoordinator';
+import { CostCalculator } from './journeystages/CostCalculator';
+import { RecoveryTracker } from './journeystages/RecoveryTracker';
+import { MilestoneTracker } from './journeystages/MilestoneTracker';
+import { SurvivorshipPlanner } from './journeystages/SurvivorshipPlanner';
+import { AppealsAssistant } from './journeystages/AppealsAssistant';
+import { SurgicalPrepGuide } from './journeystages/SurgicalPrepGuide';
+import { RecoveryPlanner } from './journeystages/RecoveryPlanner';
+import { ToolPlaceholder } from './journeystages/ToolPlaceholder';
 import { useCopilotAction } from '@copilotkit/react-core';
+import RadiantCompassLogo from '../assets/radiant-compass-logo.png';
+import { 
+  Activity, Stethoscope, Search, Calendar, Users, 
+  Shield, Pill, Scissors, Heart, TrendingUp, 
+  Eye, Sparkles, ChevronRight, Play
+} from 'lucide-react';
+
+interface Tool {
+  id: string;
+  name: string;
+  description: string;
+  category: string;
+  icon: string;
+  stage: number;
+  priority: 'high' | 'medium' | 'low';
+}
+
+interface JourneyStage {
+  id: number;
+  name: string;
+  theme: string;
+  icon: React.ComponentType;
+  color: string;
+  gradient: string;
+  tools: Tool[];
+}
+
+const JOURNEY_STAGES: JourneyStage[] = [
+  {
+    id: 1,
+    name: "First Hints & Initial Visit",
+    theme: "Fear to Understanding",
+    icon: Activity,
+    color: "#10B981",
+    gradient: "from-emerald-400 to-emerald-600",
+    tools: [
+      { id: "symptom-tracker", name: "Symptom Tracker", description: "Track symptoms with AI analysis", category: "tracking", icon: "📊", stage: 1, priority: "high" },
+      { id: "appointment-prep", name: "Appointment Prep", description: "Optimize doctor visits", category: "planning", icon: "📋", stage: 1, priority: "high" },
+      { id: "ai-symptom-sage", name: "AI Symptom Sage", description: "Real-time symptom interpretation", category: "ai", icon: "🧠", stage: 1, priority: "high" }
+    ]
+  },
+  {
+    id: 2,
+    name: "Specialist Work-up & Diagnosis",
+    theme: "Shock to Clarity", 
+    icon: Stethoscope,
+    color: "#3B82F6",
+    gradient: "from-blue-400 to-blue-600",
+    tools: [
+      { id: "medical-translator", name: "Medical Translator", description: "Convert reports to plain language", category: "translation", icon: "🔤", stage: 2, priority: "high" },
+      { id: "question-generator", name: "Question Generator", description: "AI consultation checklists", category: "preparation", icon: "❓", stage: 2, priority: "high" },
+      { id: "peer-connection", name: "Peer Connection", description: "Connect with similar cases", category: "community", icon: "👥", stage: 2, priority: "medium" }
+    ]
+  },
+  {
+    id: 3,
+    name: "Research & Compare-Care",
+    theme: "Confusion to Clarity",
+    icon: Search,
+    color: "#8B5CF6", 
+    gradient: "from-purple-400 to-purple-600",
+    tools: [
+      { id: "compare-care", name: "Compare-My-Care™", description: "Rank hospitals by outcomes", category: "comparison", icon: "⚖️", stage: 3, priority: "high" },
+      { id: "insurance-analyzer", name: "Insurance Analyzer", description: "Coverage navigation", category: "financial", icon: "🛡️", stage: 3, priority: "high" },
+      { id: "travel-planner", name: "Travel Planner", description: "Logistics coordination", category: "logistics", icon: "✈️", stage: 3, priority: "medium" }
+    ]
+  },
+  {
+    id: 4,
+    name: "Staging & Testing",
+    theme: "Uncertainty to Planning",
+    icon: Calendar,
+    color: "#F59E0B",
+    gradient: "from-amber-400 to-amber-600", 
+    tools: [
+      { id: "treatment-calendar", name: "Treatment Calendar", description: "Schedule and track appointments", category: "scheduling", icon: "🗓️", stage: 4, priority: "high" },
+      { id: "test-coordinator", name: "Test Coordinator", description: "Coordinate multiple tests", category: "scheduling", icon: "🔬", stage: 4, priority: "high" },
+      { id: "results-repository", name: "Results Repository", description: "Organize test results", category: "organization", icon: "📁", stage: 4, priority: "medium" }
+    ]
+  }
+];
 
 interface EnhancedVoiceExperienceProps {
   onNavigateHome?: () => void;
@@ -36,7 +127,7 @@ const styles = {
     left: 0,
     right: 0,
     bottom: 0,
-    background: 'linear-gradient(135deg, #FFFFFF 0%, #FEFEFE 100%)',
+    background: 'linear-gradient(135deg, #F0F2F5 0%, #E0E0E0 100%)', 
     display: 'flex',
     fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Segoe UI", system-ui, sans-serif',
     zIndex: 9999,
@@ -49,65 +140,69 @@ const styles = {
     flex: 1,
     display: 'flex',
     flexDirection: 'column' as const,
-    overflow: 'hidden'
+    overflow: 'hidden',
+    backgroundColor: '#FFFFFF', 
+    borderRadius: '20px', 
+    margin: '20px', 
+    boxShadow: '0 10px 40px rgba(0,0,0,0.1), 0 5px 20px rgba(0,0,0,0.06)' 
   },
 
   // PREMIUM HEALTHCARE HEADER
   header: {
-    background: 'rgba(255, 255, 255, 0.95)',
-    backdropFilter: 'blur(20px)',
-    borderBottom: '1px solid rgba(229, 231, 235, 0.6)',
-    padding: '24px 32px',
+    background: '#FFFFFF',
+    borderBottom: '1px solid #EEEEEE',
+    padding: '24px 36px', 
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'space-between',
     flexShrink: 0,
-    boxShadow: '0 1px 3px rgba(0, 0, 0, 0.02)'
+    boxShadow: '0 2px 6px rgba(0,0,0,0.05)' 
   },
 
   exitButton: {
-    background: 'transparent',
-    border: '1px solid rgba(229, 231, 235, 0.6)',
-    fontSize: '15px',
+    background: '#F5F5F5',
+    border: 'none',
+    fontSize: '16px', 
     fontWeight: 500,
-    color: '#475569',
+    color: '#616161',
     cursor: 'pointer',
-    padding: '10px 18px',
+    padding: '10px 20px', 
     borderRadius: '12px',
-    transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
-    letterSpacing: '-0.01em'
+    transition: 'all 0.2s ease',
+    letterSpacing: '-0.01em',
+    boxShadow: '0 3px 6px rgba(0,0,0,0.05)' 
   },
 
   headerTitle: {
     display: 'flex',
     alignItems: 'center',
-    gap: '16px'
+    gap: '16px' 
   },
 
   titleText: {
-    fontSize: '24px',
+    fontSize: '26px', 
     fontWeight: 700,
-    color: '#0F172A',
+    color: '#212121',
     margin: 0,
     letterSpacing: '-0.02em'
   },
 
   subtitle: {
-    fontSize: '15px',
-    color: '#64748B',
+    fontSize: '16px', 
+    color: '#757575',
     margin: 0,
     fontWeight: 500,
     letterSpacing: '-0.01em'
   },
 
   latencyBadge: {
-    background: 'linear-gradient(135deg, #059669 0%, #10B981 100%)',
+    background: 'linear-gradient(135deg, #4CAF50 0%, #81C784 100%)', 
     color: 'white',
-    padding: '6px 14px',
-    borderRadius: '20px',
-    fontSize: '13px',
+    padding: '6px 14px', 
+    borderRadius: '20px', 
+    fontSize: '14px', 
     fontWeight: 600,
-    boxShadow: '0 2px 8px rgba(16, 185, 129, 0.3)',
+    boxShadow: '0 3px 10px rgba(76, 175, 80, 0.3)', 
     letterSpacing: '-0.01em'
   },
 
@@ -124,112 +219,113 @@ const styles = {
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
-    padding: '48px 32px 24px 32px',
+    padding: '50px 36px 24px 36px', 
     flexShrink: 0,
     position: 'relative' as const
   },
 
   avatar: {
-    width: '140px',
-    height: '140px',
+    width: '150px', 
+    height: '150px', 
     borderRadius: '50%',
-    transition: 'all 0.4s cubic-bezier(0.4, 0, 0.2, 1)',
-    boxShadow: '0 8px 32px rgba(0, 0, 0, 0.08), 0 4px 16px rgba(0, 0, 0, 0.04)',
-    border: '4px solid rgba(248, 250, 252, 0.8)',
+    transition: 'all 0.3s ease-out',
+    boxShadow: '0 8px 32px rgba(0,0,0,0.1), 0 4px 16px rgba(0,0,0,0.05)', 
+    border: '4px solid #FFFFFF', 
     objectFit: 'cover' as const,
     position: 'relative' as const,
     zIndex: 2
   },
 
   avatarListening: {
-    boxShadow: '0 0 40px rgba(59, 130, 246, 0.4), 0 8px 32px rgba(59, 130, 246, 0.2)',
-    borderColor: 'rgba(59, 130, 246, 0.6)',
-    transform: 'scale(1.05)'
+    boxShadow: '0 0 40px rgba(33, 150, 243, 0.5), 0 8px 32px rgba(33, 150, 243, 0.3)', 
+    borderColor: '#2196F3',
+    transform: 'scale(1.1)' 
   },
 
   avatarThinking: {
-    boxShadow: '0 0 40px rgba(139, 92, 246, 0.4), 0 8px 32px rgba(139, 92, 246, 0.2)',
-    borderColor: 'rgba(139, 92, 246, 0.6)',
-    transform: 'scale(1.02)'
+    boxShadow: '0 0 40px rgba(156, 39, 176, 0.5), 0 8px 32px rgba(156, 39, 176, 0.3)', 
+    borderColor: '#9C27B0',
+    transform: 'scale(1.07)' 
   },
 
   avatarSpeaking: {
-    boxShadow: '0 0 40px rgba(16, 185, 129, 0.4), 0 8px 32px rgba(16, 185, 129, 0.2)',
-    borderColor: 'rgba(16, 185, 129, 0.6)',
-    transform: 'scale(1.08)'
+    boxShadow: '0 0 40px rgba(76, 175, 80, 0.5), 0 8px 32px rgba(76, 175, 80, 0.3)', 
+    borderColor: '#4CAF50',
+    transform: 'scale(1.12)' 
   },
 
   avatarDemonstrating: {
-    boxShadow: '0 0 40px rgba(245, 158, 11, 0.4), 0 8px 32px rgba(245, 158, 11, 0.2)',
-    borderColor: 'rgba(245, 158, 11, 0.6)',
-    transform: 'scale(1.06)'
+    boxShadow: '0 0 40px rgba(255, 152, 0, 0.5), 0 8px 32px rgba(255, 152, 0, 0.3)', 
+    borderColor: '#FF9800',
+    transform: 'scale(1.09)' 
   },
 
   // PREMIUM CHAT MESSAGES CONTAINER
   chatContainer: {
     flex: 1,
     overflowY: 'auto' as const,
-    padding: '0 32px',
+    padding: '0 36px', 
     display: 'flex',
     flexDirection: 'column' as const,
-    gap: '20px',
-    scrollBehavior: 'smooth' as const
+    gap: '20px', 
+    scrollBehavior: 'smooth' as const,
+    paddingBottom: '30px' 
   },
 
   // PREMIUM MESSAGE BUBBLES
   messageBubble: {
-    maxWidth: '80%',
-    padding: '18px 24px',
-    borderRadius: '24px',
-    fontSize: '16px',
+    maxWidth: '70%', 
+    padding: '20px 24px', 
+    borderRadius: '24px', 
+    fontSize: '17px', 
     lineHeight: 1.6,
     position: 'relative' as const,
     wordWrap: 'break-word' as const,
     wordBreak: 'break-word' as const,
-    letterSpacing: '-0.01em'
+    letterSpacing: '-0.01em',
+    boxShadow: '0 3px 10px rgba(0,0,0,0.06)' 
   },
 
   userBubble: {
-    background: 'linear-gradient(135deg, #3B82F6 0%, #2563EB 100%)',
+    background: 'linear-gradient(135deg, #42A5F5 0%, #2196F3 100%)', 
     color: '#FFFFFF',
     alignSelf: 'flex-end',
-    borderBottomRightRadius: '8px',
-    boxShadow: '0 4px 16px rgba(59, 130, 246, 0.25), 0 2px 8px rgba(59, 130, 246, 0.15)'
+    borderBottomRightRadius: '8px', 
+    boxShadow: '0 5px 15px rgba(33, 150, 243, 0.25)' 
   },
 
   assistantBubble: {
-    background: 'rgba(248, 250, 252, 0.8)',
-    color: '#0F172A',
+    background: '#F5F5F5', 
+    color: '#424242',
     alignSelf: 'flex-start',
-    borderBottomLeftRadius: '8px',
-    border: '1px solid rgba(226, 232, 240, 0.6)',
-    boxShadow: '0 4px 16px rgba(0, 0, 0, 0.04), 0 2px 8px rgba(0, 0, 0, 0.02)',
-    backdropFilter: 'blur(8px)'
+    borderBottomLeftRadius: '8px', 
+    border: '1px solid #EEEEEE',
+    boxShadow: '0 3px 10px rgba(0,0,0,0.04)' 
   },
 
   systemBubble: {
-    background: 'linear-gradient(135deg, #059669 0%, #10B981 100%)',
+    background: 'linear-gradient(135deg, #66BB6A 0%, #4CAF50 100%)', 
     color: '#FFFFFF',
     alignSelf: 'center',
     textAlign: 'center' as const,
-    fontSize: '15px',
+    fontSize: '16px', 
     fontWeight: 500,
-    boxShadow: '0 4px 16px rgba(16, 185, 129, 0.25)'
+    boxShadow: '0 5px 15px rgba(76, 175, 80, 0.25)' 
   },
 
   toolDemoBubble: {
-    background: 'linear-gradient(135deg, #F59E0B 0%, #D97706 100%)',
+    background: 'linear-gradient(135deg, #FFB300 0%, #FB8C00 100%)', 
     color: '#FFFFFF',
     alignSelf: 'center',
     textAlign: 'center' as const,
-    fontSize: '15px',
+    fontSize: '16px', 
     fontWeight: 500,
-    boxShadow: '0 4px 16px rgba(245, 158, 11, 0.25)'
+    boxShadow: '0 5px 15px rgba(255, 152, 0, 0.25)' 
   },
 
   messageContent: {
     margin: 0,
-    fontSize: '16px',
+    fontSize: '16px', 
     lineHeight: 1.6,
     fontWeight: 400,
     letterSpacing: '-0.01em'
@@ -239,49 +335,49 @@ const styles = {
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'space-between',
-    marginTop: '12px',
-    opacity: 0.6
+    marginTop: '14px', 
+    opacity: 0.7,
+    fontSize: '12px' 
   },
 
   timestamp: {
-    fontSize: '12px',
+    fontSize: '12px', 
     fontWeight: 500,
     letterSpacing: '-0.01em'
   },
 
   latencyTag: {
-    fontSize: '11px',
+    fontSize: '11px', 
     background: 'rgba(0, 0, 0, 0.08)',
-    padding: '4px 8px',
-    borderRadius: '8px',
+    padding: '4px 9px', 
+    borderRadius: '8px', 
     fontWeight: 500,
     letterSpacing: '-0.01em'
   },
 
   // PREMIUM VOICE CONTROLS - ALWAYS VISIBLE
   controlsContainer: {
-    background: 'rgba(255, 255, 255, 0.95)',
-    backdropFilter: 'blur(20px)',
-    borderTop: '1px solid rgba(229, 231, 235, 0.4)',
-    padding: '32px 32px',
+    background: '#FFFFFF',
+    borderTop: '1px solid #EEEEEE',
+    padding: '30px 36px', 
     display: 'flex',
     flexDirection: 'column' as const,
     alignItems: 'center',
-    gap: '20px',
+    gap: '20px', 
     flexShrink: 0,
-    boxShadow: '0 -4px 16px rgba(0, 0, 0, 0.02)'
+    boxShadow: '0 -3px 10px rgba(0,0,0,0.04)' 
   },
 
   voiceButton: {
-    width: '90px',
-    height: '90px',
+    width: '100px', 
+    height: '100px', 
     borderRadius: '50%',
     border: 'none',
     cursor: 'pointer',
-    transition: 'all 0.4s cubic-bezier(0.4, 0, 0.2, 1)',
-    fontSize: '32px',
+    transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+    fontSize: '32px', 
     color: 'white',
-    boxShadow: '0 8px 32px rgba(0, 0, 0, 0.12), 0 4px 16px rgba(0, 0, 0, 0.08)',
+    boxShadow: '0 8px 32px rgba(0,0,0,0.15), 0 4px 16px rgba(0,0,0,0.1)', 
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
@@ -290,33 +386,33 @@ const styles = {
   },
 
   voiceButtonListening: {
-    background: 'linear-gradient(135deg, #EF4444 0%, #DC2626 100%)',
+    background: 'linear-gradient(135deg, #EF5350 0%, #E53935 100%)', 
     transform: 'scale(1.15)',
-    boxShadow: '0 0 40px rgba(239, 68, 68, 0.4), 0 8px 32px rgba(239, 68, 68, 0.3)'
+    boxShadow: '0 0 40px rgba(229, 57, 53, 0.5), 0 8px 32px rgba(229, 57, 53, 0.4)' 
   },
 
   voiceButtonProcessing: {
-    background: 'linear-gradient(135deg, #F59E0B 0%, #D97706 100%)',
+    background: 'linear-gradient(135deg, #FFB300 0%, #FB8C00 100%)', 
     cursor: 'not-allowed',
-    boxShadow: '0 0 32px rgba(245, 158, 11, 0.3), 0 8px 24px rgba(245, 158, 11, 0.2)'
+    boxShadow: '0 0 30px rgba(255, 152, 0, 0.4), 0 8px 24px rgba(255, 152, 0, 0.3)' 
   },
 
   voiceButtonSpeaking: {
-    background: 'linear-gradient(135deg, #10B981 0%, #059669 100%)',
+    background: 'linear-gradient(135deg, #66BB6A 0%, #4CAF50 100%)', 
     cursor: 'not-allowed',
-    transform: 'scale(1.1)',
-    boxShadow: '0 0 36px rgba(16, 185, 129, 0.4), 0 8px 28px rgba(16, 185, 129, 0.25)'
+    transform: 'scale(1.12)',
+    boxShadow: '0 0 35px rgba(76, 175, 80, 0.5), 0 8px 28px rgba(76, 175, 80, 0.35)' 
   },
 
   voiceButtonReady: {
-    background: 'linear-gradient(135deg, #3B82F6 0%, #2563EB 100%)',
-    boxShadow: '0 8px 32px rgba(59, 130, 246, 0.3), 0 4px 16px rgba(59, 130, 246, 0.2)'
+    background: 'linear-gradient(135deg, #42A5F5 0%, #2196F3 100%)', 
+    boxShadow: '0 8px 32px rgba(33, 150, 243, 0.35), 0 4px 16px rgba(33, 150, 243, 0.25)' 
   },
 
   statusText: {
-    fontSize: '16px',
+    fontSize: '17px', 
     fontWeight: 600,
-    color: '#0F172A',
+    color: '#424242',
     textAlign: 'center' as const,
     margin: 0,
     letterSpacing: '-0.01em'
@@ -325,90 +421,94 @@ const styles = {
   techSpecs: {
     display: 'flex',
     justifyContent: 'center',
-    gap: '16px',
+    gap: '14px', 
     flexWrap: 'wrap' as const
   },
 
   techSpec: {
-    fontSize: '12px',
-    color: '#64748B',
-    background: 'rgba(248, 250, 252, 0.8)',
-    padding: '6px 12px',
-    borderRadius: '12px',
+    fontSize: '12px', 
+    color: '#757575',
+    background: '#F0F0F0',
+    padding: '6px 12px', 
+    borderRadius: '12px', 
     fontWeight: 500,
     letterSpacing: '-0.01em',
-    border: '1px solid rgba(226, 232, 240, 0.6)'
+    border: '1px solid #E0E0E0'
   },
 
   // CONNECTION SCREEN
   connectionScreen: {
     alignItems: 'center',
     justifyContent: 'center',
-    padding: '48px 32px'
+    padding: '50px 36px', 
+    backgroundColor: '#F8F9FA', 
+    borderRadius: '20px', 
+    margin: '20px', 
+    boxShadow: '0 10px 40px rgba(0,0,0,0.1), 0 5px 20px rgba(0,0,0,0.06)' 
   },
 
   connectionContent: {
     textAlign: 'center' as const,
-    maxWidth: '480px'
+    maxWidth: '450px' 
   },
 
   connectionAvatar: {
-    width: '140px',
-    height: '140px',
-    margin: '0 auto 40px auto',
+    width: '150px', 
+    height: '150px', 
+    margin: '0 auto 40px auto', 
     borderRadius: '50%',
-    background: 'linear-gradient(135deg, #3B82F6 0%, #2563EB 100%)',
+    background: 'linear-gradient(135deg, #42A5F5 0%, #2196F3 100%)', 
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
-    fontSize: '56px',
-    boxShadow: '0 12px 48px rgba(59, 130, 246, 0.3), 0 8px 32px rgba(59, 130, 246, 0.2)'
+    fontSize: '56px', 
+    boxShadow: '0 10px 30px rgba(33, 150, 243, 0.35), 0 5px 15px rgba(33, 150, 243, 0.25)' 
   },
 
   connectionTitle: {
-    fontSize: '28px',
+    fontSize: '30px', 
     fontWeight: 700,
-    color: '#0F172A',
-    marginBottom: '16px',
+    color: '#212121',
+    marginBottom: '16px', 
     letterSpacing: '-0.02em'
   },
 
   connectionSubtitle: {
-    fontSize: '16px',
-    color: '#64748B',
-    marginBottom: '32px',
+    fontSize: '17px', 
+    color: '#616161',
+    marginBottom: '32px', 
     lineHeight: 1.6,
     letterSpacing: '-0.01em'
   },
 
   errorBox: {
-    background: 'rgba(254, 242, 242, 0.8)',
-    border: '1px solid rgba(254, 202, 202, 0.6)',
-    borderRadius: '16px',
-    padding: '16px',
-    marginBottom: '24px',
-    backdropFilter: 'blur(8px)'
+    background: '#FFEBEE', 
+    border: '1px solid #EF9A9A',
+    borderRadius: '16px', 
+    padding: '16px', 
+    marginBottom: '24px', 
+    boxShadow: '0 3px 10px rgba(229, 57, 53, 0.15)' 
   },
 
   errorText: {
-    color: '#DC2626',
-    fontSize: '14px',
+    color: '#D32F2F',
+    fontSize: '14px', 
     margin: 0,
     fontWeight: 500,
     letterSpacing: '-0.01em'
   },
 
   connectButton: {
-    fontSize: '16px',
-    padding: '14px 32px',
-    background: 'linear-gradient(135deg, #3B82F6 0%, #2563EB 100%)',
+    fontSize: '17px', 
+    padding: '14px 32px', 
+    background: 'linear-gradient(135deg, #4CAF50 0%, #388E3C 100%)', 
     color: '#FFFFFF',
     border: 'none',
-    borderRadius: '14px',
+    borderRadius: '14px', 
     cursor: 'pointer',
     fontWeight: 600,
-    boxShadow: '0 8px 32px rgba(59, 130, 246, 0.3), 0 4px 16px rgba(59, 130, 246, 0.2)',
-    transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+    boxShadow: '0 8px 32px rgba(76, 175, 80, 0.35), 0 4px 16px rgba(76, 175, 80, 0.25)', 
+    transition: 'all 0.2s ease',
     letterSpacing: '-0.01em'
   }
 };
@@ -442,9 +542,111 @@ export function EnhancedVoiceExperience({ onNavigateHome }: EnhancedVoiceExperie
   });
 
   // Tool click handler that will be passed to ElegantToolPanel
-  const handleToolPanelClick = async (tool: { id: string; name: string; description: string; stage: number }) => {
+  const handleToolPanelClick = async (tool: { id: string; name: string; string; stage: number }) => {
     console.log(`[EnhancedVoiceExperience] Tool panel click received: ${tool.name}`);
     return await showToolVisually(tool.id, tool.name, tool.description, tool.stage);
+  };
+
+  // Comprehensive tool knowledge base with expert descriptions
+  const getToolExpertDescription = (toolId: string): { description: string; prompts: string[]; benefits: string[] } => {
+    const toolKnowledge: Record<string, { description: string; prompts: string[]; benefits: string[] }> = {
+      'symptom-tracker': {
+        description: "The Symptom Tracker is your digital health companion that uses AI to analyze patterns in your symptoms over time. It helps identify triggers, monitor progression, and provides valuable data for your healthcare team. This tool is particularly powerful for rare disease patients where subtle changes can be significant.",
+        prompts: [
+          "What symptoms have you been experiencing lately?",
+          "How would you rate the severity on a scale of 1-10?",
+          "When did you first notice these symptoms?",
+          "Are there any activities or times of day when symptoms worsen?"
+        ],
+        benefits: [
+          "Identify symptom patterns and triggers",
+          "Provide detailed data to your doctors",
+          "Track treatment effectiveness",
+          "Early detection of changes in your condition"
+        ]
+      },
+      'treatment-calendar': {
+        description: "Your Treatment Calendar is a comprehensive scheduling system that coordinates all aspects of your healthcare journey. It integrates appointments, treatments, lab work, and follow-ups into one intelligent system that helps you prepare for each visit and tracks your progress through treatment protocols.",
+        prompts: [
+          "What type of appointment would you like to schedule?",
+          "Who is your primary oncologist or specialist?",
+          "Do you need help coordinating transportation or accommodations?",
+          "Would you like reminders set up for pre-appointment preparations?"
+        ],
+        benefits: [
+          "Never miss important appointments",
+          "Coordinate complex treatment schedules",
+          "Prepare questions and concerns in advance",
+          "Track your progress through treatment phases"
+        ]
+      },
+      'appointment-prep': {
+        description: "The Appointment Prep Guide transforms stressful medical visits into productive, organized sessions. It helps you articulate your concerns clearly, generates relevant questions based on your situation, and ensures you maximize the value of every minute with your healthcare providers.",
+        prompts: [
+          "What's your main concern for this appointment?",
+          "Have you had any new symptoms since your last visit?",
+          "Are there any medications or treatments you want to discuss?",
+          "Do you have specific questions about your prognosis or treatment options?"
+        ],
+        benefits: [
+          "Organize thoughts before appointments",
+          "Generate relevant, personalized questions",
+          "Track appointment outcomes",
+          "Improve communication with your medical team"
+        ]
+      },
+      'insurance-analyzer': {
+        description: "The Insurance Analyzer is your personal healthcare finance navigator. It breaks down complex insurance policies into understandable terms, identifies coverage gaps, helps you understand out-of-pocket costs, and guides you through the appeals process when needed.",
+        prompts: [
+          "What insurance plan do you currently have?",
+          "Are you facing any coverage denials or issues?",
+          "What treatments or medications need coverage verification?",
+          "Do you need help understanding your benefits or deductibles?"
+        ],
+        benefits: [
+          "Decode complex insurance terminology",
+          "Identify coverage opportunities",
+          "Calculate potential out-of-pocket costs",
+          "Navigate appeals and prior authorizations"
+        ]
+      },
+      'ai-symptom-sage': {
+        description: "AI Symptom Sage provides real-time interpretation of your symptoms using advanced medical AI. It helps you understand what your body might be telling you, suggests when to seek immediate care versus monitoring at home, and provides evidence-based insights about symptom patterns in rare diseases.",
+        prompts: [
+          "Describe the symptoms you're experiencing in detail",
+          "How long have these symptoms been present?",
+          "Are these symptoms new or have they changed recently?",
+          "Are you taking any medications that might be related?"
+        ],
+        benefits: [
+          "Real-time symptom interpretation",
+          "Evidence-based severity assessment",
+          "Guidance on when to seek immediate care",
+          "Understanding of symptom relationships"
+        ]
+      },
+      'test-coordinator': {
+        description: "The Test Coordinator streamlines your diagnostic journey by organizing multiple tests, tracking results, ensuring proper preparation, and helping you understand what each test means for your care. It's especially valuable when dealing with complex rare disease workups requiring multiple specialists.",
+        prompts: [
+          "What tests has your doctor ordered?",
+          "Do you need help understanding test preparation requirements?",
+          "Are you waiting for any test results?",
+          "Do you have questions about what specific tests are looking for?"
+        ],
+        benefits: [
+          "Coordinate complex test schedules",
+          "Ensure proper test preparation",
+          "Track and organize results",
+          "Understand test purposes and implications"
+        ]
+      }
+    };
+    
+    return toolKnowledge[toolId] || {
+      description: `The ${toolId.replace('-', ' ')} tool is designed to support your healthcare journey with specialized functionality tailored to your needs.`,
+      prompts: ["How can I help you with this tool today?"],
+      benefits: ["Personalized healthcare support"]
+    };
   };
 
   // Enhanced CopilotKit action to handle tool demonstrations with visual display
@@ -454,22 +656,26 @@ export function EnhancedVoiceExperience({ onNavigateHome }: EnhancedVoiceExperie
       setIsDemonstratingTool(true);
       setDrMayaEmotion('demonstrating');
 
-      // Create Dr. Maya's response with visual tool activation
-      const demonstrationResponse = `I'm bringing up the ${toolName} tool right now! You'll see it appear below.
+      // Get comprehensive tool information
+      const toolInfo = getToolExpertDescription(toolId);
 
-🛠️ **${toolName} - Visual Tool Activated**
+      // Create Dr. Maya's comprehensive response with visual tool activation
+      const demonstrationResponse = `🌟 **${toolName} - Expert Tool Demonstration**
 
-${toolDescription}
+**About This Tool:**
+${toolInfo.description}
 
-Let me walk you through this tool step by step. Watch as the interface loads below - I'll guide you through each feature autonomously and show you exactly how it works in your healthcare journey.
+**Key Benefits:**
+${toolInfo.benefits.map((benefit, index) => `• ${benefit}`).join('\n')}
 
-**What you're seeing:**
-- Interactive tool interface
-- Real-time functionality  
-- Automated demonstration
-- Step-by-step guidance
+**Let's Get Started:**
+I'm now bringing up the ${toolName} interface below. To make this demonstration most valuable for you, I'd like to gather some information:
 
-The tool is now loading below this message!`;
+${toolInfo.prompts.map((prompt, index) => `${index + 1}. ${prompt}`).join('\n')}
+
+The tool interface is loading below - you'll see it populate with relevant information as we work together. Watch as I demonstrate each feature and guide you through the process step by step.
+
+🛠️ **Tool Interface Active Below** 👇`;
 
       // Add the assistant message
       const assistantMessage: ChatMessage = {
@@ -534,68 +740,55 @@ The tool is now loading below this message!`;
   // Helper function to map tool IDs to component names
   const getToolComponentName = (toolId: string): string => {
     switch (toolId) {
-      // Stage 1 - First Hints & Initial Visit
+      // Stage 1: Fully implemented
       case 'symptom-tracker': return 'SymptomTracker';
       case 'appointment-prep': return 'AppointmentPrepGuide';
       case 'ai-symptom-sage': return 'SymptomSage';
-      
-      // Stage 2 - Specialist Work-up & Diagnosis  
-      case 'medical-translator': return 'ConditionExplainer';
-      case 'question-generator': return 'AppointmentPrepGuide'; // Similar functionality
-      case 'peer-connection': return 'ConditionExplainer'; // Community aspect
-      
-      // Stage 3 - Research & Compare-Care
-      case 'compare-care': return 'SecondOpinionGuide';
-      case 'insurance-analyzer': return 'ConditionExplainer'; // Information display
-      case 'travel-planner': return 'TreatmentCalendar'; // Planning tool
-      
-      // Stage 4 - Staging & Testing
-      case 'treatment-calendar': return 'TreatmentCalendar';
-      case 'test-coordinator': return 'TreatmentCalendar'; // Scheduling related
-      case 'results-repository': return 'ConditionExplainer'; // Information display
-      
-      // Stage 5 - Treatment Planning
-      case 'tumor-board': return 'SecondOpinionGuide'; // Expert consultation
-      case 'treatment-visualizer': return 'ConditionExplainer'; // Information display
-      case 'trial-matcher': return 'SecondOpinionGuide'; // Research matching
-      
-      // Stage 6 - Insurance & Travel Setup
-      case 'appeals-assistant': return 'ConditionExplainer'; // Information display
-      case 'cost-calculator': return 'TreatmentCalendar'; // Planning tool
-      case 'accommodation-concierge': return 'TreatmentCalendar'; // Planning tool
-      
-      // Stage 7 - Neoadjuvant Therapy (using treatment-calendar from tools)
-      case 'side-effect-tracker': return 'SymptomTracker'; // Similar tracking
-      case 'nutrition-support': return 'ConditionExplainer'; // Information display
-      
-      // Stage 8 - Surgery & Local Treatment
-      case 'surgical-prep': return 'AppointmentPrepGuide'; // Preparation
-      case 'virtual-tour': return 'ConditionExplainer'; // Information display
-      case 'recovery-tracker': return 'SymptomTracker'; // Progress tracking
-      
-      // Stage 9 - Maintenance Therapy
-      case 'recovery-planner': return 'TreatmentCalendar'; // Planning
-      case 'complementary-guide': return 'ConditionExplainer'; // Information
-      case 'completion-countdown': return 'SymptomTracker'; // Progress tracking
-      
-      // Stage 10 - Early Recovery
-      case 'milestone-tracker': return 'SymptomTracker'; // Progress tracking
-      case 'rehab-program': return 'TreatmentCalendar'; // Scheduling
-      case 'scan-anxiety': return 'ConditionExplainer'; // Information/support
-      
-      // Stage 11 - Surveillance & Rehabilitation
-      case 'surveillance-manager': return 'TreatmentCalendar'; // Scheduling
-      case 'survivorship-planner': return 'TreatmentCalendar'; // Long-term planning
-      case 'lifestyle-optimizer': return 'ConditionExplainer'; // Information
-      
-      // Stage 12 - Long-term Living
-      case 'survivorship-care': return 'TreatmentCalendar'; // Long-term care
-      case 'mentorship-program': return 'ConditionExplainer'; // Community
-      case 'legacy-docs': return 'ConditionExplainer'; // Documentation
-      
+
+      // Stage 2: Partially implemented
+      case 'medical-translator': return 'ConditionExplainer'; // Basic placeholder
+      case 'question-generator': return 'AppointmentPrepGuide'; // Re-uses existing component
+      case 'peer-connection': return 'ToolPlaceholder';
+
+      // Stage 3: Partially implemented
+      case 'compare-care': return 'SecondOpinionGuide'; // Basic placeholder
+      case 'insurance-analyzer': return 'InsuranceAnalyzer';
+      case 'travel-planner': return 'ToolPlaceholder';
+
+      // Stage 4: Partially implemented
+      case 'treatment-calendar': return 'TreatmentCalendar'; // Well-implemented
+      case 'test-coordinator': return 'TestCoordinator';
+      case 'results-repository': return 'ToolPlaceholder';
+
+      // Stages 5-12: All use the new placeholder
+      case 'tumor-board':
+      case 'treatment-visualizer':
+      case 'trial-matcher':
+      case 'appeals-assistant': return 'AppealsAssistant';
+      case 'cost-calculator': return 'CostCalculator';
+      case 'accommodation-concierge':
+      case 'side-effect-tracker':
+      case 'nutrition-support':
+      case 'surgical-prep': return 'SurgicalPrepGuide';
+      case 'virtual-tour':
+      case 'recovery-tracker': return 'RecoveryTracker';
+      case 'recovery-planner': return 'RecoveryPlanner';
+      case 'complementary-guide':
+      case 'completion-countdown':
+      case 'milestone-tracker': return 'MilestoneTracker';
+      case 'rehab-program':
+      case 'scan-anxiety':
+      case 'surveillance-manager':
+      case 'survivorship-planner': return 'SurvivorshipPlanner';
+      case 'lifestyle-optimizer':
+      case 'survivorship-care':
+      case 'mentorship-program':
+      case 'legacy-docs':
+        return 'ToolPlaceholder';
+
       default: 
-        console.log(`[getToolComponentName] Unknown tool ID: ${toolId}, using ConditionExplainer as fallback`);
-        return 'ConditionExplainer'; // Better fallback for information display
+        console.log(`[getToolComponentName] Unknown tool ID: ${toolId}, using ToolPlaceholder as fallback`);
+        return 'ToolPlaceholder';
     }
   };
 
@@ -620,33 +813,26 @@ The tool is now loading below this message!`;
         return <SymptomSage key={key} {...commonProps} />;
       case 'SecondOpinionGuide':
         return <SecondOpinionGuide key={key} {...commonProps} />;
-      default:
-        console.log(`[renderToolComponent] Unknown component: ${componentName}, rendering ConditionExplainer`);
-        return <ConditionExplainer key={key} {...commonProps} />;
-    }
-  };
-
-  // Helper function to get tool-specific demonstration data
-  const getToolSpecificData = (toolId: string): any => {
-    switch (toolId) {
-      case 'symptom-tracker':
-        return {
-          symptom: 'demonstration headache',
-          severity: 6,
-          notes: 'Demonstrating autonomous symptom tracking'
-        };
-      case 'medical-translator':
-        return {
-          conditionName: 'sample medical condition',
-          description: 'Demonstrating medical translation capabilities'
-        };
-      case 'treatment-calendar':
-        return {
-          appointments: [],
-          demonstrationMode: true
-        };
-      default:
-        return {};
+      case 'InsuranceAnalyzer':
+        return <InsuranceAnalyzer key={key} {...commonProps} />;
+      case 'TestCoordinator':
+        return <TestCoordinator key={key} {...commonProps} />;
+      case 'CostCalculator':
+        return <CostCalculator key={key} {...commonProps} />;
+      case 'RecoveryTracker':
+        return <RecoveryTracker key={key} {...commonProps} />;
+      case 'MilestoneTracker':
+        return <MilestoneTracker key={key} {...commonProps} />;
+      case 'SurvivorshipPlanner':
+        return <SurvivorshipPlanner key={key} {...commonProps} />;
+      case 'AppealsAssistant':
+        return <AppealsAssistant key={key} {...commonProps} />;
+      case 'SurgicalPrepGuide':
+        return <SurgicalPrepGuide key={key} {...commonProps} />;
+      case 'RecoveryPlanner':
+        return <RecoveryPlanner key={key} {...commonProps} />;
+      case 'ToolPlaceholder':
+        return <ToolPlaceholder key={key} {...commonProps} />;
     }
   };
 
@@ -754,7 +940,6 @@ The tool is now loading below this message!`;
         type: 'assistant',
         content: result.response,
         timestamp: new Date().toLocaleTimeString(),
-        latency_ms: aiLatency,
         activatedTool: toolToActivate ? getToolComponentName(toolToActivate.toolId) : undefined,
         toolData: toolToActivate ? getContextualToolData(toolToActivate.toolId, transcript, result.response) : undefined
       };
@@ -829,15 +1014,21 @@ The tool is now loading below this message!`;
     return null;
   };
 
-  // Get contextual tool data based on conversation
   const getContextualToolData = (toolId: string, userInput: string, aiResponse: string): any => {
+    const toolName = JOURNEY_STAGES.flatMap(stage => stage.tools).find(tool => tool.id === toolId)?.name || toolId;
+    const toolInfo = getToolExpertDescription(toolId);
+
     const baseData = {
+      toolName: toolName,
       demonstrationMode: true,
       conversationContext: {
         userInput,
         aiResponse,
         timestamp: new Date().toISOString()
-      }
+      },
+      expertDescription: toolInfo.description,
+      suggestedPrompts: toolInfo.prompts,
+      keyBenefits: toolInfo.benefits
     };
     
     switch (toolId) {
@@ -846,55 +1037,177 @@ The tool is now loading below this message!`;
           ...baseData,
           appointments: [
             {
-              id: 'next-1',
-              date: new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString().split('T')[0], // Tomorrow
+              id: 'contextual-1',
+              date: new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString().split('T')[0],
               time: '10:00 AM',
               title: 'Follow-up Consultation',
               provider: 'Dr. Sarah Johnson',
               location: 'Medical Center - Room 204',
               type: 'consultation',
               status: 'upcoming',
-              notes: 'Come prepared with questions about treatment progress'
+              notes: 'Review treatment progress and discuss next steps'
+            },
+            {
+              id: 'contextual-2',
+              date: new Date(Date.now() + 3 * 24 * 60 * 60 * 1000).toISOString().split('T')[0],
+              time: '2:30 PM',
+              title: 'Lab Work & Blood Tests',
+              provider: 'Lab Services',
+              location: 'Hospital Lab Wing',
+              type: 'test',
+              status: 'upcoming',
+              notes: 'Fasting required - no food after midnight'
             }
           ],
-          activeFromConversation: true
+          activeFromConversation: true,
+          demonstrationFeatures: [
+            'Smart scheduling coordination',
+            'Automatic appointment reminders',
+            'Preparation instructions',
+            'Provider contact information'
+          ]
         };
         
       case 'appointment-prep':
         return {
           ...baseData,
-          primaryConcern: userInput.includes('questions') ? 
+          primaryConcern: userInput.toLowerCase().includes('questions') ? 
             'Questions about upcoming appointment and treatment plan' : 
-            'General appointment preparation',
+            userInput.toLowerCase().includes('symptoms') ?
+            'Discussing current symptoms and changes' :
+            'General appointment preparation and health updates',
           suggestedQuestions: [
             'What should I expect during this appointment?',
             'Are there any side effects I should watch for?',
             'What lifestyle changes should I consider?',
-            'How is my treatment progressing?'
+            'How is my treatment progressing?',
+            'Are there any new treatments I should consider?'
           ],
-          activeFromConversation: true
+          activeFromConversation: true,
+          preparationChecklist: [
+            'Bring current medication list',
+            'Prepare symptom timeline',
+            'Write down specific questions',
+            'Gather recent test results'
+          ]
         };
         
       case 'symptom-tracker':
         return {
           ...baseData,
-          symptom: userInput.includes('eat') ? 'Food and nutrition concerns' : 'General symptoms',
+          symptom: userInput.toLowerCase().includes('fatigue') ? 'Persistent fatigue and energy levels' :
+                   userInput.toLowerCase().includes('pain') ? 'Pain management and tracking' :
+                   userInput.toLowerCase().includes('eat') ? 'Nutrition and appetite concerns' : 
+                   'General symptom monitoring',
           severity: 3,
-          notes: `Patient asked: "${userInput}". Dr. Maya suggested tracking.`,
-          trackingType: userInput.includes('eat') ? 'nutrition' : 'symptoms',
+          notes: `Patient mentioned: "${userInput}". Tracking recommended for pattern analysis.`,
+          trackingType: userInput.toLowerCase().includes('eat') ? 'nutrition' : 'symptoms',
+          activeFromConversation: true,
+          demoEntries: [
+            { date: new Date().toISOString().split('T')[0], symptom: 'Mild fatigue', severity: 3, notes: 'After morning activities' },
+            { date: new Date(Date.now() - 24*60*60*1000).toISOString().split('T')[0], symptom: 'Energy levels', severity: 4, notes: 'Better after rest' }
+          ]
+        };
+        
+      case 'insurance-analyzer':
+        return {
+          ...baseData,
+          currentPlan: 'Comprehensive Health Plan',
+          coverageAnalysis: {
+            deductible: '$2,500',
+            outOfPocketMax: '$8,500',
+            copaySpecialist: '$50',
+            coinsurance: '20%'
+          },
+          pendingClaims: [
+            { service: 'MRI Scan', status: 'Under Review', amount: '$3,200' },
+            { service: 'Specialist Consultation', status: 'Approved', amount: '$450' }
+          ],
+          recommendedActions: [
+            'Review coverage for upcoming treatments',
+            'Check prior authorization requirements',
+            'Verify provider network status'
+          ],
+          activeFromConversation: true
+        };
+        
+      case 'test-coordinator':
+        return {
+          ...baseData,
+          scheduledTests: [
+            {
+              testName: 'Complete Blood Count (CBC)',
+              date: new Date(Date.now() + 2 * 24 * 60 * 60 * 1000).toISOString().split('T')[0],
+              preparation: 'No special preparation required',
+              location: 'Hospital Lab - Building A',
+              status: 'scheduled'
+            },
+            {
+              testName: 'Imaging Study (CT Scan)',
+              date: new Date(Date.now() + 5 * 24 * 60 * 60 * 1000).toISOString().split('T')[0],
+              preparation: 'No food 4 hours before exam. Contrast material will be used.',
+              location: 'Radiology Department',
+              status: 'pending_schedule'
+            }
+          ],
+          coordinationFeatures: [
+            'Automated scheduling optimization',
+            'Preparation reminder system',
+            'Results tracking and alerts',
+            'Provider communication hub'
+          ],
+          activeFromConversation: true
+        };
+        
+      case 'ai-symptom-sage':
+        return {
+          ...baseData,
+          currentSymptoms: userInput.toLowerCase().includes('fatigue') ? ['Persistent fatigue', 'Reduced energy'] :
+                          userInput.toLowerCase().includes('pain') ? ['Localized pain', 'Discomfort'] :
+                          ['General symptoms from conversation'],
+          aiInsights: [
+            'Symptoms may be related to treatment progression',
+            'Consider tracking patterns over next week',
+            'Important to discuss with healthcare provider',
+            'No immediate red flags identified'
+          ],
+          recommendations: [
+            'Continue current monitoring approach',
+            'Document any changes in severity',
+            'Schedule follow-up if symptoms persist',
+            'Maintain current treatment regimen'
+          ],
+          confidenceLevel: 85,
           activeFromConversation: true
         };
         
       case 'medical-translator':
         return {
           ...baseData,
-          conditionName: 'Patient inquiry',
-          description: `Explaining medical information related to: "${userInput}"`,
+          medicalTerm: userInput.includes('diagnosis') ? 'Recent diagnosis information' :
+                      userInput.includes('treatment') ? 'Treatment terminology' :
+                      'Medical information from conversation',
+          plainLanguageExplanation: `Based on your question about "${userInput}", let me help translate any complex medical terms into clear, understandable language.`,
+          relatedConcepts: [
+            'Treatment options and alternatives',
+            'Expected outcomes and timelines',
+            'Potential side effects to monitor',
+            'Follow-up care requirements'
+          ],
           activeFromConversation: true
         };
         
       default:
-        return baseData;
+        return {
+          ...baseData,
+          demoData: {
+            userContext: userInput,
+            aiContext: aiResponse,
+            demonstrationMode: true
+          },
+          placeholderInfo: `This tool (${toolName}) is being demonstrated based on your conversation context.`,
+          activeFromConversation: true
+        };
     }
   };
 
@@ -1056,13 +1369,14 @@ The tool is now loading below this message!`;
             <button 
               style={styles.exitButton}
               onClick={onNavigateHome}
-              onMouseOver={(e) => e.currentTarget.style.background = '#F3F4F6'}
-              onMouseOut={(e) => e.currentTarget.style.background = 'transparent'}
+              onMouseOver={(e) => e.currentTarget.style.background = '#E0E0E0'}
+              onMouseOut={(e) => e.currentTarget.style.background = '#F5F5F5'}
             >
               ← Exit
             </button>
             <div style={styles.headerTitle}>
-              <h1 style={styles.titleText}>Enhanced Dr. Maya Experience</h1>
+              <img src={RadiantCompassLogo} alt="Radiant Compass Logo" style={{ width: '40px', height: '40px' }} />
+              <h1 style={styles.titleText}>RadiantCompass</h1>
             </div>
             <div style={{ width: '80px' }} />
           </div>
@@ -1086,12 +1400,14 @@ The tool is now loading below this message!`;
                 style={styles.connectButton}
                 onClick={connectToVoiceSystem}
                 onMouseOver={(e) => {
-                  e.currentTarget.style.background = '#2563EB';
-                  e.currentTarget.style.transform = 'translateY(-1px)';
+                  e.currentTarget.style.background = 'linear-gradient(135deg, #4CAF50 0%, #388E3C 100%)';
+                  e.currentTarget.style.transform = 'translateY(-2px)';
+                  e.currentTarget.style.boxShadow = '0 8px 24px rgba(76, 175, 80, 0.4), 0 4px 16px rgba(76, 175, 80, 0.25)';
                 }}
                 onMouseOut={(e) => {
-                  e.currentTarget.style.background = '#3B82F6';
+                  e.currentTarget.style.background = 'linear-gradient(135deg, #4CAF50 0%, #388E3C 100%)';
                   e.currentTarget.style.transform = 'translateY(0)';
+                  e.currentTarget.style.boxShadow = '0 6px 20px rgba(76, 175, 80, 0.3), 0 3px 10px rgba(76, 175, 80, 0.2)';
                 }}
               >
                 Start Enhanced Experience
@@ -1116,17 +1432,15 @@ The tool is now loading below this message!`;
           <button 
             style={styles.exitButton}
             onClick={() => { setIsConnected(false); onNavigateHome?.(); }}
-            onMouseOver={(e) => e.currentTarget.style.background = '#F3F4F6'}
-            onMouseOut={(e) => e.currentTarget.style.background = 'transparent'}
+            onMouseOver={(e) => e.currentTarget.style.background = '#E0E0E0'}
+            onMouseOut={(e) => e.currentTarget.style.background = '#F5F5F5'}
           >
             ← Exit Enhanced Experience
           </button>
           
           <div style={styles.headerTitle}>
-            <div>
-              <h1 style={styles.titleText}>Dr. Maya Enhanced</h1>
-              <p style={styles.subtitle}>Voice + Tool Demonstrations</p>
-            </div>
+            <img src={RadiantCompassLogo} alt="Radiant Compass Logo" style={{ width: '40px', height: '40px' }} />
+            <h1 style={styles.titleText}>RadiantCompass</h1>
           </div>
           
           {currentLatency && (
@@ -1177,7 +1491,7 @@ The tool is now loading below this message!`;
 
                   {/* Show activated tool after assistant message */}
                   {message.type === 'assistant' && message.activatedTool && (
-                    <div style={{ marginTop: '16px' }}>
+                    <div style={{ marginTop: '20px' }}>
                       {renderToolComponent(message.activatedTool, message.toolData, `message-${message.id}`)}
                     </div>
                   )}
@@ -1187,7 +1501,7 @@ The tool is now loading below this message!`;
 
             {/* Show currently active tool */}
             {activeTool && (
-              <div style={{ marginTop: '16px' }}>
+              <div style={{ marginTop: '20px' }}>
                 {renderToolComponent(activeTool, toolData, 'active-tool')}
               </div>
             )}
@@ -1202,7 +1516,7 @@ The tool is now loading below this message!`;
             disabled={isProcessing || isSpeaking || isDemonstratingTool}
             onMouseOver={(e) => {
               if (!isProcessing && !isSpeaking && !isListening && !isDemonstratingTool) {
-                e.currentTarget.style.transform = 'scale(1.05)';
+                e.currentTarget.style.transform = 'scale(1.08)';
               }
             }}
             onMouseOut={(e) => {
@@ -1212,7 +1526,7 @@ The tool is now loading below this message!`;
             }}
           >
             {isListening ? '🔴' : 
-             isDemonstratingTool ? '🎯' :
+             isDemonstratingTool ? '🎯' : 
              isProcessing ? '🧠' : 
              isSpeaking ? '🔊' : '🎤'}
           </button>

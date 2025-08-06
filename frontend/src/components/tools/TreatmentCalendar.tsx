@@ -142,13 +142,27 @@ export const TreatmentCalendar: React.FC<TreatmentCalendarProps> = ({
                 <User className="w-4 h-4 text-white" />
               </div>
               <div>
-                <h3 className="font-semibold text-blue-900 mb-2">Dr. Maya's Demonstration</h3>
-                <p className="text-sm text-blue-800 leading-relaxed">
-                  This is your Treatment Calendar! Here you can see all your upcoming appointments, 
-                  track your treatment sessions, and get reminders for important dates. I've added 
-                  a demonstration appointment to show you how it works. You can view details, 
-                  get directions, and even prepare questions for each appointment.
+                <h3 className="font-semibold text-blue-900 mb-2">Dr. Maya's Expert Demonstration</h3>
+                <p className="text-sm text-blue-800 leading-relaxed mb-3">
+                  {autoFillData?.expertDescription || 
+                   "Your Treatment Calendar coordinates all aspects of your healthcare journey. It integrates appointments, treatments, lab work, and follow-ups into one intelligent system."}
                 </p>
+                {autoFillData?.demonstrationFeatures && (
+                  <div className="bg-white/60 rounded-lg p-3 mt-3">
+                    <div className="text-xs font-medium text-blue-900 mb-2">🎯 Demonstration Features:</div>
+                    <div className="grid grid-cols-2 gap-2 text-xs text-blue-800">
+                      {autoFillData.demonstrationFeatures.map((feature: string, idx: number) => (
+                        <div key={idx} className="flex items-center gap-1">
+                          <div className="w-1 h-1 bg-blue-500 rounded-full"></div>
+                          {feature}
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
+                <div className="mt-3 text-xs text-blue-700 font-medium">
+                  🤖 Watch as I populate your calendar with contextual appointments and guide you through each feature!
+                </div>
               </div>
             </div>
           </div>
@@ -195,8 +209,8 @@ export const TreatmentCalendar: React.FC<TreatmentCalendarProps> = ({
             <div 
               key={appointment.id}
               className={`p-4 rounded-xl border-2 transition-all hover:shadow-md ${
-                appointment.id === 'demo' 
-                  ? 'bg-yellow-50 border-yellow-300 ring-2 ring-yellow-400 ring-opacity-50' 
+                appointment.id.includes('demo') || appointment.id.includes('contextual')
+                  ? 'bg-gradient-to-r from-blue-50 to-purple-50 border-blue-300 ring-2 ring-blue-400 ring-opacity-30 shadow-lg' 
                   : 'bg-white border-gray-200 hover:border-gray-300'
               }`}
             >
@@ -207,6 +221,11 @@ export const TreatmentCalendar: React.FC<TreatmentCalendarProps> = ({
                     <span className={`px-2 py-1 rounded-full text-xs font-medium border ${getTypeColor(appointment.type)}`}>
                       {appointment.type}
                     </span>
+                    {(appointment.id.includes('demo') || appointment.id.includes('contextual')) && (
+                      <span className="px-2 py-1 rounded-full text-xs font-medium bg-blue-100 text-blue-700 border border-blue-200">
+                        🤖 AI Demo
+                      </span>
+                    )}
                   </div>
                   
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
